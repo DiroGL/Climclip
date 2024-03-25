@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
-
+  constructor(private navcrtl1 :NavController) {}
+  ionViewDidEnter(){
+    this.navcrtl1.navigateRoot('/home-login')
+  }
 }
