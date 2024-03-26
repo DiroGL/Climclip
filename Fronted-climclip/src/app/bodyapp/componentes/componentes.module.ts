@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
@@ -10,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
   declarations: [FooterComponent,HeaderComponent],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule, FormsModule
   ], exports :[
     FooterComponent, HeaderComponent
   ]
