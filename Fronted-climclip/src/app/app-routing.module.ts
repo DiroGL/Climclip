@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'registro',
     loadChildren: () => import('./login/registro/registro.module').then( m => m.RegistroPageModule)
   },
+  {
+    path: 'tabfeed',
+    loadChildren: () => import('./bodyapp/tabfeed/tabfeed.module').then( m => m.TabfeedPageModule)
+  },
 ];
 
 @NgModule({
