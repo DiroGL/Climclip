@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
+import { BloqueComponent } from './bloque/bloque.component';
 
 
 
@@ -12,15 +13,14 @@ import { IonicModule } from '@ionic/angular';
   declarations: [
     FooterComponent,
     HeaderComponent, 
-    FiltrosComponent
-  
-  
+    FiltrosComponent,
+    BloqueComponent
   ],
   imports: [
     CommonModule,
     IonicModule, FormsModule
   ], exports :[
-    FooterComponent, HeaderComponent
+    FooterComponent, HeaderComponent, BloqueComponent
   ]
 })
 export class ComponentesModule { }

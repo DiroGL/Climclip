@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabfeedPage implements OnInit {
   filtros = true
-  constructor() { }
+  constructor() {
+    
+  
+  }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
+
   }
 
 }
