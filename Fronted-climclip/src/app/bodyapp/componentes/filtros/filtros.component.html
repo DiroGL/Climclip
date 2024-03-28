@@ -1,0 +1,12 @@
+<ion-list>
+  <ion-item>
+    <ion-range
+      dualKnobs="true"
+      [(ngModel)]="rangoEscala"
+      [min]="0"
+      [max]="rangosInternos.length - 1">
+      <ion-label slot="start">{{ rangosVisuales[rangoEscala.lower] }}</ion-label>
+      <ion-label slot="end">{{ rangosVisuales[rangoEscala.upper] }}</ion-label>
+    </ion-range>
+  </ion-item>
+</ion-list>

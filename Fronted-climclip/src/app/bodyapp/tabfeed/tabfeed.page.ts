@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabfeed.page.scss'],
 })
 export class TabfeedPage implements OnInit {
-
+  filtros = true
   constructor() { }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
   }
 

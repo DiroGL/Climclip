@@ -27,6 +27,14 @@ const routes: Routes = [
     path: 'tabfeed',
     loadChildren: () => import('./bodyapp/tabfeed/tabfeed.module').then( m => m.TabfeedPageModule)
   },
+  {
+    path: 'searchpage',
+    loadChildren: () => import('./bodyapp/searchpage/searchpage.module').then( m => m.SearchpagePageModule)
+  },
+  {
+    path: 'userprofile',
+    loadChildren: () => import('./bodyapp/userprofile/userprofile.module').then( m => m.UserprofilePageModule)
+  },
 ];
 
 @NgModule({
