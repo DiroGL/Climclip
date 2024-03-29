@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BloqueComponent  implements OnInit {
   cardData = {
-    imageUrl: './Captura de pantalla 2024-03-24 a las 1.17.56.png',
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
     difficulty: '8A+'
