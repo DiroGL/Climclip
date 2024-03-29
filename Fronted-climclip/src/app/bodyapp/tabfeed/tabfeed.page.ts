@@ -12,6 +12,37 @@ export class TabfeedPage implements OnInit {
   
   }
 
+  cardData = [{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  },{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  },{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  },{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  },{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  },{
+    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
+    title: 'Ejemplo 1',
+    author: 'Autor1',
+    difficulty: '8A+'
+  }];
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
 

@@ -4,9 +4,7 @@
 
 <ion-content [fullscreen]="true">
     <ion-list>
-
-        <app-bloque></app-bloque>
-
+        <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
     </ion-list>
 </ion-content>
 <ion-footer>
