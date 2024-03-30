@@ -4,5 +4,29 @@
     <ion-card-title class="card-title">{{ cardData.title }}</ion-card-title>
     <p class="card-subtitle mb-2 text-muted">{{ cardData.author }}</p>
     <p class="card-text">Dificultad de escalada: {{ cardData.difficulty }}</p>
+    <p class="card-text">Dificultad del publico: {{ cardData.valoration }}</p>
   </ion-card-content>
+  <ion-toolbar>
+
+    <!-- Me gusta -->
+    <ion-button (click)="meGusta()" fill="clear">
+      <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+    </ion-button>
+    <!-- Valorar -->
+    <ion-button (click)="meValorar()" fill="clear">
+      <ion-icon slot="icon-only" name="star-outline" *ngIf="!CardValorar"></ion-icon>
+      <ion-icon slot="icon-only" name="star" *ngIf="CardValorar"></ion-icon>
+    </ion-button>
+
+    <!-- Marcar como hecho -->
+    <ion-button fill="clear" (click)="CompleteBlock()" slot="end">
+      <ion-icon slot="icon-only" name="checkmark-circle-outline" *ngIf="!CompletedBlock"></ion-icon>
+      <ion-icon slot="icon-only" name="checkmark-circle" *ngIf="CompletedBlock"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+  <ion-item *ngIf="CardValorar">
+    <ion-range min="0" [max]="16">
+      <ion-label slot="end">Fin</ion-label>
+    </ion-range>
+  </ion-item>
 </ion-card>

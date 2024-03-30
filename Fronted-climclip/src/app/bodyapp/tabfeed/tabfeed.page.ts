@@ -16,32 +16,38 @@ export class TabfeedPage implements OnInit {
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   },{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   },{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   },{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   },{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   },{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
     author: 'Autor1',
-    difficulty: '8A+'
+    difficulty: '8A+',
+    valoration: '7C'
   }];
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
