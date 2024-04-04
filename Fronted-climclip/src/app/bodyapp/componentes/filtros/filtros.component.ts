@@ -14,7 +14,7 @@ export class FiltrosComponent  implements OnInit {
 
   rangoEscala: { lower: number, upper: number } = { lower: 0, upper: this.rangosInternos.length - 1 };
 
-
+ 
 
   constructor() { }
 

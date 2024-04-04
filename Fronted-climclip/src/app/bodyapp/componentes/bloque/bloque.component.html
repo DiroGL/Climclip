@@ -24,9 +24,22 @@
       <ion-icon slot="icon-only" name="checkmark-circle" *ngIf="CompletedBlock"></ion-icon>
     </ion-button>
   </ion-toolbar>
-  <ion-item *ngIf="CardValorar">
-    <ion-range min="0" [max]="16">
-      <ion-label slot="end">Fin</ion-label>
-    </ion-range>
-  </ion-item>
+
+
+
+
+
+
+  
+  <ion-list *ngIf="CardValorar">
+    <ion-item >
+      <ion-range 
+        [min]="0"
+        [max]="rangosVisual.length - 1"
+        [pin]="true"
+        [pinFormatter]="updatePin">
+      </ion-range>
+    </ion-item>
+  </ion-list>
+  
 </ion-card>
