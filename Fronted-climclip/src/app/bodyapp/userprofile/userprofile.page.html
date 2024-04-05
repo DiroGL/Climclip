@@ -4,14 +4,40 @@
 
 <ion-content [fullscreen]="true">
   <div class="profile-header">
-    <div class="profile-picture">
-      <img src="https://via.placeholder.com/150" alt="Imagen de perfil">
-    </div>
-    <div class="profile-info">
-      <h2 class="profile-username">Nombre de Usuario</h2>
-      <p class="profile-stats">Publicaciones: 10 | Seguidores: 100 | Seguidos: 50</p>
-      <p class="profile-bio">Biografía del usuario</p>
-    </div>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src='https://via.placeholder.com/150'/>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9" class="profile-info">
+            <h2 class="profile-username">Nombre de Usuario</h2>
+            <!-- <p class="profile-stats">Seguidores:100  Seguidos:50</p> -->
+            <ion-grid fixed>
+              <ion-row>
+
+                <ion-col size="6" class="profile-stats">
+                 <ion-chip mode="ios" outline="true">
+                  <ion-label>Seguidores:100</ion-label>
+                  </ion-chip>  
+                </ion-col>
+                <ion-col size="6" class="profile-stats">
+                  <ion-chip mode="ios" outline="true">
+                    <ion-label>Seguidos:50</ion-label>
+                   </ion-chip>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" class="profile-bio">Biografía del usuario </ion-col>
+              </ion-row>
+            </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+  
+    
   </div>
 
   <div class="profile-actions">
