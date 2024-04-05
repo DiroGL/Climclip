@@ -9,11 +9,9 @@ export class BloqueComponent  implements OnInit {
   @Input() cardData : any
   CompletedBlock = false;
   CardValorar = false;
+  like = false;
  
-  rangosVisual: string[] = [
-    "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", 
-    "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
-  ];
+  
   
   constructor() {
  
@@ -23,7 +21,11 @@ export class BloqueComponent  implements OnInit {
    
   }
   updatePin(value: number){
-    return this.rangosVisual[value]
+    let rangosVisual: string[] = [
+      "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", 
+      "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
+    ];
+    return rangosVisual[value]
   }
   ionViewDidEnter(){
 
@@ -40,10 +42,10 @@ export class BloqueComponent  implements OnInit {
 
 
   meGusta(){
-
+    this.like = !this.like;
   }
   meValorar(){
-    this.CardValorar =! this.CardValorar
+    this.CardValorar = !this.CardValorar
     
   }
 

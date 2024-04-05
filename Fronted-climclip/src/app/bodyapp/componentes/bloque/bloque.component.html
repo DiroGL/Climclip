@@ -10,12 +10,13 @@
 
     <!-- Me gusta -->
     <ion-button (click)="meGusta()" fill="clear">
-      <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
-    </ion-button>
+      <ion-icon slot="icon-only" name="heart-outline" *ngIf="!like"></ion-icon>
+      <ion-icon slot="icon-only" name="heart-sharp" color="danger" *ngIf="like"></ion-icon>
+    </ion-button> 
     <!-- Valorar -->
     <ion-button (click)="meValorar()" fill="clear">
       <ion-icon slot="icon-only" name="star-outline" *ngIf="!CardValorar"></ion-icon>
-      <ion-icon slot="icon-only" name="star" *ngIf="CardValorar"></ion-icon>
+      <ion-icon slot="icon-only" name="star" color="warning" *ngIf="CardValorar"></ion-icon>
     </ion-button>
 
     <!-- Marcar como hecho -->
@@ -35,7 +36,7 @@
     <ion-item >
       <ion-range 
         [min]="0"
-        [max]="rangosVisual.length - 1"
+        [max]="15"
         [pin]="true"
         [pinFormatter]="updatePin">
       </ion-range>
