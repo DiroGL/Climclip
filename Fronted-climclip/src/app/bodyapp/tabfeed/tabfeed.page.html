@@ -3,11 +3,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tabfeed</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-list>
+        <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
+    </ion-list>
 </ion-content>
 <ion-footer>
   <app-footer></app-footer>
