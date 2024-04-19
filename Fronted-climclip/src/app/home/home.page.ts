@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
 export class HomePage {
 
   constructor(private navcrtl1 :NavController) {}
+
   ionViewDidEnter(){
     this.navcrtl1.navigateRoot('/home-login')
   }
