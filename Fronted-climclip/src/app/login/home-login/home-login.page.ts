@@ -1,8 +1,8 @@
+import { User } from './../models/user.models';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { FirebaseService } from '../servicios/firebase.service';
-import { User } from '../models/user.models';
 import { UtilsService } from '../servicios/utils.service';
 
 @Component({
@@ -39,7 +39,8 @@ export class HomeLoginPage implements OnInit {
 
     console.log(this.loginForm.value as User)
     this.firebaseSvc.singIn(this.loginForm.value as User).then(res => {
-      console.log(res)
+
+      this.getuserInfo(res.user.uid)
     }).catch(error => {
       console.log(error)
       this.utilsSvc.presentToast({
@@ -67,6 +68,46 @@ export class HomeLoginPage implements OnInit {
 
   }
 
-  
+  async getuserInfo(uid:string){
+    const loading = await this.utilsSvc.loading()
+    await loading.present()
+
+    let path = `users/${uid}`
+
+
+
+    console.log(this.loginForm.value as User)
+    this.firebaseSvc.getDocument(path).then( (user :User) => {
+     
+    this.utilsSvc.saveInLocalStorage('user', user) 
+    // this.utilsSvc.routerlink('feed-page')
+    this.loginForm.reset();
+
+
+
+    this.utilsSvc.presentToast({
+      message : `Te damos la bienvenido ${user.name}`,
+      duration: 1500,
+      color: 'primary',
+      position: 'bottom',
+      icon : 'person-circle-outline'
+    
+    })
+
+    }).catch(error => {
+      console.log(error)
+      this.utilsSvc.presentToast({
+        message : error.message,
+        duration: 2500,
+        color: 'primary',
+        position: 'bottom',
+        icon : 'alert-circle-outline'
+      
+      })
+    }).finally(() =>{
+      loading.dismiss();
+     
+    })
+  }
 }
 

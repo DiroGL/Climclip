@@ -21,7 +21,7 @@ import { NavController } from '@ionic/angular';
 export class RegistroPage implements OnInit {
   registerForm = new FormGroup({
     uid: new FormControl(''),
-    nombre: new FormControl('',[Validators.required]),
+    name: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required]),
     repassword: new FormControl('',[Validators.required]),
     email : new FormControl('',[Validators.required]),
