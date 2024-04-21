@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { FirebaseService } from 'src/app/login/servicios/firebase.service';
+import { UtilsService } from 'src/app/login/servicios/utils.service';
+
 
 @Component({
   selector: 'app-tabfeed',
@@ -12,6 +16,9 @@ export class TabfeedPage implements OnInit {
   
   }
 
+   firebaseSvc = inject(FirebaseService)
+  utilSvc = inject(UtilsService)
+   
   cardData = [{
     imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/134.png',
     title: 'Ejemplo 1',
@@ -52,6 +59,9 @@ export class TabfeedPage implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
 
+  }
+  singOut(){
+    this.firebaseSvc.singOut()
   }
 
 }

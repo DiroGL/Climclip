@@ -79,7 +79,7 @@ export class HomeLoginPage implements OnInit {
     this.firebaseSvc.getDocument(path).then( (user :User) => {
      
     this.utilsSvc.saveInLocalStorage('user', user) 
-    // this.utilsSvc.routerlink('feed-page')
+    this.utilsSvc.routerlink('tabfeed')
     this.loginForm.reset();
 
 

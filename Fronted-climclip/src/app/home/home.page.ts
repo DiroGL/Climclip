@@ -11,8 +11,6 @@ export class HomePage {
   constructor(private navcrtl1 :NavController) {}
 
   ionViewDidEnter(){
-  
-    // this.navcrtl1.navigateRoot('/home-login')
-    this.navcrtl1.navigateRoot('/userprofile')
+
   }
 }

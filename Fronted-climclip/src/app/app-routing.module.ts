@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-
+import { NoLoginGuard } from './guards/no-login.guard';
+import { LoginGuard } from './guards/login.guard';
 const routes: Routes = [
   {
     path: 'home',
@@ -8,16 +9,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'home-login',
     pathMatch: 'full'
   },
   {
     path: 'home-login',
-    loadChildren: () => import('./login/home-login/home-login.module').then( m => m.HomeLoginPageModule)
-  },
-  {
-    path: 'home-login',
-    loadChildren: () => import('./login/home-login/home-login.module').then( m => m.HomeLoginPageModule)
+    loadChildren: () => import('./login/home-login/home-login.module').then( m => m.HomeLoginPageModule), canActivate:[NoLoginGuard]
   },
   {
     path: 'registro',
@@ -25,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'tabfeed',
-    loadChildren: () => import('./bodyapp/tabfeed/tabfeed.module').then( m => m.TabfeedPageModule)
+    loadChildren: () => import('./bodyapp/tabfeed/tabfeed.module').then( m => m.TabfeedPageModule) ,canActivate: [LoginGuard]
   },
   {
     path: 'searchpage',
@@ -34,6 +31,10 @@ const routes: Routes = [
   {
     path: 'userprofile',
     loadChildren: () => import('./bodyapp/userprofile/userprofile.module').then( m => m.UserprofilePageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./login/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
 ];
 

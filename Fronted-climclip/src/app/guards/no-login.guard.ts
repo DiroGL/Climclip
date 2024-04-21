@@ -16,16 +16,16 @@ export class NoLoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
+      let user = localStorage.getItem('user')
   
 
     return new Promise((resolve) => {
       this.firebaseSvc.getAuth().onAuthStateChanged((auth) => {
-        if (!auth){
-         
-            resolve(true)
-          
-        }else{
-          this.utilSvc.routerlink('/tab-feed')
+        console.log(auth)
+        if (!auth)
+         resolve(true)  
+        else{
+          this.utilSvc.routerlink('/tabfeed')
           resolve(false)
         }
       })

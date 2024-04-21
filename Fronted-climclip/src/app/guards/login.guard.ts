@@ -21,9 +21,8 @@ export class LoginGuard implements CanActivate {
     return new Promise((resolve) => {
       this.firebaseSvc.getAuth().onAuthStateChanged((auth) => {
         if (auth){
-          if(user){
-            resolve(true)
-          }
+          if(user) resolve(true)
+          
         }else{
           this.utilSvc.routerlink('/home-login')
           resolve(false)
