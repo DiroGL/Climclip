@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { User } from './../models/user.models';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { FirebaseService } from '../servicios/firebase.service';
+import { UtilsService } from '../servicios/utils.service';
 
 @Component({
   selector: 'app-home-login',
@@ -10,12 +13,18 @@ import { NavController, ToastController } from '@ionic/angular';
 export class HomeLoginPage implements OnInit {
 
   loginForm = new FormGroup({
-    nombre: new FormControl('',[Validators.required]),
+    email: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required])
   })
-  constructor(private toastController: ToastController, private navctrl : NavController, private navctrl2 : NavController) {
+  constructor( private navctrl : NavController, private navctrl2 : NavController) {
    
   }
+
+    firebaseSvc = inject(FirebaseService)
+    utilsSvc = inject(UtilsService)
+
+
+
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
     // this.usuaiosServ.getIUsuarios().subscribe(l=>{l.forEach(u=>this.Usuario.push(u))})
@@ -23,58 +32,88 @@ export class HomeLoginPage implements OnInit {
     
     
   }
- enviar(){
-    // Declaraciones Variables
-    let controlusu:any
-    let controlpass:any
-    var usu:any
-    var pass:any
+ async enviar(){
 
-    // Asignamos valores a las variables 
-    controlusu = this.loginForm.controls.nombre;
-    controlpass = this.loginForm.controls.password;
-    // usu =this.Usuario.find((s: { usuario: IUsuario; })=> s.usuario == controlusu.value)
-    // usu =this.Usuario.find(s=> s.usuario == controlusu.value)
+    const loading = await this.utilsSvc.loading()
+    await loading.present()
+
+    console.log(this.loginForm.value as User)
+    this.firebaseSvc.singIn(this.loginForm.value as User).then(res => {
+
+      this.getuserInfo(res.user.uid)
+    }).catch(error => {
+      console.log(error)
+      this.utilsSvc.presentToast({
+        message : error.message,
+        duration: 1500,
+        color: 'primary',
+        position: 'bottom',
+        icon : 'alert-circle-outline'
+      
+      })
+    }).finally(() =>{
+      loading.dismiss();
+    })
 
 
-   
 
 
 
-    // Comprobamos ñas variables
-    console.log(usu)
-    if (usu != undefined){
-      if (usu.password != controlpass.value){
-        this.mensajeerror("Credenciales Incorrectas");
-        
-      }else if( usu.perfil != "administrador"){
-        this.mensajeerror("Usuario no permitido")
-       
-      }else{
-        this.navctrl.navigateForward(['/lusuarios'])
-      }
-    
-    }else{
-      this.mensajeerror("Credenciales Incorrectas")
-
-    }
-     
-    
+  
     
   }
 
   registrarse(){
-    this.navctrl2.navigateForward(['/registro'])
-
+    this.utilsSvc.routerlink('/registro')
   }
 
-  async mensajeerror(frase:any) {
-    let toast = await this.toastController.create({
-      message: frase,
+  async getuserInfo(uid:string){
+    const loading = await this.utilsSvc.loading()
+    await loading.present()
+
+    let path = `users/${uid}`
+
+
+
+    console.log(this.loginForm.value as User)
+    this.firebaseSvc.getDocument(path).then( (user :User) => {
+     
+    this.utilsSvc.saveInLocalStorage('user', user) 
+    // this.utilsSvc.routerlink('feed-page')
+    this.loginForm.reset();
+
+
+
+    this.utilsSvc.presentToast({
+      message : `Te damos la bienvenido ${user.name}`,
       duration: 1500,
+      color: 'primary',
       position: 'bottom',
-    });
-    await toast.present();
+      icon : 'person-circle-outline'
+    
+    })
+
+    }).catch(error => {
+      console.log(error)
+      this.utilsSvc.presentToast({
+        message : error.message,
+        duration: 2500,
+        color: 'primary',
+        position: 'bottom',
+        icon : 'alert-circle-outline'
+      
+      })
+    }).finally(() =>{
+      loading.dismiss();
+     
+    })
   }
+
+  resetPassword(){
+    this.utilsSvc.routerlink('/reset-password')
+
+  }
+
+
 }
 
