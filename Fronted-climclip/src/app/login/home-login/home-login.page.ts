@@ -64,8 +64,7 @@ export class HomeLoginPage implements OnInit {
   }
 
   registrarse(){
-    this.navctrl2.navigateForward(['/registro'])
-
+    this.utilsSvc.routerlink('/registro')
   }
 
   async getuserInfo(uid:string){
@@ -109,5 +108,12 @@ export class HomeLoginPage implements OnInit {
      
     })
   }
+
+  resetPassword(){
+    this.utilsSvc.routerlink('/reset-password')
+
+  }
+
+
 }
 
