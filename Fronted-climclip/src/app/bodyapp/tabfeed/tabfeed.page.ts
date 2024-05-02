@@ -16,7 +16,7 @@ export class TabfeedPage implements OnInit {
   
   }
 
-   firebaseSvc = inject(FirebaseService)
+  firebaseSvc = inject(FirebaseService)
   utilSvc = inject(UtilsService)
    
   cardData = [{

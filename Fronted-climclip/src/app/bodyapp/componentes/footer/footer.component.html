@@ -5,7 +5,7 @@
         <ion-button  class="icon-footer"  *ngIf="selected === 0" >
           <ion-icon  slot="icon-only" name="home-outline"></ion-icon>
         </ion-button>
-        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 0" (click)="select(0)">
+        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 0" (click)="moveTabfeed()">
           <ion-icon slot="icon-only" name="home-outline"></ion-icon>
         </ion-button>
         
@@ -14,7 +14,7 @@
         <ion-button  class="icon-footer" *ngIf="selected === 1" >
           <ion-icon slot="icon-only" name="search-outline"></ion-icon>
         </ion-button>
-        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 1" (click)="select(1)">
+        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 1" (click)="moveSearchBar()">
           <ion-icon slot="icon-only" name="search-outline"></ion-icon>
         </ion-button>
       </ion-col>
@@ -22,7 +22,7 @@
         <ion-button  class="icon-footer" *ngIf="selected === 2" >
           <ion-icon slot="icon-only" name="person-outline"></ion-icon>
         </ion-button>
-        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 2" (click)="select(2)">
+        <ion-button  class="icon-footer" fill="clear" *ngIf="selected !== 2" (click)="moveUserProfile()">
           <ion-icon slot="icon-only" name="person-outline"></ion-icon>
         </ion-button>
       </ion-col>

@@ -26,11 +26,11 @@ const routes: Routes = [
   },
   {
     path: 'searchpage',
-    loadChildren: () => import('./bodyapp/searchpage/searchpage.module').then( m => m.SearchpagePageModule)
+    loadChildren: () => import('./bodyapp/searchpage/searchpage.module').then( m => m.SearchpagePageModule),canActivate: [LoginGuard]
   },
   {
     path: 'userprofile',
-    loadChildren: () => import('./bodyapp/userprofile/userprofile.module').then( m => m.UserprofilePageModule)
+    loadChildren: () => import('./bodyapp/userprofile/userprofile.module').then( m => m.UserprofilePageModule),canActivate: [LoginGuard]
   },
   {
     path: 'reset-password',

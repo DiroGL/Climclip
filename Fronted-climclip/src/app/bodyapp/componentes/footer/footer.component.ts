@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, Input } from '@angular/core';
+import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,17 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent  implements OnInit {
-  selected = 0
+  @Input() selected = 0
   constructor() {
-    this.select(0)
+    
   }
+  utilSvc = inject(UtilsService)
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {}
 
-  select(num : number ){
-    this.selected = num
+  moveTabfeed(){
+    this.utilSvc.routerlink('tabfeed')
   }
-
-
+  moveSearchBar(){
+    this.utilSvc.routerlink('searchpage')
+  }
+  moveUserProfile(){
+    this.utilSvc.routerlink('userprofile')
+  }
 }

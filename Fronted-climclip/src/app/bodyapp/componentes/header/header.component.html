@@ -6,9 +6,20 @@
     </ion-button>  
     
   </div>
-    
+  <div *ngIf="userpage" slot="end">
+    <ion-button fill="clear" id="log-out" >
+      <ion-icon color="danger" slot="icon-only" name="log-out-outline"></ion-icon>
+    </ion-button>
+  </div>
 </ion-toolbar>
 
 <ion-toolbar *ngIf="preferences" >
   <app-filtros ></app-filtros>
 </ion-toolbar>
+
+<ion-alert
+  trigger="log-out"
+  header="¡¡Vas ha cerrar sesion!!"
+  [buttons]="alertButtons"
+  message="¿Estas seguro que quieres cerrar sesion?"
+></ion-alert>

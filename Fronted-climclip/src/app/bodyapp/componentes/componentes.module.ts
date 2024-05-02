@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
 import { BloqueComponent } from './bloque/bloque.component';
+import { CrearActualizarPublicacionesComponent } from './crear-actualizar-publicaciones/crear-actualizar-publicaciones.component';
 
 
 
@@ -14,13 +15,14 @@ import { BloqueComponent } from './bloque/bloque.component';
     FooterComponent,
     HeaderComponent, 
     FiltrosComponent,
-    BloqueComponent
+    BloqueComponent,
+    CrearActualizarPublicacionesComponent
   ],
   imports: [
     CommonModule,
     IonicModule, FormsModule
   ], exports :[
-    FooterComponent, HeaderComponent, BloqueComponent
+    FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent 
   ]
 })
 export class ComponentesModule { }

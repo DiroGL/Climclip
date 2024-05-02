@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <app-header [filtros]="filtros"></app-header>
+<ion-header>
+  <app-header [userpage]=true></app-header>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -13,6 +13,7 @@
         </ion-col>
         <ion-col size="9" class="profile-info">
             <h2 class="profile-username">Nombre de Usuario</h2>
+
             <!-- <p class="profile-stats">Seguidores:100  Seguidos:50</p> -->
             <ion-grid fixed>
               <ion-row>
@@ -44,11 +45,20 @@
     <ion-button expand="block" color="primary" class="edit-profile">Editar Perfil</ion-button>
     <ion-button expand="block" color="secondary" class="share-profile">Compartir</ion-button>
   </div>
-
-  <ion-button shape="round" color="tertiary" class="highlight-post">
+<!-- cambiado por un ion fab -->
+  <!-- <ion-button shape="round" color="tertiary" class="highlight-post">
     <ion-icon name="add-outline"></ion-icon>
     <ion-label class="plus-sign">+</ion-label>
-  </ion-button>
+  </ion-button> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+
 
   <!-- Publicación 1 -->
   <ion-card>
@@ -87,5 +97,4 @@
   </ion-card>
 </ion-content>
 <ion-footer>
-  <app-footer></app-footer>
-</ion-footer>
+  <app-footer [selected]=2></app-footer>
