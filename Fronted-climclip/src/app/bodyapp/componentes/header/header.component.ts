@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
+import { UtilsService } from 'src/app/login/servicios/utils.service';
 interface RangoEscala {
   lower: number;
   upper: number;
@@ -12,9 +13,13 @@ interface RangoEscala {
 export class HeaderComponent  implements OnInit {
   @Input() filtros : boolean = false
   @Input() userpage : boolean = false
+  @Input() backbutton !: string
+  @Input() isModal !: boolean
+
   preferences = false
  
   firebaseSvc = inject(FirebaseService)
+  utilSvc = inject(UtilsService)
   constructor() { }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -42,6 +47,8 @@ export class HeaderComponent  implements OnInit {
       },
     },
   ]
-
+  dismissmodal(){
+    this.utilSvc.dismissModal()
+  }
   
 }

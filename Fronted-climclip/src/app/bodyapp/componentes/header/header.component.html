@@ -1,4 +1,11 @@
 <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="backbutton" [defaultHref]="backbutton"></ion-back-button>
+      
+    </ion-buttons>
+
+   
   <ion-title class="ion-text-center">Climbclip</ion-title>
   <div *ngIf="filtros" slot="end">
     <ion-button slot="end" fill="clear" (click)="preferenicas()" >
@@ -6,11 +13,14 @@
     </ion-button>  
     
   </div>
-  <div *ngIf="userpage" slot="end">
-    <ion-button fill="clear" id="log-out" >
+  <ion-buttons slot="end">
+    <ion-button fill="clear" id="log-out" *ngIf="userpage" >
       <ion-icon color="danger" slot="icon-only" name="log-out-outline"></ion-icon>
     </ion-button>
-  </div>
+    <ion-button *ngIf="isModal" (click) = "dismissmodal()" >
+      <ion-icon name="close-circle-outline" ></ion-icon>
+    </ion-button>
+  </ion-buttons>
 </ion-toolbar>
 
 <ion-toolbar *ngIf="preferences" >
