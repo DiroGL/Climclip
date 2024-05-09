@@ -1,0 +1,28 @@
+.contenedor-imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px; /* Añadir un espacio alrededor del contenedor */
+  }
+  
+  .imagen {
+    width: calc(33.33% - 10px); /* Ajustar el ancho de la imagen para 3 imágenes por fila */
+    margin-bottom: 20px; /* Espacio entre las filas */
+    border-radius: 8px; /* Añadir bordes redondeados */
+    overflow: hidden; /* Ocultar cualquier parte de la imagen que se desborde */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+  }
+  
+  .imagen img {
+    width: 100%; /* Asegurarse de que la imagen ocupe todo el espacio disponible */
+    height: auto; /* Ajustar la altura automáticamente */
+  }
+  
+  .imagen-item {
+    transition: transform 0.3s ease; /* Agregar una transición suave */
+  }
+  
+  .imagen-item:hover {
+    transform: scale(1.05); /* Escalar la imagen ligeramente al pasar el ratón sobre ella */
+  }
+  
