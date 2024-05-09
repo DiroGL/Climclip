@@ -1,16 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>searchpage</ion-title>
-  </ion-toolbar>
+<ion-header>
+  <ion-searchbar (ionChange)="buscar()" [(ngModel)]="searchQuery" placeholder="Buscar"></ion-searchbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">searchpage</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="contenedor-imagenes" *ngIf="!searchQuery">
+    <div class="imagen" *ngFor="let imagen of imagenes">
+      <img [src]="imagen.url" alt="Imagen" class="imagen-item">
+    </div>
+  </div>
+
+  <ion-list *ngIf="searchQuery">
+    <ion-item *ngFor="let perfil of perfiles">
+      <ion-label>{{perfil.usuario}}</ion-label>
+      <ion-label>{{perfil.seguidores}}</ion-label>
+      <ion-label>{{perfil.seguidos}}</ion-label>
+      <ion-label>{{perfil.publicaciones}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
 <ion-footer>
   <app-footer [selected]=1></app-footer>
 </ion-footer>
+
