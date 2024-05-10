@@ -66,11 +66,5 @@ export class TabfeedPage implements OnInit {
   }
 
 
-  addUpdateProduct(){
-    this.utilSvc.presentModal(
-      {
-        component: CrearActualizarPublicacionesComponent,
-      }
-    )
-  }
+
 }

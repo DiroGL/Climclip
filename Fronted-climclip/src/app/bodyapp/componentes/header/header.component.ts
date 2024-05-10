@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
+import { CrearActualizarPublicacionesComponent } from '../crear-actualizar-publicaciones/crear-actualizar-publicaciones.component';
 interface RangoEscala {
   lower: number;
   upper: number;
@@ -15,7 +16,7 @@ export class HeaderComponent  implements OnInit {
   @Input() userpage : boolean = false
   @Input() backbutton !: string
   @Input() isModal !: boolean
-
+  @Input() addProduct !: boolean
   preferences = false
  
   firebaseSvc = inject(FirebaseService)
@@ -49,6 +50,13 @@ export class HeaderComponent  implements OnInit {
   ]
   dismissmodal(){
     this.utilSvc.dismissModal()
+  }
+  addUpdateProduct(){
+    this.utilSvc.presentModal(
+      {
+        component: CrearActualizarPublicacionesComponent,
+      }
+    )
   }
   
 }

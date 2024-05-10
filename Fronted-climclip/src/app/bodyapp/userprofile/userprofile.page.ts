@@ -16,6 +16,7 @@ export class UserprofilePage implements OnInit {
   @Input() filtros : boolean = false
 
   constructor() {}
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
   }
 

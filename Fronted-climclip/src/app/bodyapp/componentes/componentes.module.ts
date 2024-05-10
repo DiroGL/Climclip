@@ -1,5 +1,5 @@
 import { FiltrosComponent } from './filtros/filtros.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
@@ -20,7 +20,7 @@ import { CrearActualizarPublicacionesComponent } from './crear-actualizar-public
   ],
   imports: [
     CommonModule,
-    IonicModule, FormsModule
+    IonicModule, FormsModule,ReactiveFormsModule
   ], exports :[
     FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent 
   ]

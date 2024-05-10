@@ -1,16 +1,11 @@
 <ion-header [translucent]="true">
-  <app-header [filtros]="filtros"></app-header>
+  <app-header [filtros]="filtros" [addProduct]="true"></app-header>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <ion-list>
         <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
     </ion-list>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click) ="addUpdateProduct()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
 </ion-content>
 <ion-footer>
   <app-footer [selected]=0></app-footer>

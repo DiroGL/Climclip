@@ -2,7 +2,9 @@
 
     <ion-buttons slot="start">
       <ion-back-button *ngIf="backbutton" [defaultHref]="backbutton"></ion-back-button>
-      
+      <ion-button  (click) ="addUpdateProduct()" expand="block" fill="clear" shape="round" color="primary" *ngIf="addProduct">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
    
