@@ -108,6 +108,51 @@ export class HomeLoginPage implements OnInit {
      
     })
   }
+  async logInWithGoogle() {
+    const loading = await this.utilsSvc.loading();
+    await loading.present();
+  
+      await this.firebaseSvc.signUpWithGoogle().then(res=>{
+        let path = `users/${res.user.uid}`
+
+        this.firebaseSvc.getDocument(path).then( (user :User) => {
+          if (user){
+            this.utilsSvc.saveInLocalStorage('user', user) 
+            this.utilsSvc.routerlink('tabfeed')
+            this.loginForm.reset();
+            this.utilsSvc.presentToast({
+              message : `Te damos la bienvenido ${user.userName}`,
+              duration: 1500,
+              color: 'primary',
+              position: 'bottom',
+              icon : 'person-circle-outline'
+            
+            })
+          }else{
+            // console.log("Entre al else")
+            let user: User={
+              name : res.user.displayName,
+              email : res.user.email,
+              uid : res.user.uid,
+              userName : res.user.displayName,
+            }
+            this.firebaseSvc.setDocument(path, user)
+            this.utilsSvc.saveInLocalStorage('user', user) 
+            this.utilsSvc.routerlink('tabfeed')
+          }
+      })
+      }).catch(error=>{
+        this.utilsSvc.presentToast({
+          message: 'Error al iniciar sesión con Google.',
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        });  
+      }).finally(()=>{
+        loading.dismiss();
+      });
+  }
 
   resetPassword(){
     this.utilsSvc.routerlink('/reset-password')
