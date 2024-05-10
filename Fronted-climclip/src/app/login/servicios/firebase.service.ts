@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth'
-import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth'
+import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { User } from '../models/user.models';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
@@ -24,6 +24,14 @@ export class FirebaseService {
   }
 
   // Acceder
+
+
+  // Google
+
+  signUpWithGoogle(){
+    return signInWithPopup(getAuth(),new GoogleAuthProvider())
+  }
+
   singIn(user: User){
     return signInWithEmailAndPassword(getAuth(), user.email, user.password)
   }
