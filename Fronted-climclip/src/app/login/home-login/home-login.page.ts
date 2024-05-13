@@ -129,7 +129,6 @@ export class HomeLoginPage implements OnInit {
             
             })
           }else{
-            // console.log("Entre al else")
             let user: User={
               name : res.user.displayName,
               email : res.user.email,
