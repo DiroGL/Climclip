@@ -57,7 +57,7 @@ export class TabfeedPage implements OnInit {
     difficulty: '8A+',
     valoration: '7C'
   }];
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+
   ngOnInit() {
 
   }
