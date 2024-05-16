@@ -17,15 +17,15 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     id: new FormControl('',[Validators.required]),
     nombre: new FormControl('',[]),
     descripcion: new FormControl('',[]),
-    valoracion: new FormControl('',[Validators.required])
-
+    valoracion: new FormControl('',[Validators.required]),
+    imagen: new FormControl('',[Validators.required]),
   })
   constructor( private navctrl : NavController, private navctrl2 : NavController) {
    
   }
 
     firebaseSvc = inject(FirebaseService)
-    utilsSvc = inject(UtilsService)
+    utilSvc = inject(UtilsService)
 
 
 
@@ -38,7 +38,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
   }
  async enviar(){
 
-    const loading = await this.utilsSvc.loading()
+    const loading = await this.utilSvc.loading()
     await loading.present()
 
     // this.firebaseSvc.singIn(this.addBlock.value).then(res => {

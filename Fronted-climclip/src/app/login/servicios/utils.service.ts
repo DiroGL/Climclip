@@ -52,4 +52,32 @@ export class UtilsService {
     return this.modalCtrl.dismiss(data)
   }
 
+  
+
+
+
+  // Retornar rango de escalada
+
+    getNumberOfDificulty(value : string){
+      let rangosVisual: string[] = [
+        "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", 
+        "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
+      ];
+
+      
+  
+      return rangosVisual.find((x:string) => x === value) || null
+    }
+
+    getDificultyOfNumber(value:number){
+      
+      let rangosVisual: string[] = [
+        "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", 
+        "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
+      ];
+      if (value >= rangosVisual.length || value < 0){
+        return -1
+      }
+      return rangosVisual[value]
+    }
 }

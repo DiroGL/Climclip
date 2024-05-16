@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 @Component({
   selector: 'app-bloque',
@@ -10,11 +11,10 @@ export class BloqueComponent  implements OnInit {
   CompletedBlock = false;
   CardValorar = false;
   like = false;
- 
-  
-  
+  prueba
+  utilSvc = inject(UtilsService)
   constructor() {
- 
+    
   }
   
   ionViewWillEnter(){

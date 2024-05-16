@@ -61,10 +61,4 @@ export class TabfeedPage implements OnInit {
   ngOnInit() {
 
   }
-  singOut(){
-    this.firebaseSvc.singOut()
-  }
-
-
-
 }

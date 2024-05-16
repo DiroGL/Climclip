@@ -41,15 +41,19 @@
           </ion-col>
           <ion-col size="9" >
             <ion-range
+              aria-label="Custom range"
               [min]="0"
               [max]="15"
               [pin]="true"
               [pinFormatter]="updatePin"
+              [value]="prueba"
+              [snaps]="true"
              ></ion-range>
             </ion-col>
           <ion-col size="2">
             <ion-label  class="labels">8A+</ion-label>
           </ion-col>
+          
         </ion-row>
       </ion-grid> 
     </ion-item>
