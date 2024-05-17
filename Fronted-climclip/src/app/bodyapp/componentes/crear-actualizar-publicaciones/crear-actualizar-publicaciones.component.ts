@@ -19,6 +19,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     descripcion: new FormControl('',[]),
     valoracion: new FormControl('',[Validators.required]),
     imagen: new FormControl('',[Validators.required]),
+    valorRange:new FormControl(0,[Validators.required]),
   })
   constructor( private navctrl : NavController, private navctrl2 : NavController) {
    
@@ -55,14 +56,10 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     //   })
     // }).finally(() =>{
     //   loading.dismiss();
-    // })
-
-
-
-
-
-  
-    
+    // }) 
+  }
+  valorBloque(event:any){
+    this.addBlock.value.valorRange = event.detail.value;
   }
   updatePin(value: number){
     let rangosVisual: string[] = [

@@ -1,3 +1,11 @@
-.labels{
+
+ion-item ion-label {
+    display: block;
+    margin-bottom: 10px; /* Ajusta este valor según tus necesidades */
+  }
+  
+  .labels {
     padding-top: 2rem;
-}
+
+    text-align: center;
+  }
