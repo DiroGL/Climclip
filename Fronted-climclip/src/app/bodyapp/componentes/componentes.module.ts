@@ -10,6 +10,7 @@ import { CrearActualizarPublicacionesComponent } from './crear-actualizar-public
 
 
 
+
 @NgModule({
   declarations: [
     FooterComponent,

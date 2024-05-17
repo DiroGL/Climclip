@@ -11,31 +11,39 @@ export class BloqueComponent  implements OnInit {
   CompletedBlock = false;
   CardValorar = false;
   like = false;
-  prueba
+  valorRange
+  dificultadPublico
+  valoracion
+
+
   utilSvc = inject(UtilsService)
   constructor() {
     
   }
-  
+  ngOnInit() {
+    // Inicializa el valoración y prueba si es necesario
+    this.valorRange = 0;
+
+  }
+
   ionViewWillEnter(){
    
   }
-  updatePin(value: number){
-    return this.utilSvc.getDificultyOfNumber(value)
-  }
-  ionViewDidEnter(){
+  valorBloque(event: any) {
+    this.valoracion = event.detail.value;
+    this.valorRange = this.valoracion
 
   }
-
-
-
- 
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
-  
+  updatePin(value){
+    let rangosVisual: string[] = [
+      "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", 
+      "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
+    ];
+    if (value >= rangosVisual.length || value < 0){
+      return null
+    }
+    return rangosVisual[value]
   }
-
 
   meGusta(){
     this.like = !this.like;
@@ -47,5 +55,9 @@ export class BloqueComponent  implements OnInit {
 
   CompleteBlock(){
     this.CompletedBlock = !this.CompletedBlock
+  }
+  enviarValoracion(){
+    console.log(this.utilSvc.getDificultyOfNumber(this.valoracion))
+    this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.valoracion)
   }
 }

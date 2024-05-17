@@ -66,7 +66,7 @@ export class UtilsService {
 
       
   
-      return rangosVisual.find((x:string) => x === value) || null
+      return rangosVisual.find((x:string) => x === value) || -1
     }
 
     getDificultyOfNumber(value:number){
@@ -76,7 +76,7 @@ export class UtilsService {
         "7A", "7A+", "7B", "7B+", "7C", "7C+", "8A", "8A+" 
       ];
       if (value >= rangosVisual.length || value < 0){
-        return -1
+        return null
       }
       return rangosVisual[value]
     }
