@@ -11,9 +11,8 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Descripción
-          <ion-text color="danger">*</ion-text>
       </ion-label>
-      <ion-input required formControlName="descripcion" type="text"></ion-input>
+      <ion-input formControlName="descripcion" type="text" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-grid>
@@ -49,9 +48,30 @@
      
   </ion-item>
   <ion-item>
-    <ion-button  expand="block" fill="clear" shape="round" formControlName="imagen" >
-      Subir Foto
-    </ion-button>
+       <!-- <ion-avatar *ngIf="addBlock.value.imagen">
+      <img [src]="addBlock.value.imagen" />
+    </ion-avatar> -->
+    <ion-grid>
+
+
+      <ion-row>
+        <ion-col size="12"><ion-button (click)="takeImage()"  expand="block" fill="clear" shape="round" formControlName="imagen" >
+          Subir/Hacer foto
+        </ion-button></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <picture *ngIf="addBlock.value.imagen">
+            <img [src]="addBlock.value.imagen" />
+            
+          </picture>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+ 
+    
+   
+    
   </ion-item> 
    <ion-grid fixed>
   <ion-row class="ion-align-items-center ion-justify-content-center">

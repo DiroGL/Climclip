@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 
+import { User } from 'src/app/login/models/user.models';
 
 
 @Component({
@@ -14,10 +15,8 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
 export class CrearActualizarPublicacionesComponent  implements OnInit {
 
   addBlock = new FormGroup({
-    id: new FormControl('',[Validators.required]),
-    nombre: new FormControl('',[]),
+    nombre: new FormControl('',[Validators.required]),
     descripcion: new FormControl('',[]),
-    valoracion: new FormControl('',[Validators.required]),
     imagen: new FormControl('',[Validators.required]),
     valorRange:new FormControl(0,[Validators.required]),
   })
@@ -27,7 +26,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
 
     firebaseSvc = inject(FirebaseService)
     utilSvc = inject(UtilsService)
-
+    user = {}as User;
 
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -35,12 +34,27 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     // this.usuaiosServ.getIUsuarios().subscribe(l=>{l.forEach(u=>this.Usuario.push(u))})
     // this.usuaiosServ.getIUsuarios().subscribe(u => {this.Usuario = u})
     
-    
+    this.user= this.utilSvc.getFromLocalStorage('user')
   }
+
+
+  async takeImage(){
+    console.log(this.addBlock.value.imagen)
+    const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl
+    this.addBlock.controls.imagen.setValue(dataUrl)
+    console.log(this.addBlock.value.imagen)
+
+  }
+
+
+
  async enviar(){
 
     const loading = await this.utilSvc.loading()
     await loading.present()
+
+// añadir imagen
+    let dataUrl = this.addBlock.value.imagen
 
     // this.firebaseSvc.singIn(this.addBlock.value).then(res => {
 
@@ -68,5 +82,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     ];
     return rangosVisual[value]
   }
+
+
 
 }
