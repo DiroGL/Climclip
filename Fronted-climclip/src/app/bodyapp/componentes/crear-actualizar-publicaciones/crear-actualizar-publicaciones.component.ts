@@ -5,6 +5,7 @@ import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 import { User } from 'src/app/login/models/user.models';
+import { Block } from 'src/app/login/models/block.models';
 
 
 @Component({
@@ -38,39 +39,73 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
   }
 
 
-  async takeImage(){
-    console.log(this.addBlock.value.imagen)
+  async takeImage(){  
     const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl
     this.addBlock.controls.imagen.setValue(dataUrl)
-    console.log(this.addBlock.value.imagen)
-
   }
 
 
 
  async enviar(){
-
     const loading = await this.utilSvc.loading()
     await loading.present()
 
-// añadir imagen
-    let dataUrl = this.addBlock.value.imagen
 
-    // this.firebaseSvc.singIn(this.addBlock.value).then(res => {
-
-    // }).catch(error => {
-    //   console.log(error)
-    //   this.utilsSvc.presentToast({
-    //     message : error.message,
-    //     duration: 1500,
-    //     color: 'primary',
-    //     position: 'bottom',
-    //     icon : 'alert-circle-outline'
+    try {
+      let publicacion = this.addBlock.value as Block;
+      publicacion.creador = this.user.uid;
       
-    //   })
-    // }).finally(() =>{
-    //   loading.dismiss();
-    // }) 
+      // Agregar la publicación y obtener la referencia del documento creado
+      const docRef = await this.firebaseSvc.addDocument("blocks", publicacion);
+      
+      // Guardar la ID generada automáticamente en la variable pid
+      const pid = docRef.id;
+
+
+      let dataUrl = this.addBlock.value.imagen
+      let imagenPath = `${pid}`
+      let imageUrl = await this.firebaseSvc.uploadImage(imagenPath, dataUrl)
+      this.addBlock.controls.imagen.setValue(imageUrl)
+
+
+
+      // Añadir la ID generada automáticamente como un campo en el objeto de la publicación
+      publicacion.pid = pid;
+    
+      // Construir la ruta del documento en Firestore
+      const path = `blocks/${pid}`;
+    
+      // Establecer el documento en Firestore con la ID generada automáticamente como un campo dentro del documento
+      await this.firebaseSvc.setDocument(path, publicacion);
+
+      
+    
+      this.utilSvc.presentToast({
+        message: "Publicación enviada exitosamente",
+        duration: 1500,
+        color: 'success',
+        position: 'bottom',
+        icon: 'checkmark-circle-outline'
+      });
+
+    } catch (error) {
+      console.log(error);
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 1500,
+        color: 'primary',
+        position: 'bottom',
+        icon: 'alert-circle-outline'
+      });
+    } finally {
+      loading.dismiss();
+    
+    }
+    this.utilSvc.dismissModal()
+    // añadir imagen
+    
+
+    
   }
   valorBloque(event:any){
     this.addBlock.value.valorRange = event.detail.value;
