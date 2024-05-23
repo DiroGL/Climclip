@@ -142,6 +142,7 @@ export class HomeLoginPage implements OnInit {
           }
       })
       }).catch(error=>{
+        
         this.utilsSvc.presentToast({
           message: 'Error al iniciar sesión con Google.',
           duration: 2500,

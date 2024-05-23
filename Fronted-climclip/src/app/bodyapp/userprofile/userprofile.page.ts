@@ -41,7 +41,9 @@ ionViewWillEnter(){
     this.likesBlocks = false
     this.markedBlocks = false
     this.cardData =await this.firebaseSvc.getDocumentsByParameter(this.pathBlock,"creador",this.userLocal.uid)
+    
   }
+  
 
   handleLikesBlocks(){
     this.ownBlocks = false

@@ -3,8 +3,8 @@
   <ion-card-content class="card-body">
     <ion-card-title class="card-title">{{ cardData.nombre}}</ion-card-title>
     <p class="card-subtitle mb-2 text-muted"></p>
-    <p class="card-text">Dificultad de escalada: </p>
-    <p class="card-text">Dificultad del publico:</p>
+    <p class="card-text">Dificultad de escalada: {{valoraciones.autor}} </p>
+    <p class="card-text">Dificultad del publico:{{valoraciones.public || "Sin Valoracion"}} </p>
   </ion-card-content>
   <ion-toolbar>
 

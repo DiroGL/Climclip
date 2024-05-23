@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Block } from 'src/app/login/models/block.models';
+import { User } from 'src/app/login/models/user.models';
+import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 @Component({
@@ -12,23 +14,43 @@ export class BloqueComponent  implements OnInit {
   CompletedBlock = false;
   CardValorar = false;
   like = false;
-  valorRange
+  valorRange 
   dificultadPublico
-  valoracion
-
-
+  valoracion 
+  valoraciones = { } as {autor :string, public : string}
+  userLocal = {} as User;
   utilSvc = inject(UtilsService)
+  firebaseSvc = inject(FirebaseService)
   constructor() {
     
+  }
+
+  async calcularValores (){
+    let path = `valorations`
+
+    let getValores = await this.firebaseSvc.getDocumentsByParameter(path, this.cardData.pid, "")
+    console.log(getValores)
+    let PublicValor 
+
+    for (let i = 0; i < getValores.length; i++) {
+       PublicValor +=  getValores[i]
+    }
+    PublicValor = PublicValor/getValores.length
+    console.log("Entre",this.utilSvc.getDificultyOfNumber(this.cardData.valorRange))
+    this.valoraciones = {
+      autor : this.utilSvc.getDificultyOfNumber(this.cardData.valorRange),
+      public : this.utilSvc.getDificultyOfNumber(PublicValor)
+    }
   }
   ngOnInit() {
     // Inicializa el valoración y prueba si es necesario
     this.valorRange = 0;
-
+    this.calcularValores()
   }
 
   ionViewWillEnter(){
-   
+    this.userLocal= this.utilSvc.getFromLocalStorage('user') 
+    
   }
   valorBloque(event: any) {
     this.valoracion = event.detail.value;

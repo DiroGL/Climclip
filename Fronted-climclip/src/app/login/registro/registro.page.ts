@@ -51,9 +51,30 @@ export class RegistroPage implements OnInit {
       this.setuserInfo(uid)
 
     }).catch(error => {
+      // Aquí interceptamos el error
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      
+      // Personaliza el mensaje de error
+      if (errorCode === 'auth/email-already-in-use') {
+        errorMessage = "Este correo electrónico ya está registrado. Por favor, usa otro.";
+      } else if (errorCode === 'auth/invalid-email') {
+        errorMessage = "El correo electrónico proporcionado no es válido.";
+      } else if (errorCode === 'auth/operation-not-allowed') {
+        errorMessage = "El registro de correo electrónico y contraseña no está habilitado.";
+      } else if (errorCode === 'auth/weak-password') {
+        errorMessage = "La contraseña es demasiado débil. Debe tener al menos 6 caracteres.";
+      } else {
+        errorMessage = "Ocurrió un error desconocido. Por favor, intenta nuevamente.";
+      }
+      // Muestra el mensaje personalizado
+      console.error("Error: ", errorMessage);
+     
+    console.log(error)
       console.log(error)
       this.utilsSvc.presentToast({
-        message : error.message,
+        message : errorMessage,
         duration: 1500,
         color: 'primary',
         position: 'bottom',
