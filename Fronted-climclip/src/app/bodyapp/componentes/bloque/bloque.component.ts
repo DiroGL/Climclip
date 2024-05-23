@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
+import { Block } from 'src/app/login/models/block.models';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
   styleUrls: ['./bloque.component.scss'],
 })
 export class BloqueComponent  implements OnInit {
-  @Input() cardData : any
+  @Input() cardData : Block
   CompletedBlock = false;
   CardValorar = false;
   like = false;

@@ -8,7 +8,7 @@
     </ion-buttons>
 
    
-  <ion-title class="ion-text-center">Climbclip</ion-title>
+  <ion-title class="ion-text-center">{{title || "Climbclip"}}</ion-title>
   <div *ngIf="filtros" slot="end">
     <ion-button slot="end" fill="clear" (click)="preferenicas()" >
       <ion-icon slot="icon-only" name="options-outline"></ion-icon>

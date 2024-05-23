@@ -121,7 +121,7 @@ export class HomeLoginPage implements OnInit {
             this.utilsSvc.routerlink('tabfeed')
             this.loginForm.reset();
             this.utilsSvc.presentToast({
-              message : `Te damos la bienvenido ${user.userName}`,
+              message : `Te damos la bienvenido ${user.username}`,
               duration: 1500,
               color: 'primary',
               position: 'bottom',
@@ -133,7 +133,8 @@ export class HomeLoginPage implements OnInit {
               name : res.user.displayName,
               email : res.user.email,
               uid : res.user.uid,
-              userName : res.user.displayName,
+              username : res.user.displayName,
+              image : res.user.photoURL
             }
             this.firebaseSvc.setDocument(path, user)
             this.utilsSvc.saveInLocalStorage('user', user) 

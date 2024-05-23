@@ -17,6 +17,7 @@ export class HeaderComponent  implements OnInit {
   @Input() backbutton !: string
   @Input() isModal !: boolean
   @Input() addProduct !: boolean
+  @Input() title !: string
   preferences = false
  
   firebaseSvc = inject(FirebaseService)

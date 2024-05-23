@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { User } from '../models/user.models';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, } from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import{ AngularFireStorage } from '@angular/fire/compat/storage'
 
@@ -71,6 +71,10 @@ export class FirebaseService {
     return setDoc(doc(getFirestore(), path), data);
   }
 
+  //Actualizar un Documento
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
+  }
 
   //Get document
   async getDocument(path: string){
@@ -104,6 +108,8 @@ export class FirebaseService {
     const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return documents;
 }
+
+
 
   // Almacenamineto
 

@@ -3,5 +3,7 @@ export  interface Block{
     nombre: string,
     descripcion?:string,
     valoracion:string,
-    creador:string
+    creador:string,
+    imagen:string,
+    valorRange:number
 }
