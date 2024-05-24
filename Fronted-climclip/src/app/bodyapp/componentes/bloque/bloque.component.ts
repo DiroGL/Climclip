@@ -29,14 +29,12 @@ export class BloqueComponent  implements OnInit {
     let path = `valorations`
 
     let getValores = await this.firebaseSvc.getDocumentsByParameter(path, this.cardData.pid, "")
-    console.log(getValores)
     let PublicValor 
 
     for (let i = 0; i < getValores.length; i++) {
        PublicValor +=  getValores[i]
     }
     PublicValor = PublicValor/getValores.length
-    console.log("Entre",this.utilSvc.getDificultyOfNumber(this.cardData.valorRange))
     this.valoraciones = {
       autor : this.utilSvc.getDificultyOfNumber(this.cardData.valorRange),
       public : this.utilSvc.getDificultyOfNumber(PublicValor)

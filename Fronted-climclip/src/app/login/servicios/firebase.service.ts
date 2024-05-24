@@ -35,18 +35,18 @@ export class FirebaseService {
     return signInWithPopup(getAuth(),new GoogleAuthProvider())
   }
 
-  singIn(user: User){
+  signIn(user: User){
     return signInWithEmailAndPassword(getAuth(), user.email, user.password)
   }
 
 
    // Registrar
-   singUp(user: User){
+  signUp(user: User){
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password)
   }
 
   // cerrar sesion
-  singOut(){
+  signOut(){
     getAuth().signOut()
     localStorage.removeItem('user')
     this.utilSvc.routerlink('/home-login')
@@ -68,6 +68,7 @@ export class FirebaseService {
 
   // Setear un documento
   setDocument(path : string, data:any){
+    console.log(this.getAuth().currentUser?.uid)
     return setDoc(doc(getFirestore(), path), data);
   }
 

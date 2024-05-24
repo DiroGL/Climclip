@@ -33,14 +33,14 @@ export class UserprofilePage implements OnInit {
   }
 ionViewWillEnter(){
     this.userLocal= this.utilSvc.getFromLocalStorage('user')
-    console.log(this.pathBlock,"creador",this.userLocal.uid)
+  
     this.handleOwnBlock()
   }
   async handleOwnBlock(){
     this.ownBlocks = true
     this.likesBlocks = false
     this.markedBlocks = false
-    this.cardData =await this.firebaseSvc.getDocumentsByParameter(this.pathBlock,"creador",this.userLocal.uid)
+    this.cardData =await this.firebaseSvc.getDocumentsByParameter(this.pathBlock,"uid",this.userLocal.uid)
     
   }
   
@@ -60,14 +60,19 @@ ionViewWillEnter(){
   async changePhoto(){
     const loading = await this.utilSvc.loading()
     await loading.present()
-
+   
+   
     try {
+
+    
       let path = `users/${this.userLocal.uid}`
       let dataUrl = (await this.utilSvc.takePicture("¿Cambiar foto de perfil?")).dataUrl;
       let imagenPath = `${this.userLocal.uid}/userImage`
       let imageUrl = await this.firebaseSvc.uploadImage(imagenPath, dataUrl)
       // this.userLocal.image = imageUrl
+      setTimeout(async () => {
       await this.firebaseSvc.updateDocument(path, {"image":imageUrl});
+      }, 5000)
       this.userLocal.image = imageUrl
       this.utilSvc.presentToast({
         message: "Foto Cambiada correctamente",
@@ -78,17 +83,26 @@ ionViewWillEnter(){
       });
     }catch(error) {
     console.log(error);
-    this.utilSvc.presentToast({
-      message: error.message,
-      duration: 1500,
-      color: 'primary',
-      position: 'bottom',
-      icon: 'alert-circle-outline'
-    });
+  ;
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 1500,
+        color: 'primary',
+        position: 'bottom',
+        icon: 'alert-circle-outline'
+      });
+    
+    
   } finally {
     loading.dismiss();
   
   }
+  
   }
-
+  handleRefresh(event) {
+    setTimeout(() => {
+      this.handleOwnBlock()
+      event.target.complete();
+    }, 2000);
+  }
 }

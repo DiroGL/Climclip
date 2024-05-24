@@ -53,7 +53,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
 
     try {
       let publicacion = this.addBlock.value as Block;
-      publicacion.creador = this.user.uid;
+      publicacion.uid = this.user.uid;
       
       // Agregar la publicación y obtener la referencia del documento creado
       const docRef = await this.firebaseSvc.addDocument("blocks", publicacion);
@@ -101,6 +101,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
       loading.dismiss();
     
     }
+    
     this.utilSvc.dismissModal()
     // añadir imagen
     

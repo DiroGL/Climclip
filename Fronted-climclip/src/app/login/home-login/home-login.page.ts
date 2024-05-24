@@ -32,13 +32,21 @@ export class HomeLoginPage implements OnInit {
     
     
   }
+  politicasDePrivacidad(){
+    this.utilsSvc.routerlink("politicas-de-privacidad")
+
+  }
+
+  politicasDeUso(){
+    this.utilsSvc.routerlink("politicas-de-uso")
+  }
  async enviar(){
 
     const loading = await this.utilsSvc.loading()
     await loading.present()
 
     console.log(this.loginForm.value as User)
-    this.firebaseSvc.singIn(this.loginForm.value as User).then(res => {
+    this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
 
       this.getuserInfo(res.user.uid)
     }).catch(error => {
