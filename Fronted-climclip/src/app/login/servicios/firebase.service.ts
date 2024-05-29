@@ -111,7 +111,31 @@ export class FirebaseService {
 }
 
 
+  //Eliminar segun parametro
+  async deleteDocumentByParameter(collectionPath: string, field: string, value: any): Promise<void> {
+    const querySnapshot = await this.firestore.collection(collectionPath, ref => ref.where(field, '==', value)).get().toPromise();
+    const batch = this.firestore.firestore.batch();
 
+    querySnapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+  }
+  // Función para eliminar un documento por un parámetro
+  async deleteDocumentsByParameters(collectionPath: string, field1: string, value1: any, field2: string, value2: any): Promise<void> {
+    const querySnapshot = await this.firestore.collection(collectionPath, ref => 
+      ref.where(field1, '==', value1).where(field2, '==', value2)
+    ).get().toPromise();
+    
+    const batch = this.firestore.firestore.batch();
+
+    querySnapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+  }
   // Almacenamineto
 
   async uploadImage(path: string, data_url: string){

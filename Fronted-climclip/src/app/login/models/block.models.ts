@@ -5,5 +5,6 @@ export  interface Block{
     valoracion:string,
     uid:string,
     imagen:string,
-    valorRange:number
+    valorRange:number,
+    fechaSubida:number
 }

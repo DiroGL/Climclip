@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Block } from 'src/app/login/models/block.models';
+import { Like } from 'src/app/login/models/like.models';
 import { User } from 'src/app/login/models/user.models';
 
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
@@ -16,12 +17,16 @@ export class UserprofilePage implements OnInit {
   utilSvc = inject(UtilsService)
   firebaseSvc = inject(FirebaseService)
   userLocal = {} as User;
+  cardData = []
 
   ownBlocks = true
   likesBlocks = false
   markedBlocks = false
-  cardData = []
   pathBlock = "blocks"
+  pathLikes = "likes"
+  pathMarked = "completed"
+  likes = []
+  completed = []
   constructor() {
    
 
@@ -31,27 +36,51 @@ export class UserprofilePage implements OnInit {
   ngOnInit() {
    
   }
-ionViewWillEnter(){
+  ionViewWillLeave(){
+    this.utilSvc.saveInLocalStorage('user', this.userLocal);
+  }
+  ionViewWillEnter(){
     this.userLocal= this.utilSvc.getFromLocalStorage('user')
   
     this.handleOwnBlock()
   }
   async handleOwnBlock(){
+
     this.ownBlocks = true
     this.likesBlocks = false
     this.markedBlocks = false
-    this.cardData =await this.firebaseSvc.getDocumentsByParameter(this.pathBlock,"uid",this.userLocal.uid)
-    
+    this.cardData =(await this.firebaseSvc.getDocumentsByParameter(this.pathBlock,"uid",this.userLocal.uid))
+    this.cardData.sort((a, b) => {
+      const dateA = new Date(a.fechaSubida);
+      const dateB = new Date(b.fechaSubida);
+
+      // return dateA.getTime() - dateB.getTime(); // Orden ascendente (del más antiguo al más reciente)
+      return dateB.getTime() - dateA.getTime(); // Orden descendente (del más reciente al más antiguo)
+    });
   }
   
 
-  handleLikesBlocks(){
+  async handleLikesBlocks(){
+    this.cardData = []
+    this.likes = []
+    this.likes =await this.firebaseSvc.getDocumentsByParameter(this.pathLikes,"uid",this.userLocal.uid)
+    for (let i = 0; i < this.likes.length; i++) {
+      this.cardData.push(await this.firebaseSvc.getDocument(`blocks/${this.likes[i].pid}`))
+    } 
     this.ownBlocks = false
     this.likesBlocks = true
     this.markedBlocks = false
+
+
   }
   
-  handleMarkedBlock(){
+  async handleMarkedBlock(){
+    this.cardData = []
+    this.completed=[]
+    this.completed =await this.firebaseSvc.getDocumentsByParameter(this.pathMarked,"uid",this.userLocal.uid)
+    for (let i = 0; i < this.completed.length; i++) {
+      this.cardData.push(await this.firebaseSvc.getDocument(`blocks/${this.completed[i].pid}`))
+    } 
     this.ownBlocks = false
     this.likesBlocks = false
     this.markedBlocks = true
