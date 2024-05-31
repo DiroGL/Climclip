@@ -39,8 +39,8 @@ export class UserprofilePage implements OnInit {
   ionViewWillLeave(){
     this.utilSvc.saveInLocalStorage('user', this.userLocal);
   }
-  ionViewWillEnter(){
-    this.userLocal= this.utilSvc.getFromLocalStorage('user')
+  async ionViewWillEnter(){
+    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
   
     this.handleOwnBlock()
   }

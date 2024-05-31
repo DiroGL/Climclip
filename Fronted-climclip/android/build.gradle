@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.google.gms:google-services:4.4.0'
+    }
+}
+
+apply from: "variables.gradle"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Mueve la declaración del plugin de Google Services aquí
+// Fuera del bloque plugins {}
+// No olvides quitar la versión 4.4.1 ya que está especificada en buildscript {}
+apply plugin: 'com.google.gms.google-services'

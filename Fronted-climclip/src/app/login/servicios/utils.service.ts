@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
+import { Plugins } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,13 @@ export class UtilsService {
   ToastCtrl = inject(ToastController);
   rotuer = inject(Router)
   modalCtrl = inject(ModalController)
-
-
-
+  
+  
+  private storage: any;
+  constructor() {
+    // Obtener la instancia del plugin de almacenamiento
+    this.storage = Plugins['Storage'];
+  }
 
 
 
@@ -48,13 +53,23 @@ export class UtilsService {
   // Local storage
 
   // Guardar
-  saveInLocalStorage(key: string, value: any){
-    return localStorage.setItem(key, JSON.stringify(value))
+  async saveInLocalStorage(key: string, value: any){
+    await this.storage.set({
+      key: key,
+      value: JSON.stringify(value)
+    });
+    
   }
 
   // Obtener de localstorage
   getFromLocalStorage(key: string){
-    return JSON.parse( localStorage.getItem(key))
+    try {
+      return JSON.parse( localStorage.getItem(key))
+    } catch (error) {
+      alert('Error saving data to app storage:' +error);
+      // Implementa un mecanismo de fallback o manejo de errores según sea necesario
+    }
+   
   }
 
 

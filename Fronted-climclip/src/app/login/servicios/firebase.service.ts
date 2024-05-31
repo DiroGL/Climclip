@@ -31,8 +31,9 @@ export class FirebaseService {
 
   // Google
 
-  signUpWithGoogle(){
-    return signInWithPopup(getAuth(),new GoogleAuthProvider())
+  async signUpWithGoogle(){
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(getAuth(),provider)
   }
 
   signIn(user: User){

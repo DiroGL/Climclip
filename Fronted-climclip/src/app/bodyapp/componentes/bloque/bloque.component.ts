@@ -45,11 +45,16 @@ export class BloqueComponent  implements OnInit {
     // Inicializa el valoración y prueba si es necesario
     this.valorRange = 0;
     this.calcularValores()
-    this.userLocal= this.utilSvc.getFromLocalStorage('user') 
+    this.obtenerUsuario()
     this.comprobarDatos()
   }
   ionViewWillEnter(){
     
+  }
+  async obtenerUsuario(){
+    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
+
+
   }
 
   async calcularValores (){
