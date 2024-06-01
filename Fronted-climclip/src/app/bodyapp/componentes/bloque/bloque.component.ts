@@ -25,12 +25,13 @@ export class BloqueComponent  implements OnInit {
   likesBlock
   blocksCompleted
   valorado
+  getValores
+
   valoraciones = { } as {autor :string, public : string}
   dataLike =  {} as Like;
   userLocal = {} as User;
   dataCompleted = {} as Completed;
   dataRated = {} as Rated;
-
   utilSvc = inject(UtilsService)
   firebaseSvc = inject(FirebaseService)
   pathLikes = "likes"
@@ -44,9 +45,10 @@ export class BloqueComponent  implements OnInit {
   ngOnInit() {
     // Inicializa el valoración y prueba si es necesario
     this.valorRange = 0;
-    this.calcularValores()
+   
     this.obtenerUsuario()
     this.comprobarDatos()
+    this.calcularValores()
   }
   ionViewWillEnter(){
     
@@ -56,15 +58,22 @@ export class BloqueComponent  implements OnInit {
   }
 
   async calcularValores (){
-    let path = `valorations`
 
-    let getValores = await this.firebaseSvc.getDocumentsByParameter(path, this.cardData.pid, "")
+
+     this.getValores = await this.firebaseSvc.getDocumentsByParameter(this.pathRated,"pid",  this.cardData.pid)
     let PublicValor 
 
-    for (let i = 0; i < getValores.length; i++) {
-       PublicValor +=  getValores[i]
+    for (let i = 0; i < this.getValores.length; i++) {
+       PublicValor +=  this.getValores[i].dificulty
+
+       if( this.getValores[i].uid == this.userLocal.uid){
+
+        
+        this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.getValores[i].dificulty)
+        this.dataRated = this.getValores[i]
+       }
     }
-    PublicValor = PublicValor/getValores.length
+    PublicValor = Math.floor(PublicValor/this.getValores.length)
     this.valoraciones = {
       autor : this.utilSvc.getDificultyOfNumber(this.cardData.valorRange),
       public : this.utilSvc.getDificultyOfNumber(PublicValor)
@@ -84,6 +93,9 @@ export class BloqueComponent  implements OnInit {
         this.CompletedBlock =true
       }
     }
+    
+    
+
   }
 
 
@@ -174,7 +186,6 @@ export class BloqueComponent  implements OnInit {
       try{
         this.CompletedBlock = !this.CompletedBlock;
         await this.firebaseSvc.deleteDocumentsByParameters(this.pathCompleted, "uid", this.userLocal.uid, "pid", this.cardData.pid)
-       
       } catch (error) {
         this.CompletedBlock = !this.CompletedBlock;
         this.utilSvc.presentToast({
@@ -189,44 +200,64 @@ export class BloqueComponent  implements OnInit {
     }
   }
   async enviarValoracion(){
-    this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.valoracion)
-    this.dataRated.dificulty = this.valoracion
-    this.dataRated.uid = this.userLocal.uid
-    this.dataRated.pid = this.cardData.pid
-    if (!this.valorado){
-      try{
-        this.CompletedBlock = !this.CompletedBlock;
-        let x =await this.firebaseSvc.addDocument(this.pathRated, this.dataRated);
-        
-      } catch (error) {
-        this.CompletedBlock = !this.CompletedBlock;
+    this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.valoracion);
+    if(!this.dataRated.rid){
+      this.dataRated.dificulty = this.valoracion;
+      this.dataRated.uid = this.userLocal.uid;
+      this.dataRated.pid = this.cardData.pid;
+      console.log("Entreeeeee 1", this.dataRated)
+      try {
+        let p =await this.firebaseSvc.addDocument(this.pathRated, this.dataRated);
+        let rid = p.id
+        this.dataRated.rid = rid
+        let pathRatedBlock = `${this.pathRated}/${this.dataRated.rid}` 
+        await this.firebaseSvc.updateDocument(pathRatedBlock, this.dataRated)
         this.utilSvc.presentToast({
-          message: error.message,
+          message: 'Valoración enviada correctamente',
           duration: 1500,
-          color: 'primary',
+          color: 'success',
           position: 'bottom',
-          icon: 'alert-circle-outline'
+          icon: 'checkmark-circle-outline'
         });
-      } finally {
-      }
-    }else{
-      try{
-        this.CompletedBlock = !this.CompletedBlock;
-        await this.firebaseSvc.setDocument(this.pathRated, this.dataRated);
-        
-      } catch (error) {
-        this.CompletedBlock = !this.CompletedBlock;
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 1500,
-          color: 'primary',
-          position: 'bottom',
-          icon: 'alert-circle-outline'
-        });
-      } finally {
-      }
+      // }
+    } catch (error) {
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 1500,
+        color: 'danger',
+        position: 'bottom',
+        icon: 'alert-circle-outline'
+      });
     }
 
+
+    }else{
+      try {
+        this.dataRated.dificulty = this.valoracion;
+        console.log("Entreeeeee 2", this.dataRated )
+        let pathRatedBlock = `${this.pathRated}/${this.dataRated.rid}` 
+        await this.firebaseSvc.updateDocument(pathRatedBlock, this.dataRated)
+        console.log("Entreeeeee 2", this.dataRated )
+        this.utilSvc.presentToast({
+          message: 'Valoración cambiada correctamente',
+          duration: 1500,
+          color: 'success',
+          position: 'bottom',
+          icon: 'checkmark-circle-outline'
+        });
+      // }
+    } catch (error) {
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 1500,
+        color: 'danger',
+        position: 'bottom',
+        icon: 'alert-circle-outline'
+      });
+    }
+    }
+   
+  }
   }
   
-}
+// }

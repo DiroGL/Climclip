@@ -16,7 +16,7 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-      let user = localStorage.getItem('user')
+    let user = this.utilSvc.getFromLocalStorage('user')
 
     return new Promise((resolve) => {
       this.firebaseSvc.getAuth().onAuthStateChanged((auth) => {

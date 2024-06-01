@@ -3,12 +3,11 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { User } from '../models/user.models';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
-
 import {getStorage, uploadString, ref, getDownloadURL } from "firebase/storage"
-import { addDoc, collection } from 'firebase/firestore';
+import { QuerySnapshot, addDoc, collection } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +16,14 @@ export class FirebaseService {
   auth = inject(AngularFireAuth)
   firestore = inject(AngularFirestore)
   utilSvc = inject(UtilsService)
+
+  constructor() {}
+  //Paginacion y filtro
+
+
+
+
+
 
   // Autenticacion
 

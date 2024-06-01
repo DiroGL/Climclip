@@ -16,7 +16,7 @@ export class UtilsService {
   rotuer = inject(Router)
   modalCtrl = inject(ModalController)
   
-  
+  private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
     this.init();
@@ -24,8 +24,8 @@ export class UtilsService {
 
   async init() {
     const storage = await this.storage.create();
+    this._storage = storage;
   }
-
 
  async takePicture (promptLabelHeader:string)  {
     return await Camera.getPhoto({
@@ -56,33 +56,17 @@ export class UtilsService {
 
   // Local storage
 
-  // Guardar
-  async saveInLocalStorage(key: string, value: any) {
-    if (this.isAndroid()) {
-      return await this.storage?.set(key, JSON.stringify(value));
-    } else {
-      console.log("entre")
-      localStorage.setItem(key, JSON.stringify(value));
-      return Promise.resolve();
-    }
+  // Guardar en localStorage
+  saveInLocalStorage(key: string, value: any) {
+   return this._storage?.set(key, value);
   }
 
-  // Obtener de localstorage
-  async getFromLocalStorage(key: string) {
-    if (this.isAndroid()) {
-      const ret = await this.storage?.get(key);
-      return ret ? JSON.parse(ret) : null;
-    } else {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : null;
-    }
+  // Obtener de localStorage
+  async getFromLocalStorage(key: string): Promise<any> {
+    return await this._storage?.get(key);
   }
 
-  
-isAndroid() {
-  // Lógica para detectar si es un entorno Android
-  return /Android/i.test(navigator.userAgent);
-}
+
 
   //Modal 
   async presentModal(opts: ModalOptions) {
