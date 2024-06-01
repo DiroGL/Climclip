@@ -35,6 +35,8 @@
     "@ionic/angular-server": "^8.1.2",
     "@ionic/core": "^8.1.2",
     "@ionic/pwa-elements": "^3.3.0",
+    "@ionic/storage": "^4.0.0",
+    "@ionic/storage-angular": "^4.0.0",
     "firebase": "^10.12.0",
     "ionicons": "^7.4.0",
     "rxjs": "^7.8.1",

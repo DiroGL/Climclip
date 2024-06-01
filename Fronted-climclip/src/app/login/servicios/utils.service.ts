@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
 import { Plugins } from '@capacitor/core';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +17,14 @@ export class UtilsService {
   modalCtrl = inject(ModalController)
   
   
-  private storage: any;
-  constructor() {
-    // Obtener la instancia del plugin de almacenamiento
-    this.storage = Plugins['Storage'];
+
+  constructor(private storage: Storage) {
+    this.init();
   }
 
+  async init() {
+    const storage = await this.storage.create();
+  }
 
 
  async takePicture (promptLabelHeader:string)  {
@@ -53,25 +57,32 @@ export class UtilsService {
   // Local storage
 
   // Guardar
-  async saveInLocalStorage(key: string, value: any){
-    await this.storage.set({
-      key: key,
-      value: JSON.stringify(value)
-    });
-    
+  async saveInLocalStorage(key: string, value: any) {
+    if (this.isAndroid()) {
+      return await this.storage?.set(key, JSON.stringify(value));
+    } else {
+      console.log("entre")
+      localStorage.setItem(key, JSON.stringify(value));
+      return Promise.resolve();
+    }
   }
 
   // Obtener de localstorage
-  getFromLocalStorage(key: string){
-    try {
-      return JSON.parse( localStorage.getItem(key))
-    } catch (error) {
-      alert('Error saving data to app storage:' +error);
-      // Implementa un mecanismo de fallback o manejo de errores según sea necesario
+  async getFromLocalStorage(key: string) {
+    if (this.isAndroid()) {
+      const ret = await this.storage?.get(key);
+      return ret ? JSON.parse(ret) : null;
+    } else {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : null;
     }
-   
   }
 
+  
+isAndroid() {
+  // Lógica para detectar si es un entorno Android
+  return /Android/i.test(navigator.userAgent);
+}
 
   //Modal 
   async presentModal(opts: ModalOptions) {

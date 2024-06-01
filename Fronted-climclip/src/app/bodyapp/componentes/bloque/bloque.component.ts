@@ -53,8 +53,6 @@ export class BloqueComponent  implements OnInit {
   }
   async obtenerUsuario(){
     this.userLocal= await this.utilSvc.getFromLocalStorage('user')
-
-
   }
 
   async calcularValores (){
@@ -198,7 +196,7 @@ export class BloqueComponent  implements OnInit {
     if (!this.valorado){
       try{
         this.CompletedBlock = !this.CompletedBlock;
-        await this.firebaseSvc.addDocument(this.pathRated, this.dataRated);
+        let x =await this.firebaseSvc.addDocument(this.pathRated, this.dataRated);
         
       } catch (error) {
         this.CompletedBlock = !this.CompletedBlock;
@@ -212,7 +210,21 @@ export class BloqueComponent  implements OnInit {
       } finally {
       }
     }else{
-
+      try{
+        this.CompletedBlock = !this.CompletedBlock;
+        await this.firebaseSvc.setDocument(this.pathRated, this.dataRated);
+        
+      } catch (error) {
+        this.CompletedBlock = !this.CompletedBlock;
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 1500,
+          color: 'primary',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        });
+      } finally {
+      }
     }
 
   }

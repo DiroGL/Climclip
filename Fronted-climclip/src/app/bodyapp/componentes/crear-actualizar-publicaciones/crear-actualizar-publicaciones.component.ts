@@ -34,10 +34,12 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
   ngOnInit() {
     // this.usuaiosServ.getIUsuarios().subscribe(l=>{l.forEach(u=>this.Usuario.push(u))})
     // this.usuaiosServ.getIUsuarios().subscribe(u => {this.Usuario = u})
-    
-    this.user= this.utilSvc.getFromLocalStorage('user')
+    this.obtenerUsuraio()
   }
+  async obtenerUsuraio(){
+    this.user= await this.utilSvc.getFromLocalStorage('user')
 
+  }
 
   async takeImage(){  
     const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl

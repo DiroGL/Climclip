@@ -6,7 +6,6 @@ import { User } from '../models/user.models';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
-import{ AngularFireStorage } from '@angular/fire/compat/storage'
 
 import {getStorage, uploadString, ref, getDownloadURL } from "firebase/storage"
 import { addDoc, collection } from 'firebase/firestore';
@@ -31,9 +30,8 @@ export class FirebaseService {
 
   // Google
 
-  async signUpWithGoogle(){
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(getAuth(),provider)
+  signUpWithGoogle(){
+    return signInWithPopup(getAuth(),new GoogleAuthProvider())
   }
 
   signIn(user: User){
