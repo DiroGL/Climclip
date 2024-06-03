@@ -32,10 +32,12 @@ export class EditUserPage implements OnInit {
   }
   async obtenerDatosUsuario(){
     this.userLocal = await this.utilSvc.getFromLocalStorage('user')
-    this.formUpdateUser.controls.imagen.setValue(this.userLocal.image)
+    this.userLocal.image ? this.formUpdateUser.controls.imagen.setValue(this.userLocal.image) : this.userLocal.image =""
     this.formUpdateUser.controls.name.setValue(this.userLocal.name)
     this.formUpdateUser.controls.username.setValue(this.userLocal.username)
-    this.formUpdateUser.controls.bio.setValue(this.userLocal.bio)
+    this.userLocal.bio ?this.formUpdateUser.controls.bio.setValue(this.userLocal.bio):this.userLocal.bio = ""
+
+    
   }
 
 
@@ -45,10 +47,10 @@ export class EditUserPage implements OnInit {
     this.firebaseSvc.setDocument(pathUSer, userForm)
 
       try {
-       this.userLocal.bio != userForm.bio ? this.userLocal.bio = userForm.bio : this.userLocal.bio
-       this.userLocal.name != userForm.name ? this.userLocal.name = userForm.name : this.userLocal.name
-       this.userLocal.username != userForm.username ? this.userLocal.username = userForm.username : this.userLocal.username
-
+      this.userLocal.bio != userForm.bio ? this.userLocal.bio = userForm.bio : this.userLocal.bio = userForm.bio
+      this.userLocal.name != userForm.name ? this.userLocal.name = userForm.name : this.userLocal.name
+      this.userLocal.username != userForm.username ? this.userLocal.username = userForm.username : this.userLocal.username
+        console.log(this.userLocal.image)
         this.firebaseSvc.setDocument(pathUSer, this.userLocal)
         this.utilSvc.saveInLocalStorage("user",this.userLocal)
         

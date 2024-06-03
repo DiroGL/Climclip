@@ -136,15 +136,16 @@ export class UserprofilePage implements OnInit {
   }
   
   }
+  
+
+
+  editar(){
+    this.utilSvc.routerlink("edit-user")
+  }
   handleRefresh(event) {
     setTimeout(() => {
       this.handleOwnBlock()
       event.target.complete();
     }, 2000);
-  }
-
-
-  editar(){
-    this.utilSvc.routerlink("edit-user")
   }
 }

@@ -46,8 +46,13 @@ const routes: Routes = [
   },
   {
     path: 'edit-user',
-    loadChildren: () => import('./bodyapp/edit-user/edit-user.module').then( m => m.EditUserPageModule)
+    loadChildren: () => import('./bodyapp/edit-user/edit-user.module').then( m => m.EditUserPageModule),canActivate: [LoginGuard]
   },
+  {
+    path: 'view-users/:id',
+    loadChildren: () => import('./bodyapp/view-users/view-users.module').then( m => m.ViewUsersPageModule),canActivate: [LoginGuard]
+  },
+
 
 
 ];

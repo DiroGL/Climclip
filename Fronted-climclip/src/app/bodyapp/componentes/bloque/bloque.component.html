@@ -12,7 +12,7 @@
           </ion-select></ion-col>
       </ion-row>
     </ion-grid>
-    <ion-text class="big-text" >{{userLocal.username}}</ion-text>
+    <ion-text class="big-text" (click)="goUserDetails(userBlock.uid)" >{{userBlock.username}}</ion-text>
     
     
     <p class="card-subtitle mb-2 text-muted"></p>
@@ -22,9 +22,11 @@
   <ion-toolbar>
 
     <!-- Me gusta -->
-    <ion-button (click)="meGusta()" fill="clear">
+    <ion-button (click)="meGusta()" fill="clear" >
       <ion-icon slot="icon-only" name="heart-outline" *ngIf="!like"></ion-icon>
       <ion-icon slot="icon-only" name="heart-dislike-sharp" color="danger" *ngIf="like"></ion-icon>
+      <ion-label *ngIf="contadorLikes !== 0" class="p-ppading">{{contadorLikes}}</ion-label>
+
     </ion-button> 
     <!-- Valorar -->
     <ion-button (click)="meValorar()" fill="clear">

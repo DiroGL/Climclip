@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Block } from 'src/app/login/models/block.models';
 import { Completed } from 'src/app/login/models/completed.models';
 import { Like } from 'src/app/login/models/like.models';
@@ -26,10 +27,12 @@ export class BloqueComponent  implements OnInit {
   blocksCompleted
   valorado
   getValores
+  contadorLikes
 
   valoraciones = { } as {autor :string, public : string}
   dataLike =  {} as Like;
   userLocal = {} as User;
+  userBlock = {} as User;
   dataCompleted = {} as Completed;
   dataRated = {} as Rated;
   utilSvc = inject(UtilsService)
@@ -39,7 +42,7 @@ export class BloqueComponent  implements OnInit {
   pathRated = "Rated"
 
 
-  constructor() {
+  constructor(private router: Router) {
     
   }
   ngOnInit() {
@@ -49,26 +52,31 @@ export class BloqueComponent  implements OnInit {
     this.obtenerUsuario()
     this.comprobarDatos()
     this.calcularValores()
+    this.contarLikes()
   }
   ionViewWillEnter(){
     
   }
   async obtenerUsuario(){
     this.userLocal= await this.utilSvc.getFromLocalStorage('user')
+    let userFire = await this.firebaseSvc.getDocument(`users/${this.cardData.uid}`)
+    this.userBlock = userFire as User
+  }
+  async contarLikes(){
+    this.contadorLikes = (await this.firebaseSvc.getDocumentsByParameter(this.pathLikes, "pid", this.cardData.pid)).length
+    console.log("contador LIkes",this.contadorLikes)
   }
 
   async calcularValores (){
 
 
-     this.getValores = await this.firebaseSvc.getDocumentsByParameter(this.pathRated,"pid",  this.cardData.pid)
+    this.getValores = await this.firebaseSvc.getDocumentsByParameter(this.pathRated,"pid",  this.cardData.pid)
     let PublicValor =0
 
     for (let i = 0; i < this.getValores.length; i++) {
        PublicValor +=  this.getValores[i].dificulty
       console.log(PublicValor)
-       if( this.getValores[i].uid == this.userLocal.uid){
-
-        
+       if( this.getValores[i].uid == this.userLocal.uid){    
         this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.getValores[i].dificulty)
         this.dataRated = this.getValores[i]
        }
@@ -143,6 +151,7 @@ export class BloqueComponent  implements OnInit {
           icon: 'alert-circle-outline'
         });
       } finally {
+        this.contarLikes()
       }
     }else{
       try{
@@ -158,6 +167,7 @@ export class BloqueComponent  implements OnInit {
           icon: 'alert-circle-outline'
         });
       } finally {
+        this.contarLikes()
       }
     }
   }
@@ -175,9 +185,19 @@ export class BloqueComponent  implements OnInit {
       try{
         this.CompletedBlock = !this.CompletedBlock;
         await this.firebaseSvc.addDocument(this.pathCompleted, this.dataCompleted);
+        let frases = [
+          "Enhorabuena, a seguir dandole duro bicho!!!!", 
+          "Yiropa, buen pegue bicho", 
+          "Que buena, espero que haya sido al flash", 
+          "Sigue asi campeon", 
+          "no no no no, no me lo flashes!!", 
+          `Estas titanico ${this.userLocal.username} `,
+          "Bof ese pegue ha sido quirurjico"  
+        ]
+         let numRandom = Math.floor(Math.random() * frases.length);
         this.utilSvc.presentToast({
-          message: "Enhorabuena, a seguir dandole duro bicho!!!!",
-          duration: 1500,
+          message: frases[numRandom],
+          duration: 3000,
           color: 'primary',
           position: 'bottom',
           icon: 'alert-circle-outline'
@@ -266,6 +286,9 @@ export class BloqueComponent  implements OnInit {
     }
     }
    
+  }
+  goUserDetails(id: string) {
+    this.router.navigate(['view-users/', id]);
   }
   }
   

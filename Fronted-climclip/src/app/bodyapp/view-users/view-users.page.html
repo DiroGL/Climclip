@@ -1,0 +1,61 @@
+<ion-header>
+  <app-header ></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3" class="avatar-col">
+          <ion-avatar>
+            <img [src]="userData?.image || 'https://via.placeholder.com/150'" />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9" class="profile-info">
+          <ion-row>
+            <ion-col size="6" class="profile-stats">
+              <ion-chip mode="ios" outline="true" class="ion-text-center ">
+                <ion-label>Seguidores:<br>{{seguidores.followers}}</ion-label>
+              </ion-chip>
+            </ion-col>
+            <ion-col size="6" class="profile-stats">
+              <ion-chip mode="ios" outline="true" class="ion-text-center">
+                <ion-label>Seguidos:<br>{{seguidores.follow}}</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="userData?.name">
+        <ion-col size="12">
+          <p>{{ userData?.name}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="userData?.bio">
+        <ion-col size="12" class="profile-bio">
+          <p>{{ userData?.bio}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+  <div>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button expand="block" >
+            <ion-icon slot="icon-only" name="apps-outline" ></ion-icon>
+          </ion-button> 
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher> 
+    <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque> 
+
+</ion-content>
+<ion-footer>
+  <app-footer [selected]=1></app-footer>
