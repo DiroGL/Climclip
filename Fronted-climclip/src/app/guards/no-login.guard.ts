@@ -21,7 +21,6 @@ export class NoLoginGuard implements CanActivate {
 
     return new Promise((resolve) => {
       this.firebaseSvc.getAuth().onAuthStateChanged((auth) => {
-        console.log(auth)
         if (!auth)
          resolve(true)  
         else{

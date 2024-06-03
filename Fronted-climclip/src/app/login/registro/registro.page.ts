@@ -101,7 +101,7 @@ export class RegistroPage implements OnInit {
         const loading = await this.utilsSvc.loading()
         await loading.present()
 
-        console.log(this.registerForm.value as User)
+
         this.firebaseSvc.signUp(this.registerForm.value as User).then(async res => {
           await this.firebaseSvc.updateUser(this.registerForm.value.username)
           
@@ -157,7 +157,6 @@ export class RegistroPage implements OnInit {
     delete this.registerForm.value.repassword;
 
 
-    console.log(this.registerForm.value as User)
     this.firebaseSvc.setDocument(path, this.registerForm.value).then(async res => {
      
     this.utilsSvc.saveInLocalStorage('user', this.registerForm.value) 
@@ -165,7 +164,7 @@ export class RegistroPage implements OnInit {
     this.registerForm.reset();
 
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 1500,

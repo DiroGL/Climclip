@@ -61,11 +61,11 @@ export class BloqueComponent  implements OnInit {
 
 
      this.getValores = await this.firebaseSvc.getDocumentsByParameter(this.pathRated,"pid",  this.cardData.pid)
-    let PublicValor 
+    let PublicValor =0
 
     for (let i = 0; i < this.getValores.length; i++) {
        PublicValor +=  this.getValores[i].dificulty
-
+      console.log(PublicValor)
        if( this.getValores[i].uid == this.userLocal.uid){
 
         
@@ -93,16 +93,12 @@ export class BloqueComponent  implements OnInit {
         this.CompletedBlock =true
       }
     }
-    
-    
-
   }
 
 
   valorBloque(event: any) {
     this.valoracion = event.detail.value;
     this.valorRange = this.valoracion
-
   }
   updatePin(value){
     let rangosVisual: string[] = [
@@ -113,6 +109,21 @@ export class BloqueComponent  implements OnInit {
       return null
     }
     return rangosVisual[value]
+  }
+  borrarBlock(){
+    try{
+      this.firebaseSvc.deleteDocumentByParameter(`blocks`,"pid", this.cardData.pid)
+    } catch (error) {
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 1500,
+        color: 'primary',
+        position: 'bottom',
+        icon: 'alert-circle-outline'
+      });
+    } finally {
+      
+    }
   }
 
   async meGusta(){
@@ -205,7 +216,7 @@ export class BloqueComponent  implements OnInit {
       this.dataRated.dificulty = this.valoracion;
       this.dataRated.uid = this.userLocal.uid;
       this.dataRated.pid = this.cardData.pid;
-      console.log("Entreeeeee 1", this.dataRated)
+
       try {
         let p =await this.firebaseSvc.addDocument(this.pathRated, this.dataRated);
         let rid = p.id
@@ -234,10 +245,8 @@ export class BloqueComponent  implements OnInit {
     }else{
       try {
         this.dataRated.dificulty = this.valoracion;
-        console.log("Entreeeeee 2", this.dataRated )
         let pathRatedBlock = `${this.pathRated}/${this.dataRated.rid}` 
         await this.firebaseSvc.updateDocument(pathRatedBlock, this.dataRated)
-        console.log("Entreeeeee 2", this.dataRated )
         this.utilSvc.presentToast({
           message: 'Valoración cambiada correctamente',
           duration: 1500,
@@ -260,4 +269,3 @@ export class BloqueComponent  implements OnInit {
   }
   }
   
-// }

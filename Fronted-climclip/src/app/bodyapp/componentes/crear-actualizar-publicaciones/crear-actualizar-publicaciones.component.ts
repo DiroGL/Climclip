@@ -92,7 +92,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
       });
 
     } catch (error) {
-      console.log(error);
+
       this.utilSvc.presentToast({
         message: error.message,
         duration: 1500,

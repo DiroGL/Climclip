@@ -38,12 +38,17 @@ const routes: Routes = [
   },
   {
     path: 'politicas-de-uso',
-    loadChildren: () => import('./login/politicas-de-uso/politicas-de-uso.module').then( m => m.PoliticasDeUsoPageModule)
+    loadChildren: () => import('./login/politicas-de-uso/politicas-de-uso.module').then( m => m.PoliticasDeUsoPageModule),canActivate: [LoginGuard]
   },
   {
     path: 'politicas-de-privacidad',
     loadChildren: () => import('./login/politicas-de-privacidad/politicas-de-privacidad.module').then( m => m.PoliticasDePrivacidadPageModule)
   },
+  {
+    path: 'edit-user',
+    loadChildren: () => import('./bodyapp/edit-user/edit-user.module').then( m => m.EditUserPageModule)
+  },
+
 
 ];
 

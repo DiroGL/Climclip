@@ -17,7 +17,7 @@ export class ResetPasswordPage implements OnInit {
     firebaseSvc = inject(FirebaseService)
     utilsSvc = inject(UtilsService)
   constructor() {
-    // console.log("Entre")
+
    }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class ResetPasswordPage implements OnInit {
     const loading = await this.utilsSvc.loading()
     await loading.present()
 
-    console.log(this.resetPassword.value as User)
+
     this.firebaseSvc.sendRecoveryEmail(this.resetPassword.value.email).then(res => {
       this.utilsSvc.routerlink('/home-login')
       this.utilsSvc.presentToast({
@@ -42,7 +42,7 @@ export class ResetPasswordPage implements OnInit {
       this.resetPassword.reset()
 
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 1500,

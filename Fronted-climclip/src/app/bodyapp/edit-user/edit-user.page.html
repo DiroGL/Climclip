@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <app-header [backbutton]="userProfile"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content>
+    <form [formGroup]="formUpdateUser" (ngSubmit)="enviar()">
+      <ion-item>
+        <ion-avatar slot="start" (click)="changePhoto()">
+          <img [src]="userLocal.image"/>
+        </ion-avatar>
+        <ion-label>Item Avatar</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">Nombre de usuario</ion-label>
+        <ion-input formControlName="username"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">Biografia</ion-label>
+        <ion-textarea formControlName="bio"></ion-textarea>
+      </ion-item>
+      
+      <ion-button expand="full" type="submit">Actualizar Usuario</ion-button>
+    </form>
+</ion-content>

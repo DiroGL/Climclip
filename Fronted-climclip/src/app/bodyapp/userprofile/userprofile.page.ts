@@ -27,6 +27,10 @@ export class UserprofilePage implements OnInit {
   pathMarked = "completed"
   likes = []
   completed = []
+  seguidores={
+    follow:0,
+    followers: 0
+  }
   constructor() {
    
 
@@ -34,7 +38,6 @@ export class UserprofilePage implements OnInit {
   }
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
-   
   }
   ionViewWillLeave(){
     this.utilSvc.saveInLocalStorage('user', this.userLocal);
@@ -43,6 +46,12 @@ export class UserprofilePage implements OnInit {
     this.userLocal= await this.utilSvc.getFromLocalStorage('user')
   
     this.handleOwnBlock()
+    this.compFollow()
+  }
+
+  async compFollow(){
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "sid", this.userLocal.uid)).length
+    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userLocal.uid)).length
   }
   async handleOwnBlock(){
 
@@ -111,8 +120,7 @@ export class UserprofilePage implements OnInit {
         icon: 'alert-circle-outline'
       });
     }catch(error) {
-    console.log(error);
-  ;
+  
       this.utilSvc.presentToast({
         message: error.message,
         duration: 1500,
@@ -133,5 +141,10 @@ export class UserprofilePage implements OnInit {
       this.handleOwnBlock()
       event.target.complete();
     }, 2000);
+  }
+
+
+  editar(){
+    this.utilSvc.routerlink("edit-user")
   }
 }

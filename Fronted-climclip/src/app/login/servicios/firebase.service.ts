@@ -74,7 +74,6 @@ export class FirebaseService {
 
   // Setear un documento
   setDocument(path : string, data:any){
-    console.log(this.getAuth().currentUser?.uid)
     return setDoc(doc(getFirestore(), path), data);
   }
 

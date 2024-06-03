@@ -45,12 +45,12 @@ export class HomeLoginPage implements OnInit {
     const loading = await this.utilsSvc.loading()
     await loading.present()
 
-    console.log(this.loginForm.value as User)
+
     this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
 
       this.getuserInfo(res.user.uid)
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 1500,
@@ -82,8 +82,6 @@ export class HomeLoginPage implements OnInit {
     let path = `users/${uid}`
 
 
-
-    console.log(this.loginForm.value as User)
     this.firebaseSvc.getDocument(path).then( (user :User) => {
      
     this.utilsSvc.saveInLocalStorage('user', user) 
@@ -102,7 +100,7 @@ export class HomeLoginPage implements OnInit {
     })
 
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 2500,
