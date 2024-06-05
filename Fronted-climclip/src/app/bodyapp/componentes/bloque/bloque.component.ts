@@ -288,7 +288,12 @@ export class BloqueComponent  implements OnInit {
    
   }
   goUserDetails(id: string) {
-    this.router.navigate(['view-users/', id]);
+    console.log(this.userLocal.uid, id)
+    if (this.userLocal.uid == id){
+      this.router.navigate(['userprofile']);
+    }else{
+      this.router.navigate(['view-users/', id]);
+    }
   }
   }
   

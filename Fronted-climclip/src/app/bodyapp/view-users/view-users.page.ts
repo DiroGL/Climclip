@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { timeout } from 'rxjs';
 import { User } from 'src/app/login/models/user.models';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
@@ -12,17 +12,16 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
 })
 export class ViewUsersPage implements OnInit  {
   userId: string
-  constructor(private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute, private router: Router) { 
     this.userId = this.route.snapshot.paramMap.get('id');
-    console.log('ID:', this.userId);
-    console.log("constructor")
     this.getDataUser()
-    this.compFollow()
     this.handleOwnBlock()
   }
   utilSvc = inject(UtilsService)
   firebaseSvc = inject(FirebaseService)
   
+  userLocal
+  isFollow
   userData :User
   cardData = []
   pathBlock = "blocks"
@@ -30,23 +29,26 @@ export class ViewUsersPage implements OnInit  {
     follow:0,
     followers: 0
   }
-  ngOnInit() {
-    console.log("ngoninit")
-
-    // Ahora puedes usar la ID para realizar alguna acción
-  
-  
+  async ngOnInit() {
+    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
   }
-
+  ionViewWillEnter(){
+    this.compFollow()
+  }
   async compFollow(){
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "sid", this.userId)).length
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
     this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
+    if ((await this.firebaseSvc.getDocumentsByTwoParameters('follows','fid',this.userId,'uid', this.userLocal.uid)).length> 0){
+      this.isFollow = true
+    }else{
+      this.isFollow = false
+    }
+
+    console.log("follow" ,this.isFollow)
   }
   async getDataUser(){
-    console.log("entre")
     let users
     users  = await this.firebaseSvc.getDocumentsByParameter('users', "uid", this.userId)
-    console.log("continue")
     console.log(users)
     if (users){
       this.userData = users[0]
@@ -71,10 +73,54 @@ export class ViewUsersPage implements OnInit  {
       return dateB.getTime() - dateA.getTime(); // Orden descendente (del más reciente al más antiguo)
     });
   }
-  handleRefresh(event) {
+  handleRefresh(event?) {
     setTimeout(() => {
       this.handleOwnBlock()
-      event.target.complete();
+      event?.target?.complete();
     }, 2000);
+  }
+  async follow(){
+    if (!this.isFollow){
+      try{
+        this.isFollow = !this.isFollow;
+        let dataFollowers ={
+          uid: this.userLocal.uid,
+          fid: this.userId
+        }
+       let a = await this.firebaseSvc.addDocument('follows',dataFollowers)
+      }catch(error){
+        this.isFollow = !this.isFollow;
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 1500,
+          color: 'primary',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        });
+      }finally{
+        this.compFollow()
+      }
+    }else{
+      try{
+        this.isFollow = !this.isFollow;
+        let dataFollowers ={
+          uid: this.userLocal.uid,
+          fid: this.userId
+        }
+        let a = await this.firebaseSvc.deleteDocumentsByParameters('follows', "uid", this.userLocal.uid,"fid", this.userId)
+      }catch(error){
+        this.isFollow = !this.isFollow;
+        console.log("Entre en el error")
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 1500,
+          color: 'primary',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        });
+      }finally{
+        this.compFollow()
+      }
+    }
   }
 }

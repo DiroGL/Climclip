@@ -115,7 +115,17 @@ export class FirebaseService {
     return documents;
 }
 
-
+  async getDocumentsByTwoParameters(collectionPath: string, param1: string, value1: string, param2: string, value2: string) {
+    const firestore = getFirestore();
+    const q = query(
+        collection(firestore, collectionPath), 
+        where(param1, '==', value1), 
+        where(param2, '==', value2)
+    );
+    const querySnapshot = await getDocs(q);
+    const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return documents;
+  }
   //Eliminar segun parametro
   async deleteDocumentByParameter(collectionPath: string, field: string, value: any): Promise<void> {
     const querySnapshot = await this.firestore.collection(collectionPath, ref => ref.where(field, '==', value)).get().toPromise();
