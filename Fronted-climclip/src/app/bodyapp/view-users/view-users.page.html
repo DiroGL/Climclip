@@ -24,6 +24,11 @@
               </ion-chip>
             </ion-col>
           </ion-row>
+          <ion-row>
+            <ion-button (click)="follow()" expand="block" fill="clear" shape="round">
+              {{!isFollow? "Seguir":"Dejar de Seguir"}}
+            </ion-button>
+          </ion-row>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="userData?.name">
