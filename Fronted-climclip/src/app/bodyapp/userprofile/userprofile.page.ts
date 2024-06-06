@@ -50,7 +50,7 @@ export class UserprofilePage implements OnInit {
   }
 
   async compFollow(){
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "sid", this.userLocal.uid)).length
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userLocal.uid)).length
     this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userLocal.uid)).length
   }
   async handleOwnBlock(){

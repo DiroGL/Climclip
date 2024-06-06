@@ -126,6 +126,15 @@ export class FirebaseService {
     const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return documents;
   }
+  //Eliminar 
+  async deleteDocumentByPath(documentPath: string): Promise<void> {
+    try {
+      await this.firestore.doc(documentPath).delete(); 
+    } catch (error) {
+      throw new Error('No se pudo eliminar el documento');
+    }
+  }
+
   //Eliminar segun parametro
   async deleteDocumentByParameter(collectionPath: string, field: string, value: any): Promise<void> {
     const querySnapshot = await this.firestore.collection(collectionPath, ref => ref.where(field, '==', value)).get().toPromise();
