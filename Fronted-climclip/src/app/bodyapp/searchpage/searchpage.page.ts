@@ -11,12 +11,15 @@ import { ImagenesService } from 'src/app/servicios/imagenes-service.service';
 })
 export class SearchpagePage {
   // Definir la propiedad como pública para que sea accesible desde el HTML
-  public imagenes: any[]=[];
   searchQuery: string = '';
+  itemData: any[];
+  type = 'user'
+  constructor(private imagenesService: ImagenesService) {}
 
-    constructor(private imagenesService: ImagenesService) {
-    }
+  chageSearch(tipo:string){
+    this.type = tipo
+  }
+  search($event){
 
-   
- 
+  }
 }

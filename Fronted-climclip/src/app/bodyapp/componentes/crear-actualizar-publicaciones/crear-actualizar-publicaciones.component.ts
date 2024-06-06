@@ -22,28 +22,64 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     valorRange:new FormControl(0,[Validators.required]),
   })
   constructor( private navctrl : NavController, private navctrl2 : NavController) {
-   
+    
   }
 
     firebaseSvc = inject(FirebaseService)
     utilSvc = inject(UtilsService)
-    user = {}as User;
-
-
+    userLocal = {}as User;
+    pid
+    path
+    publicacion= {}as  Block;
+    creado = false
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
     // this.usuaiosServ.getIUsuarios().subscribe(l=>{l.forEach(u=>this.Usuario.push(u))})
     // this.usuaiosServ.getIUsuarios().subscribe(u => {this.Usuario = u})
-    this.obtenerUsuraio()
+
+      this.obtenerUsuraio()
+  }
+  ionViewWillLeave() {
+    if (!this.creado){
+      console.log("entreeeee")
+      this.firebaseSvc.deleteDocumentByPath(this.path)
+    }
   }
   async obtenerUsuraio(){
-    this.user= await this.utilSvc.getFromLocalStorage('user')
-
+    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
+    this.crearDoc()  
+  }
+  async crearDoc(){
+    this.publicacion.uid = this.userLocal.uid;
+    let docRef = await this.firebaseSvc.addDocument("blocks", this.publicacion);
+    this.pid = docRef.id
+    this.path = `blocks/${this.pid}`;
+    this.publicacion.pid = this.pid
   }
 
   async takeImage(){  
-    const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl
-    this.addBlock.controls.imagen.setValue(dataUrl)
+    const loading = await this.utilSvc.loading()
+    await loading.present()
+    try{
+
+      const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl
+
+      let imagenPath = `${this.userLocal.uid}/block/`
+      let imageUrl = await this.firebaseSvc.uploadImage(imagenPath, dataUrl)
+    
+      this.addBlock.controls.imagen.setValue(imageUrl)
+    }catch(error){
+      this.utilSvc.presentToast({
+        message:  error.message,
+        duration: 2500,
+        color: 'success',
+        position: 'bottom',
+        icon: 'checkmark-circle-outline'
+      });
+    }finally{
+      loading.dismiss()
+    }
+ 
   }
 
 
@@ -51,51 +87,26 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
  async enviar(){
     const loading = await this.utilSvc.loading()
     await loading.present()
-
-
     try {
-      let publicacion = this.addBlock.value as Block;
-      publicacion.uid = this.user.uid;
-      publicacion.fechaSubida = Date.now()
-      
+      this.publicacion = this.addBlock.value as Block
+      this.publicacion.fechaSubida = Date.now()
+      this.publicacion.uid = this.userLocal.uid;
       // Agregar la publicación y obtener la referencia del documento creado
-      const docRef = await this.firebaseSvc.addDocument("blocks", publicacion);
-      
-      // Guardar la ID generada automáticamente en la variable pid
-      const pid = docRef.id;
-
-
-      let dataUrl = this.addBlock.value.imagen
-      let imagenPath = `${pid}`
-      let imageUrl = await this.firebaseSvc.uploadImage(imagenPath, dataUrl)
-      this.addBlock.controls.imagen.setValue(imageUrl)
-
-
-
-      // Añadir la ID generada automáticamente como un campo en el objeto de la publicación
-      publicacion.pid = pid;
-    
-      // Construir la ruta del documento en Firestore
-      const path = `blocks/${pid}`;
-    
-      // Establecer el documento en Firestore con la ID generada automáticamente como un campo dentro del documento
-      await this.firebaseSvc.setDocument(path, publicacion);
-
-      
-    
+      await this.firebaseSvc.setDocument(this.path, this.publicacion);
+  
       this.utilSvc.presentToast({
         message: "Publicación enviada exitosamente",
-        duration: 1500,
+        duration: 2000,
         color: 'success',
         position: 'bottom',
         icon: 'checkmark-circle-outline'
       });
-
+      this.creado = true
     } catch (error) {
-
+      this.creado = false
       this.utilSvc.presentToast({
         message: error.message,
-        duration: 1500,
+        duration: 2500,
         color: 'primary',
         position: 'bottom',
         icon: 'alert-circle-outline'
