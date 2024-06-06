@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
 import { BloqueComponent } from './bloque/bloque.component';
 import { CrearActualizarPublicacionesComponent } from './crear-actualizar-publicaciones/crear-actualizar-publicaciones.component';
+import { ItemBusquedaComponent } from './item-busqueda/item-busqueda.component';
 
 
 
@@ -17,13 +18,13 @@ import { CrearActualizarPublicacionesComponent } from './crear-actualizar-public
     HeaderComponent, 
     FiltrosComponent,
     BloqueComponent,
-    CrearActualizarPublicacionesComponent
+    CrearActualizarPublicacionesComponent,ItemBusquedaComponent
   ],
   imports: [
     CommonModule,
     IonicModule, FormsModule,ReactiveFormsModule
   ], exports :[
-    FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent 
+    FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent ,ItemBusquedaComponent
   ]
 })
 export class ComponentesModule { }
