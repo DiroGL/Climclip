@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, Output, inject } from '@angular/core';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 import { CrearActualizarPublicacionesComponent } from '../crear-actualizar-publicaciones/crear-actualizar-publicaciones.component';
@@ -18,6 +18,7 @@ export class HeaderComponent  implements OnInit {
   @Input() isModal !: boolean
   @Input() addProduct !: boolean
   @Input() title !: string
+  @Output() filtrosValue: number[]
   preferences = false
  
   firebaseSvc = inject(FirebaseService)

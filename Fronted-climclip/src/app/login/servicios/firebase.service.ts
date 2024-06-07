@@ -1,5 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { User } from '../models/user.models';
@@ -8,6 +11,8 @@ import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } f
 import { UtilsService } from './utils.service';
 import {getStorage, uploadString, ref, getDownloadURL } from "firebase/storage"
 import { QuerySnapshot, addDoc, collection } from 'firebase/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -71,6 +76,41 @@ export class FirebaseService {
 
 
   // Base de Datos
+
+
+  //Recoger Documentos
+  getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number): Observable<any[]> {
+    return this.firestore.collection(collectionPath, ref => {
+      let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+      // Aplicar filtro numérico si se proporcionan los parámetros
+      if (minNumber !== null && maxNumber !== null) {
+        query = query.where('valorRange', '>=', minNumber).where('valorRange', '<=', maxNumber);
+      }
+      return query;
+    }).get().pipe(
+      map(snapshot => {
+        const documents = snapshot.docs.map(doc => doc.data());
+        const randomDocuments = [];
+        const totalDocuments = documents.length;
+        const randomIndices = this.generateRandomIndices(totalDocuments, pageSize);
+        randomIndices.forEach(index => {
+          randomDocuments.push(documents[index]);
+        });
+        return randomDocuments;
+      })
+    );
+  }
+
+  private generateRandomIndices(totalDocuments: number, pageSize: number): number[] {
+    const randomIndices = [];
+    for (let i = 0; i < pageSize; i++) {
+      randomIndices.push(Math.floor(Math.random() * totalDocuments));
+    }
+    return randomIndices;
+  }
+
+
+
 
   // Setear un documento
   setDocument(path : string, data:any){
