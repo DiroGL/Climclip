@@ -5,7 +5,7 @@ import { LoginGuard } from './guards/login.guard';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule) ,canActivate: [LoginGuard]
   },
   {
     path: '',
@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'registro',
-    loadChildren: () => import('./login/registro/registro.module').then( m => m.RegistroPageModule)
+    loadChildren: () => import('./login/registro/registro.module').then( m => m.RegistroPageModule), canActivate:[NoLoginGuard]
   },
   {
     path: 'tabfeed',
@@ -34,8 +34,27 @@ const routes: Routes = [
   },
   {
     path: 'reset-password',
-    loadChildren: () => import('./login/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+    loadChildren: () => import('./login/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule), canActivate:[NoLoginGuard]
   },
+  {
+    path: 'politicas-de-uso',
+    loadChildren: () => import('./login/politicas-de-uso/politicas-de-uso.module').then( m => m.PoliticasDeUsoPageModule),canActivate: [LoginGuard]
+  },
+  {
+    path: 'politicas-de-privacidad',
+    loadChildren: () => import('./login/politicas-de-privacidad/politicas-de-privacidad.module').then( m => m.PoliticasDePrivacidadPageModule)
+  },
+  {
+    path: 'edit-user',
+    loadChildren: () => import('./bodyapp/edit-user/edit-user.module').then( m => m.EditUserPageModule),canActivate: [LoginGuard]
+  },
+  {
+    path: 'view-users/:id',
+    loadChildren: () => import('./bodyapp/view-users/view-users.module').then( m => m.ViewUsersPageModule),canActivate: [LoginGuard]
+  },
+
+
+
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ export interface User{
     email: string,
     password?:string,
     name:string,
-    userName:string,
-    
+    username:string,
+    image?: string,
+    bio? :string,
 }

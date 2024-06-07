@@ -17,6 +17,7 @@ export class HeaderComponent  implements OnInit {
   @Input() backbutton !: string
   @Input() isModal !: boolean
   @Input() addProduct !: boolean
+  @Input() title !: string
   preferences = false
  
   firebaseSvc = inject(FirebaseService)
@@ -28,8 +29,8 @@ export class HeaderComponent  implements OnInit {
   preferenicas(){
     this.preferences = !this.preferences
   }
-  singOut(){
-    this.firebaseSvc.singOut()
+  signOut(){
+    this.firebaseSvc.signOut()
   }
 
   public alertButtons = [
@@ -44,7 +45,7 @@ export class HeaderComponent  implements OnInit {
       text: 'OK',
       role: 'confirm',
       handler: () => {
-        this.singOut()
+        this.signOut()
       },
     },
   ]

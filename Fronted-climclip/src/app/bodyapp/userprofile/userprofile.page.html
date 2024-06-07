@@ -1,91 +1,91 @@
 <ion-header>
-  <app-header [userpage]="true" [addProduct]="true"></app-header>
+  <app-header [userpage]="true" [addProduct]="true" [title]=" userLocal.username"></app-header>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <div class="profile-header">
-    <ion-grid fixed>
+    <ion-grid>
       <ion-row>
-        <ion-col size="3">
-          <ion-avatar>
-            <img src='https://via.placeholder.com/150'/>
+        <ion-col size="3" class="avatar-col">
+          <ion-avatar (click)="changePhoto()">
+            <img [src]="userLocal.image || 'https://via.placeholder.com/150'" />
           </ion-avatar>
         </ion-col>
         <ion-col size="9" class="profile-info">
-            <h2 class="profile-username">Nombre de Usuario</h2>
-
-            <!-- <p class="profile-stats">Seguidores:100  Seguidos:50</p> -->
-            <ion-grid fixed>
-              <ion-row>
-
-                <ion-col size="6" class="profile-stats">
-                 <ion-chip mode="ios" outline="true">
-                  <ion-label>Seguidores:100</ion-label>
-                  </ion-chip>  
-                </ion-col>
-                <ion-col size="6" class="profile-stats">
-                  <ion-chip mode="ios" outline="true">
-                    <ion-label>Seguidos:50</ion-label>
-                   </ion-chip>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col size="12" class="profile-bio">Biografía del usuario </ion-col>
-              </ion-row>
-            </ion-grid>
+          <ion-row>
+            <ion-col size="6" class="profile-stats">
+              <ion-chip mode="ios" outline="true" class="ion-text-center ">
+                <ion-label>Seguidores:<br>{{seguidores.followers}}</ion-label>
+              </ion-chip>
+            </ion-col>
+            <ion-col size="6" class="profile-stats">
+              <ion-chip mode="ios" outline="true" class="ion-text-center">
+                <ion-label>Seguidos:<br>{{seguidores.follow}}</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="userLocal.name">
+        <ion-col size="12">
+          <p>{{ userLocal.name}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="userLocal.bio">
+        <ion-col size="12" class="profile-bio">
+          <p>{{ userLocal.bio}}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
-    
-  
-    
+
   </div>
 
   <div class="profile-actions">
-    <ion-button expand="block" color="primary" class="edit-profile">Editar Perfil</ion-button>
-    <ion-button expand="block" color="secondary" class="share-profile">Compartir</ion-button>
+    <ion-button expand="block" color="primary" class="edit-profile" (click)="editar()">Editar Perfil</ion-button>
+    <!-- <ion-button expand="block" color="secondary" class="share-profile">Compartir</ion-button> -->
   </div>
 <!-- cambiado por un ion fab -->
   <!-- <ion-button shape="round" color="tertiary" class="highlight-post">
     <ion-icon name="add-outline"></ion-icon>
     <ion-label class="plus-sign">+</ion-label>
   </ion-button> -->
-
-  <!-- Publicación 1 -->
-  <ion-card>
-    <ion-card-content>
-      <ion-img src="https://via.placeholder.com/150"></ion-img>
-      <ion-row class="post-actions">
-        <ion-col size="4" (click)="likePost(1)">
-          <ion-icon name="heart-outline"></ion-icon> Me gusta
+  <div>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="4">
+          <ion-button *ngIf="ownBlocks"  expand="block" >
+            <ion-icon slot="icon-only" name="apps-outline" ></ion-icon>
+          </ion-button> 
+          <ion-button fill="clear" *ngIf="!ownBlocks"  expand="block" (click)="handleOwnBlock()">
+            <ion-icon slot="icon-only" name="apps-outline"></ion-icon>
+          </ion-button>
         </ion-col>
-        <ion-col size="4" (click)="addToFavorites(1)">
-          <ion-icon name="bookmark-outline"></ion-icon> Añadir a favoritos
+        <ion-col size="4" >
+         
+          <ion-button *ngIf="likesBlocks"  expand="block" >
+            <ion-icon slot="icon-only" color="danger" name="heart"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="!likesBlocks" fill="clear"  expand="block" (click)="handleLikesBlocks()">
+            <ion-icon slot="icon-only" name="heart-outline" ></ion-icon>
+          </ion-button>
         </ion-col>
-        <ion-col size="4" (click)="commentOnPost(1)">
-          <ion-icon name="chatbubble-outline"></ion-icon> Comentar
-        </ion-col>
-      </ion-row>
-    </ion-card-content>
-  </ion-card>
-
-  <!-- Publicación 2 -->
-  <ion-card>
-    <ion-card-content>
-      <ion-img src="https://via.placeholder.com/150"></ion-img>
-      <ion-row class="post-actions">
-        <ion-col size="4" (click)="likePost(2)">
-          <ion-icon name="heart-outline"></ion-icon> Me gusta
-        </ion-col>
-        <ion-col size="4" (click)="addToFavorites(2)">
-          <ion-icon name="bookmark-outline"></ion-icon> Añadir a favoritos
-        </ion-col>
-        <ion-col size="4" (click)="commentOnPost(2)">
-          <ion-icon name="chatbubble-outline"></ion-icon> Comentar
+        <ion-col size="4" >
+         
+          <ion-button  *ngIf="markedBlocks"  expand="block" >
+            <ion-icon slot="icon-only" name="checkmark-circle" color="success"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="!markedBlocks" fill="clear"  expand="block" (click)="handleMarkedBlock()">
+            <ion-icon slot="icon-only" name="checkmark-circle-outline" ></ion-icon>
+          </ion-button> 
         </ion-col>
       </ion-row>
-    </ion-card-content>
-  </ion-card>
+    </ion-grid>
+  </div>
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
+
 </ion-content>
 <ion-footer>
   <app-footer [selected]=2></app-footer>

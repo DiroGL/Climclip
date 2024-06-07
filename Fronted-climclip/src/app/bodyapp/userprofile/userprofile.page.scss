@@ -1,94 +1,26 @@
-  .profile-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #ccc;
-  }
+.avatar-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .profile-picture {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 20px;
-  }
+ion-avatar {
+  width: 100%;
+  height: auto;
+}
 
-  .profile-picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  // .profile-info {
-   
-  // }
+.profile-stats {
+  display: flex;
+  justify-content: flex-start;
+}
 
-  .profile-username {
-    font-size: 1.2rem; /* Letras más pequeñas */
-    margin-bottom: 5px;
-  }
-
-  .profile-stats {
-    color: #666;
-    font-size: 0.8rem; /* Letras más pequeñas */
-    margin-bottom: 5px;
-    white-space: nowrap; /* Evita que las estadísticas se separen en varias líneas */
-  }
-
-  .profile-bio {
-    color: #666;
-    font-size: 0.8rem; /* Letras más pequeñas */
-    margin-bottom: 5px;
-  }
-
-  .profile-actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .edit-profile,
-  .share-profile {
-    width: calc(50% - 5px);
-  }
-
-  .highlight-post {
-    margin-top: 10px;
-    width: 50px;
-    height: 50px;
-    --border-radius: 25px;
-    --background: #0095f6;
-    --box-shadow: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  ion-card {
-    margin-top: 10px;
-  }
-
-  ion-img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-
-  .plus-sign {
-    font-size: 24px; /* Ajusta el tamaño del signo + según sea necesario */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .post-actions ion-icon {
-    font-size: 20px; /* Tamaño de ícono */
-    margin-right: 5px;
-  }
-
-  .post-actions ion-col {
-    display: flex;
-    align-items: center;
-    cursor: pointer; /* Agregar un cursor indicador */
-  }
+// .profile-bio {
+//   margin-top: 0.25em;
+// }

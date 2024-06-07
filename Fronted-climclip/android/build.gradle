@@ -7,11 +7,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.0'
-        classpath 'com.google.gms:google-services:4.3.15'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.google.gms:google-services:4.4.0'
     }
 }
 
@@ -24,6 +21,7 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+// Mueve la declaración del plugin de Google Services aquí
+// Fuera del bloque plugins {}
+// No olvides quitar la versión 4.4.1 ya que está especificada en buildscript {}
+apply plugin: 'com.google.gms.google-services'

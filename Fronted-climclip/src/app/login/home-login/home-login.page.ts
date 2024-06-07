@@ -32,17 +32,25 @@ export class HomeLoginPage implements OnInit {
     
     
   }
+  politicasDePrivacidad(){
+    this.utilsSvc.routerlink("politicas-de-privacidad")
+
+  }
+
+  politicasDeUso(){
+    this.utilsSvc.routerlink("politicas-de-uso")
+  }
  async enviar(){
 
     const loading = await this.utilsSvc.loading()
     await loading.present()
 
-    console.log(this.loginForm.value as User)
-    this.firebaseSvc.singIn(this.loginForm.value as User).then(res => {
+
+    this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
 
       this.getuserInfo(res.user.uid)
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 1500,
@@ -74,8 +82,6 @@ export class HomeLoginPage implements OnInit {
     let path = `users/${uid}`
 
 
-
-    console.log(this.loginForm.value as User)
     this.firebaseSvc.getDocument(path).then( (user :User) => {
      
     this.utilsSvc.saveInLocalStorage('user', user) 
@@ -94,7 +100,7 @@ export class HomeLoginPage implements OnInit {
     })
 
     }).catch(error => {
-      console.log(error)
+
       this.utilsSvc.presentToast({
         message : error.message,
         duration: 2500,
@@ -121,7 +127,7 @@ export class HomeLoginPage implements OnInit {
             this.utilsSvc.routerlink('tabfeed')
             this.loginForm.reset();
             this.utilsSvc.presentToast({
-              message : `Te damos la bienvenido ${user.userName}`,
+              message : `Te damos la bienvenido ${user.username}`,
               duration: 1500,
               color: 'primary',
               position: 'bottom',
@@ -133,7 +139,8 @@ export class HomeLoginPage implements OnInit {
               name : res.user.displayName,
               email : res.user.email,
               uid : res.user.uid,
-              userName : res.user.displayName,
+              username : res.user.displayName,
+              image : res.user.photoURL
             }
             this.firebaseSvc.setDocument(path, user)
             this.utilsSvc.saveInLocalStorage('user', user) 
@@ -141,6 +148,7 @@ export class HomeLoginPage implements OnInit {
           }
       })
       }).catch(error=>{
+        
         this.utilsSvc.presentToast({
           message: 'Error al iniciar sesión con Google.',
           duration: 2500,
