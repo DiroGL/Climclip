@@ -39,7 +39,7 @@ export class BloqueComponent  implements OnInit {
   firebaseSvc = inject(FirebaseService)
   pathLikes = "likes"
   pathCompleted = "completed"
-  pathRated = "Rated"
+  pathRated = "rated"
 
 
   constructor(private router: Router) {
@@ -64,7 +64,6 @@ export class BloqueComponent  implements OnInit {
   }
   async contarLikes(){
     this.contadorLikes = (await this.firebaseSvc.getDocumentsByParameter(this.pathLikes, "pid", this.cardData.pid)).length
-    console.log("contador LIkes",this.contadorLikes)
   }
 
   async calcularValores (){
@@ -120,7 +119,10 @@ export class BloqueComponent  implements OnInit {
   }
   borrarBlock(){
     try{
-      this.firebaseSvc.deleteDocumentByParameter(`blocks`,"pid", this.cardData.pid)
+      this.firebaseSvc.deleteDocumentByParameter(this.pathLikes,"pid", this.cardData.pid)
+      this.firebaseSvc.deleteDocumentByParameter(this.pathRated,"pid", this.cardData.pid)
+      this.firebaseSvc.deleteDocumentByParameter(this.pathCompleted,"pid", this.cardData.pid)
+      this.firebaseSvc.deleteDocumentByPath(`blocks/${this.cardData.pid}`)
     } catch (error) {
       this.utilSvc.presentToast({
         message: error.message,
@@ -288,7 +290,6 @@ export class BloqueComponent  implements OnInit {
    
   }
   goUserDetails(id: string) {
-    console.log(this.userLocal.uid, id)
     if (this.userLocal.uid == id){
       this.router.navigate(['userprofile']);
     }else{

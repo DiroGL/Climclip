@@ -20,6 +20,9 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     descripcion: new FormControl('',[]),
     imagen: new FormControl('',[Validators.required]),
     valorRange:new FormControl(0,[Validators.required]),
+    uid:new FormControl('',[]),
+    pid:new FormControl('',[]),
+    fecha:new FormControl(0,[])
   })
   constructor( private navctrl : NavController, private navctrl2 : NavController) {
     
@@ -51,10 +54,12 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
   }
   async crearDoc(){
     this.publicacion.uid = this.userLocal.uid;
+    this.addBlock.controls.fecha.setValue(Date.now())
+    this.addBlock.controls.uid.setValue(this.userLocal.uid)
     let docRef = await this.firebaseSvc.addDocument("blocks", this.publicacion);
     this.pid = docRef.id
     this.path = `blocks/${this.pid}`;
-    this.publicacion.pid = this.pid
+    this.addBlock.controls.pid.setValue(this.pid)
   }
 
   async takeImage(){  
@@ -64,7 +69,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
 
       const dataUrl = (await this.utilSvc.takePicture("imagen del bolque")).dataUrl
 
-      let imagenPath = `${this.userLocal.uid}/block/`
+      let imagenPath = `${this.userLocal.uid}/block/${this.pid}`
       let imageUrl = await this.firebaseSvc.uploadImage(imagenPath, dataUrl)
     
       this.addBlock.controls.imagen.setValue(imageUrl)
@@ -89,8 +94,8 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     await loading.present()
     try {
       this.publicacion = this.addBlock.value as Block
-      this.publicacion.fechaSubida = Date.now()
-      this.publicacion.uid = this.userLocal.uid;
+      console.log(this.publicacion)
+
       // Agregar la publicación y obtener la referencia del documento creado
       await this.firebaseSvc.setDocument(this.path, this.publicacion);
   
