@@ -1,12 +1,16 @@
 <ion-header [translucent]="true">
-  <app-header [filtros]="filtros" [addProduct]="true"></app-header>
+  <app-header [filtros]="filtros" [addProduct]="true" [busqueda]="cambiarParams"></app-header>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-list>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="getRandomBlocks($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando">
+      <ion-list>
         <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
-    </ion-list>
+      </ion-list>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ion-footer>
-  <app-footer [selected]=0></app-footer>
+  <app-footer [selected]="0"></app-footer>
 </ion-footer>
