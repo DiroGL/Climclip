@@ -13,6 +13,7 @@ import {getStorage, uploadString, ref, getDownloadURL } from "firebase/storage"
 import { QuerySnapshot, addDoc, collection } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Block } from '../models/block.models';
 @Injectable({
   providedIn: 'root'
 })
@@ -79,17 +80,17 @@ export class FirebaseService {
 
 
   //Recoger Documentos
-  getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number): Observable<any[]> {
+  getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number,id: string): Observable<any[]> {
     return this.firestore.collection(collectionPath, ref => {
       let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       // Aplicar filtro numérico si se proporcionan los parámetros
       if (minNumber !== null && maxNumber !== null) {
-        query = query.where('valorRange', '>=', minNumber).where('valorRange', '<=', maxNumber);
+        query = query.where('valorRange', '>=', minNumber).where('valorRange', '<=', maxNumber)
       }
       return query;
     }).get().pipe(
       map(snapshot => {
-        const documents = snapshot.docs.map(doc => doc.data());
+        const documents = snapshot.docs.map(doc => doc.data()).filter((doc: Block) => doc.uid !== id);;
         const randomDocuments = [];
         const totalDocuments = documents.length;
         const randomIndices = this.generateRandomIndices(totalDocuments, pageSize);

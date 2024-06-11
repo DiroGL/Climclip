@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-filtros',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./filtros.component.scss'],
 })
 export class FiltrosComponent  implements OnInit {
+  @Input() busqueda
+
+
   rangosInternos: number[] = Array.from({length: 16}, (_, i) => i); // Valores internos del rango
   rangosVisuales: string[] = [
     "5", "5+", "6A", "6A+", "6B", "6B+", "6C", "6C+", // Valores visuales correspondientes a los grados de escalada
@@ -21,5 +24,9 @@ export class FiltrosComponent  implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {}
 
+  cambiarFiltros(){
+
+    this.busqueda(this.rangosVisuales[this.rangoEscala.lower],this.rangosVisuales[this.rangoEscala.upper] )
+  }
   
 }

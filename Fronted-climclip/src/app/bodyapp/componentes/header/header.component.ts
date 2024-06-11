@@ -19,6 +19,8 @@ export class HeaderComponent  implements OnInit {
   @Input() addProduct !: boolean
   @Input() title !: string
   @Output() filtrosValue: number[]
+  @Input() busqueda
+
   preferences = false
  
   firebaseSvc = inject(FirebaseService)
