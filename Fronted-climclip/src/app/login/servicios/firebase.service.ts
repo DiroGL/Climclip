@@ -155,7 +155,12 @@ export class FirebaseService {
     const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return documents;
 }
-
+buscarDocumentos(coleccion: string, campo: string, texto: string) {
+  return this.firestore.collection(coleccion, ref =>
+    ref.where(campo, '>=', texto)
+       .where(campo, '<=', texto + '\uf8ff')
+  ).valueChanges();
+}
   async getDocumentsByTwoParameters(collectionPath: string, param1: string, value1: string, param2: string, value2: string) {
     const firestore = getFirestore();
     const q = query(
