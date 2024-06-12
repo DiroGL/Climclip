@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Buscar"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Buscar" (ionChange)="search()"></ion-searchbar>
 </ion-header>
 
 <ion-content>
@@ -9,27 +9,27 @@
   <ion-grid fixed>
     <ion-row class="ion-text-center">
       <ion-col size="6" >
-        <ion-button (click)="chageSearch('user')" expand="block" fill="clear" shape="round" *ngIf="type=='block'">
+        <ion-button (click)="chageSearch('user')" expand="block" fill="clear" shape="round" *ngIf="type==='block'">
           Usuarios
-        </ion-button><ion-button expand="block" shape="round" *ngIf="type=='user'">
+        </ion-button><ion-button expand="block" shape="round" *ngIf="type==='user'">
           Usuarios
         </ion-button>
       </ion-col>
       <ion-col size="6" >
-        <ion-button expand="block" (click)="chageSearch('block')" shape="round" fill="clear" *ngIf="type=='user'">
+        <ion-button expand="block" (click)="chageSearch('block')" shape="round" fill="clear" *ngIf="type==='user'">
           Bloques
         </ion-button>
-        <ion-button expand="block" shape="round" *ngIf="type=='block'">
+        <ion-button expand="block" shape="round" *ngIf="type==='block'">
           Bloques
         </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
   </ion-item>
-  <ion-list *ngIf="type == 'block'">
+  <ion-list *ngIf="type === 'block'">
     <app-item-busqueda *ngFor="let item of itemData" [block]="item" />
   </ion-list> 
-  <ion-list *ngIf="type == 'user'">
+  <ion-list *ngIf="type === 'user'">
     <app-item-busqueda *ngFor="let item of itemData" [user]="item" />
   </ion-list>
 </ion-content>

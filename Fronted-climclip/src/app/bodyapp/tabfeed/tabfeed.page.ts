@@ -21,6 +21,9 @@ export class TabfeedPage implements OnInit {
     this.userLocal = await this.utilSvc.getFromLocalStorage('user');
     this.getRandomBlocks();
   }
+  ionViewWillEnter() {
+    this.handleRefresh(event)
+  }
 
   firebaseSvc = inject(FirebaseService);
   utilSvc = inject(UtilsService);
@@ -49,5 +52,13 @@ export class TabfeedPage implements OnInit {
         event.target.complete();
       }
     }
+  }
+
+  handleRefresh(event) {
+    setTimeout(() => {
+      this.cardData = [{}as Block]
+      this.getRandomBlocks()
+      event?.target?.complete();
+    }, 2000);
   }
 }

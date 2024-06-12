@@ -115,8 +115,8 @@ export class HomeLoginPage implements OnInit {
     })
   }
   async logInWithGoogle() {
-    const loading = await this.utilsSvc.loading();
-    await loading.present();
+    // const loading = await this.utilsSvc.loading();
+    // await loading.present();
   
       await this.firebaseSvc.signUpWithGoogle().then(res=>{
         let path = `users/${res.user.uid}`
@@ -157,7 +157,7 @@ export class HomeLoginPage implements OnInit {
           icon: 'alert-circle-outline'
         });  
       }).finally(()=>{
-        loading.dismiss();
+        // loading.dismiss();
       });
   }
 

@@ -6,6 +6,9 @@
   <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="getRandomBlocks($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando">
       <ion-list>
+        <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
         <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
       </ion-list>
     </ion-infinite-scroll-content>
