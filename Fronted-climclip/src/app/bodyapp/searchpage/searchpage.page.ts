@@ -20,6 +20,10 @@ export class SearchpagePage {
     this.type = tipo
   }
   search($event){
+    if (this.type == "user"){
 
+    }else{
+      
+    }
   }
 }
