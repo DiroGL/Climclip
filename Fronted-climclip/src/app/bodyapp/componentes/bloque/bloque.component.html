@@ -1,40 +1,57 @@
 <ion-card class="card" *ngIf="cardData.uid">
   
   <img [src]="cardData.imagen" alt="Imagen" class="card-img-top">
-  <ion-card-content class="card-body">
+  <ion-card-content class="card-body ion-text-left" >
     <ion-grid class="ion-no-padding">
-      <ion-row>
-        <ion-col size="10"><ion-card-title class="card-title">{{ cardData?.nombre}}</ion-card-title></ion-col>
-        <ion-col size="2"> <ion-button (click)="borrarBlock()"*ngIf="userLocal?.uid === cardData?.uid" color="danger" fill="clear">
-          <ion-icon name="trash" ></ion-icon>
+      <ion-row class="ion-align-items-center ion-justify-content-center ion-text-left">
+        <ion-col size="6" *ngIf="userLocal?.uid === cardData?.uid">
+          <ion-card-title class="card-title">{{ cardData?.nombre }}</ion-card-title>
+        </ion-col>
+        <ion-col size="8" *ngIf="userLocal?.uid !== cardData?.uid">
+          <ion-card-title class="card-title">{{ cardData?.nombre }}</ion-card-title>
+        </ion-col>
+        <ion-col size="4">
+          <ion-chip color="primary" (click)="goUserDetails(userBlock?.uid)" outline="true">
+            <ion-avatar>
+              <img [src]="userBlock?.image" />
+            </ion-avatar>
+            <ion-label class="big-text"  >
+              {{userBlock?.username}}
+            </ion-label>
+          </ion-chip>
+        </ion-col>
+        <ion-col size="2" class="ion-text-right ion-justify-content-end" *ngIf="userLocal?.uid === cardData?.uid"> <ion-button  color="danger" fill="clear">
+          <ion-icon name="trash">
+            </ion-icon>
         </ion-button></ion-col>
       </ion-row>
+      
     </ion-grid>
-    <ion-text class="big-text" (click)="goUserDetails(userBlock?.uid)" >{{userBlock?.username}}</ion-text>
+   
     
     
     <p class="card-subtitle mb-2 text-muted"></p>
     <p class="card-text">Dificultad de escalada: {{valoraciones?.autor}} </p>
     <p class="card-text">Dificultad del publico:{{valoraciones?.public || "Sin Valoracion"}} </p>
   </ion-card-content>
-  <ion-toolbar>
+  <ion-toolbar >
 
     <!-- Me gusta -->
-    <ion-button (click)="meGusta()" fill="clear" >
+    <ion-button (click)="meGusta()" fill="clear" slot="start" class="ion-margin-start">
       <ion-icon slot="icon-only" name="heart-outline" *ngIf="!like"></ion-icon>
       <ion-icon slot="icon-only" name="heart-dislike-sharp" color="danger" *ngIf="like"></ion-icon>
       <ion-label *ngIf="contadorLikes !== 0" class="p-ppading">{{contadorLikes}}</ion-label>
 
     </ion-button> 
     <!-- Valorar -->
-    <ion-button (click)="meValorar()" fill="clear">
+    <ion-button (click)="meValorar()" fill="clear" slot="start">
       <ion-icon slot="icon-only" name="star-outline" *ngIf="dificultadPublico === undefined"></ion-icon>
       <ion-icon slot="icon-only" name="star" color="warning" *ngIf="dificultadPublico !==undefined"></ion-icon>
       <ion-label *ngIf="dificultadPublico !==undefined" class="ion-padding">{{dificultadPublico}}</ion-label>
     </ion-button>
 
     <!-- Marcar como hecho -->
-    <ion-button fill="clear" (click)="CompleteBlock()" slot="end">
+    <ion-button fill="clear" (click)="CompleteBlock()" slot="end" class="ion-margin-end">
       <ion-icon slot="icon-only" name="checkmark-circle-outline" *ngIf="!CompletedBlock"></ion-icon>
       <ion-icon slot="icon-only" name="checkmark-circle" color="success" *ngIf="CompletedBlock" ></ion-icon>
     
@@ -82,4 +99,5 @@
     </ion-item>
    
   </ion-list>
+ 
 </ion-card>
