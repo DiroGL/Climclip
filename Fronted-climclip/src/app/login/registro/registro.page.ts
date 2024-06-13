@@ -156,8 +156,10 @@ export class RegistroPage implements OnInit {
     delete this.registerForm.value.password;
     delete this.registerForm.value.repassword;
 
+    let formLowerCase =  this.registerForm.value
 
-    this.firebaseSvc.setDocument(path, this.registerForm.value).then(async res => {
+    formLowerCase.username = formLowerCase.username.toLowerCase()
+    this.firebaseSvc.setDocument(path,formLowerCase).then(async res => {
      
     this.utilsSvc.saveInLocalStorage('user', this.registerForm.value) 
     this.utilsSvc.routerlink('home-login')

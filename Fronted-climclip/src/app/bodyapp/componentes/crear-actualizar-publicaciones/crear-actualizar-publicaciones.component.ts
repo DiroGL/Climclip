@@ -94,7 +94,7 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
     await loading.present()
     try {
       this.publicacion = this.addBlock.value as Block
-      console.log(this.publicacion)
+      this.publicacion.nombre = this.publicacion.nombre.toLowerCase()
 
       // Agregar la publicación y obtener la referencia del documento creado
       await this.firebaseSvc.setDocument(this.path, this.publicacion);

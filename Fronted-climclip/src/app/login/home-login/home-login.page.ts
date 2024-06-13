@@ -139,7 +139,7 @@ export class HomeLoginPage implements OnInit {
               name : res.user.displayName,
               email : res.user.email,
               uid : res.user.uid,
-              username : res.user.displayName,
+              username : res.user.displayName.toLowerCase(),
               image : res.user.photoURL
             }
             this.firebaseSvc.setDocument(path, user)
