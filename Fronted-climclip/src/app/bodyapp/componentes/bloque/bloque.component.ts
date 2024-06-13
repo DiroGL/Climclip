@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { Block } from 'src/app/login/models/block.models';
 import { Completed } from 'src/app/login/models/completed.models';
 import { Like } from 'src/app/login/models/like.models';
@@ -42,8 +43,8 @@ export class BloqueComponent  implements OnInit {
   pathRated = "rated"
 
 
-  constructor(private router: Router) {
-    
+  constructor(private alertController: AlertController, private router: Router) {
+    // Constructor
   }
   ngOnInit() {
     // Inicializa el valoración y prueba si es necesario
@@ -296,5 +297,30 @@ export class BloqueComponent  implements OnInit {
       this.router.navigate(['view-users/', id]);
     }
   }
+
+
+
+  async confirmarEliminar() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que quieres eliminar este bloque?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.borrarBlock();
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
   }
   

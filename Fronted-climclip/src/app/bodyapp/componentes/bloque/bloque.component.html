@@ -20,9 +20,8 @@
             </ion-label>
           </ion-chip>
         </ion-col>
-        <ion-col size="2" class="ion-text-right ion-justify-content-end" *ngIf="userLocal?.uid === cardData?.uid"> <ion-button  color="danger" fill="clear">
-          <ion-icon name="trash">
-            </ion-icon>
+        <ion-col size="2" class="ion-text-right ion-justify-content-end" *ngIf="userLocal?.uid === cardData?.uid"> <ion-button color="danger" fill="clear" (click)="confirmarEliminar()">
+          <ion-icon name="trash"></ion-icon>
         </ion-button></ion-col>
       </ion-row>
       
