@@ -8,6 +8,7 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
 })
 export class FooterComponent  implements OnInit {
   @Input() selected = 0
+  @Input() content
   constructor() {
     
   }
@@ -24,5 +25,8 @@ export class FooterComponent  implements OnInit {
   }
   moveUserProfile(){
     this.utilSvc.routerlink('userprofile')
+  }
+  scrollToTop() {
+    this.content.scrollToTop(500); // Hace scroll al inicio en 500ms (opcional)
   }
 }

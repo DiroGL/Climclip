@@ -80,6 +80,36 @@ export class FirebaseService {
 
 
   //Recoger Documentos
+  getPaginatedDocuments(collection: string, pageSize: number, startAfterDoc: any = null, currentUserUid?: string): Observable<Block[]> {
+    return new Observable(observer => {
+      let query = this.firestore.collection(collection, ref => {
+        let q = ref.orderBy('fecha', 'desc').limit(pageSize);
+        if (startAfterDoc) {
+          q = q.startAfter(startAfterDoc);
+        }
+        // Excluir documentos subidos por el usuario actual
+        if (currentUserUid) {
+          q = q.where('uid', '!=', currentUserUid);
+        }
+        return q;
+      });
+
+      query.snapshotChanges().subscribe(actions => {
+        const documents = actions.map(a => {
+          const data = a.payload.doc.data() as Block;
+          const id = a.payload.doc.id;
+          console.log('Document data:', data); // Añadir esto
+          return { id, ...data }; // Asegúrate de que data es un objeto
+        });
+        console.log('Documents fetched:', documents); // Añadir esto
+        observer.next(documents);
+        observer.complete();
+      }, error => {
+        console.error('Error in snapshotChanges subscription:', error); // Añadir esto
+        observer.error(error);
+      });
+    });
+  }
   getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number,id: string): Observable<any[]> {
     return this.firestore.collection(collectionPath, ref => {
       let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;

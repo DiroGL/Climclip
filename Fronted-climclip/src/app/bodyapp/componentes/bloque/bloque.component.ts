@@ -28,8 +28,6 @@ export class BloqueComponent  implements OnInit {
   valorado
   getValores
   contadorLikes
-  tamanoName
-
 
   valoraciones = { } as {autor :string, public : string}
   dataLike =  {} as Like;
@@ -42,12 +40,10 @@ export class BloqueComponent  implements OnInit {
   pathLikes = "likes"
   pathCompleted = "completed"
   pathRated = "rated"
-   date
+
 
   constructor(private router: Router) {
-    this.date =Date.now()
-   
-     this.tamanoName = this.userLocal?.uid == this.cardData?.uid ?'6' :'8'
+    
   }
   ngOnInit() {
     // Inicializa el valoración y prueba si es necesario
@@ -57,12 +53,9 @@ export class BloqueComponent  implements OnInit {
     this.comprobarDatos()
     this.calcularValores()
     this.contarLikes()
-
-
   }
   ionViewWillEnter(){
     
-
   }
   async obtenerUsuario(){
     this.userLocal= await this.utilSvc.getFromLocalStorage('user')
@@ -81,6 +74,7 @@ export class BloqueComponent  implements OnInit {
 
     for (let i = 0; i < this.getValores.length; i++) {
        PublicValor +=  this.getValores[i].dificulty
+      console.log(PublicValor)
        if( this.getValores[i].uid == this.userLocal.uid){    
         this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.getValores[i].dificulty)
         this.dataRated = this.getValores[i]
@@ -302,23 +296,5 @@ export class BloqueComponent  implements OnInit {
       this.router.navigate(['view-users/', id]);
     }
   }
-
-
-  public alertButtons = [
-    {
-      text: 'No Borrar',
-      role: 'cancel',
-      handler: () => {
-        // Opcional: lógica cuando se cancela la acción
-      },
-    },
-    {
-      text: 'Borrar',
-      role: 'confirm',
-      handler: () => {
-        this.borrarBlock();
-      },
-    },
-  ];
   }
   
