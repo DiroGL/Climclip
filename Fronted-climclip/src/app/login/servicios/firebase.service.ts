@@ -4,7 +4,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth'
-import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth'
 import { User } from '../models/user.models';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } from '@angular/fire/firestore';
@@ -23,7 +23,7 @@ export class FirebaseService {
   firestore = inject(AngularFirestore)
   utilSvc = inject(UtilsService)
 
-  constructor() {}
+  constructor(private afAuth: AngularFireAuth) {}
   //Paginacion y filtro
 
 
@@ -43,9 +43,15 @@ export class FirebaseService {
 
   // Google
 
-  signUpWithGoogle(){
-    return signInWithPopup(getAuth(),new GoogleAuthProvider())
+  signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    return this.afAuth.signInWithPopup(provider);
   }
+
+  handleRedirectResult() {
+    return this.afAuth.getRedirectResult();
+  }
+
 
   signIn(user: User){
     return signInWithEmailAndPassword(getAuth(), user.email, user.password)
