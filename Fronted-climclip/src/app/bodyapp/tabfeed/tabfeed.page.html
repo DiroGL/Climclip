@@ -3,17 +3,17 @@
 </ion-header>
 
 <ion-content>
-  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="getRandomBlocks($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando">
-      <ion-list>
-        <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-          <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-        <app-bloque *ngFor="let item of cardData" [cardData]="item" ></app-bloque>
-      </ion-list>
-    </ion-infinite-scroll-content>
+  <ion-list>
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <app-bloque *ngFor="let item of cardData" [cardData]="item"></app-bloque>
+  </ion-list>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadMoreDocuments($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
 <ion-footer>
-  <app-footer [selected]="0"></app-footer>
+  <app-footer [selected]="0" [content]="content"></app-footer>
 </ion-footer>

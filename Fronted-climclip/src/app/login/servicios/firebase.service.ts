@@ -4,7 +4,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth'
-import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth'
 import { User } from '../models/user.models';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc,getDocs, query, where, updateDoc, } from '@angular/fire/firestore';
@@ -23,7 +23,7 @@ export class FirebaseService {
   firestore = inject(AngularFirestore)
   utilSvc = inject(UtilsService)
 
-  constructor() {}
+  constructor(private afAuth: AngularFireAuth) {}
   //Paginacion y filtro
 
 
@@ -43,9 +43,15 @@ export class FirebaseService {
 
   // Google
 
-  signUpWithGoogle(){
-    return signInWithPopup(getAuth(),new GoogleAuthProvider())
+  signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    return this.afAuth.signInWithPopup(provider);
   }
+
+  handleRedirectResult() {
+    return this.afAuth.getRedirectResult();
+  }
+
 
   signIn(user: User){
     return signInWithEmailAndPassword(getAuth(), user.email, user.password)
@@ -80,6 +86,36 @@ export class FirebaseService {
 
 
   //Recoger Documentos
+  getPaginatedDocuments(collection: string, pageSize: number, startAfterDoc: any = null, currentUserUid?: string): Observable<Block[]> {
+    return new Observable(observer => {
+      let query = this.firestore.collection(collection, ref => {
+        let q = ref.orderBy('fecha', 'desc').limit(pageSize);
+        if (startAfterDoc) {
+          q = q.startAfter(startAfterDoc);
+        }
+        // Excluir documentos subidos por el usuario actual
+        if (currentUserUid) {
+          q = q.where('uid', '!=', currentUserUid);
+        }
+        return q;
+      });
+
+      query.snapshotChanges().subscribe(actions => {
+        const documents = actions.map(a => {
+          const data = a.payload.doc.data() as Block;
+          const id = a.payload.doc.id;
+          console.log('Document data:', data); // Añadir esto
+          return { id, ...data }; // Asegúrate de que data es un objeto
+        });
+        console.log('Documents fetched:', documents); // Añadir esto
+        observer.next(documents);
+        observer.complete();
+      }, error => {
+        console.error('Error in snapshotChanges subscription:', error); // Añadir esto
+        observer.error(error);
+      });
+    });
+  }
   getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number,id: string): Observable<any[]> {
     return this.firestore.collection(collectionPath, ref => {
       let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;

@@ -22,16 +22,13 @@ export class HomeLoginPage implements OnInit {
 
     firebaseSvc = inject(FirebaseService)
     utilsSvc = inject(UtilsService)
-
+  
+    ngOnInit() {
+      this.checkRedirectResult();
+    }
 
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
-    // this.usuaiosServ.getIUsuarios().subscribe(l=>{l.forEach(u=>this.Usuario.push(u))})
-    // this.usuaiosServ.getIUsuarios().subscribe(u => {this.Usuario = u})
-    
-    
-  }
   politicasDePrivacidad(){
     this.utilsSvc.routerlink("politicas-de-privacidad")
 
@@ -114,51 +111,68 @@ export class HomeLoginPage implements OnInit {
      
     })
   }
-  async logInWithGoogle() {
-    // const loading = await this.utilsSvc.loading();
-    // await loading.present();
-  
-      await this.firebaseSvc.signUpWithGoogle().then(res=>{
-        let path = `users/${res.user.uid}`
 
-        this.firebaseSvc.getDocument(path).then( (user :User) => {
-          if (user){
-            this.utilsSvc.saveInLocalStorage('user', user) 
-            this.utilsSvc.routerlink('tabfeed')
-            this.loginForm.reset();
-            this.utilsSvc.presentToast({
-              message : `Te damos la bienvenido ${user.username}`,
-              duration: 1500,
-              color: 'primary',
-              position: 'bottom',
-              icon : 'person-circle-outline'
-            
-            })
-          }else{
-            let user: User={
-              name : res.user.displayName,
-              email : res.user.email,
-              uid : res.user.uid,
-              username : res.user.displayName.toLowerCase(),
-              image : res.user.photoURL
-            }
-            this.firebaseSvc.setDocument(path, user)
-            this.utilsSvc.saveInLocalStorage('user', user) 
-            this.utilsSvc.routerlink('tabfeed')
-          }
-      })
-      }).catch(error=>{
+
+  async checkRedirectResult() {
+    try {
+      const res = await this.firebaseSvc.handleRedirectResult();
+      
+      if (res && res.user) {
+        const uid = res.user.uid;
+        const path = `users/${uid}`;
         
-        this.utilsSvc.presentToast({
-          message: 'Error al iniciar sesión con Google.',
-          duration: 2500,
-          color: 'danger',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        });  
-      }).finally(()=>{
-        // loading.dismiss();
+        // Verificar si el usuario ya existe en Firestore
+        const user = await this.firebaseSvc.getDocument(path);
+        
+        if (user) {
+          // Usuario existente, guardar en localStorage y redirigir
+          this.utilsSvc.saveInLocalStorage('user', user);
+          this.utilsSvc.routerlink('tabfeed');
+          this.utilsSvc.presentToast({
+            message: `Bienvenido de nuevo, ${user['username']}`,
+            duration: 1500,
+            color: 'primary',
+            position: 'bottom',
+            icon: 'person-circle-outline'
+          });
+        } else {
+          // Nuevo usuario, crear y guardar en Firestore
+          const newUser = {
+            uid: uid,
+            name: res.user.displayName || '',
+            email: res.user.email || '',
+            username: res.user.displayName ? res.user.displayName.toLowerCase() : '',
+            image: res.user.photoURL || ''
+          };
+          
+          await this.firebaseSvc.setDocument(path, newUser);
+          
+          this.utilsSvc.saveInLocalStorage('user', newUser);
+          this.utilsSvc.routerlink('tabfeed');
+          this.utilsSvc.presentToast({
+            message: `Bienvenido, ${newUser.name}`,
+            duration: 1500,
+            color: 'primary',
+            position: 'bottom',
+            icon: 'person-circle-outline'
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error handling redirect result:', error);
+      
+      this.utilsSvc.presentToast({
+        message: 'Error al manejar la redirección de Google.',
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert-circle-outline'
       });
+    }
+  }
+
+  logInWithGoogle() {
+    this.firebaseSvc.signInWithGoogle();
   }
 
   resetPassword(){

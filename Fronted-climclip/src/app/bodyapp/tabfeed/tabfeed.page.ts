@@ -1,8 +1,8 @@
-import { Block } from 'src/app/login/models/block.models';
-import { Component, OnInit } from '@angular/core';
-import { inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
+import { Block } from 'src/app/login/models/block.models'; // Asegúrate de ajustar la ruta según tu estructura
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabfeed',
@@ -13,52 +13,70 @@ export class TabfeedPage implements OnInit {
   filtros = true;
   valorfiltro1 = 0;
   valorfiltro2 = 15;
-  loading = false;  // Bandera para evitar múltiples llamadas simultáneas
-
-  constructor() {}
+  loading = false;
+  userLocal: any;
+  path = "blocks";
+  cardData: Block[] = [];
+  lastVisible: any = null;
+  @ViewChild(IonContent) content: IonContent;
+  constructor(private firebaseSvc: FirebaseService, private utilSvc: UtilsService) {}
 
   async ngOnInit() {
     this.userLocal = await this.utilSvc.getFromLocalStorage('user');
-    this.getRandomBlocks();
-  }
-  ionViewWillEnter() {
-    this.handleRefresh(event)
-  }
+    this.loadInitialDocuments();
 
-  firebaseSvc = inject(FirebaseService);
-  utilSvc = inject(UtilsService);
-  
-  userLocal;
-  path = "blocks";
-  cardData: Block[] = [];
-
+  }
   cambiarParams(valor1: number, valor2: number) {
     this.cardData = [];
     this.valorfiltro1 = valor1;
     this.valorfiltro2 = valor2;
+    this.loadInitialDocuments();
   }
 
-  async getRandomBlocks(event?: any) {
-    if (this.loading) return; // Evita llamadas concurrentes
+  async loadInitialDocuments() {
+    if (this.loading) return;
     this.loading = true;
     try {
-      const blocks = await this.firebaseSvc.getRandomDocuments(this.path, 5, this.valorfiltro1, this.valorfiltro2, this.userLocal.uid).toPromise();
-      this.cardData.push(...blocks);
+      const currentUserUid = this.userLocal.uid;
+      const docs = await this.firebaseSvc.getPaginatedDocuments(this.path, 5, null, currentUserUid).toPromise();
+      this.cardData = docs;
+      if (docs.length > 0) {
+        this.lastVisible = docs[docs.length - 1];
+      }
     } catch (error) {
-      console.error('Error fetching blocks:', error);
+      console.error('Error fetching initial documents:', error);
     } finally {
       this.loading = false;
-      if (event) {
-        event.target.complete();
-      }
     }
   }
 
-  handleRefresh(event) {
-    setTimeout(() => {
-      this.cardData = [{}as Block]
-      this.getRandomBlocks()
-      event?.target?.complete();
-    }, 2000);
+  async loadMoreDocuments(event) {
+    if (this.loading) return;
+    this.loading = true;
+    try {
+      const currentUserUid = this.userLocal.uid;
+      const docs = await this.firebaseSvc.getPaginatedDocuments(this.path, 5, this.lastVisible, currentUserUid).toPromise();
+      this.cardData = [...this.cardData, ...docs];
+      if (docs.length > 0) {
+        this.lastVisible = docs[docs.length - 1];
+      }
+      event.target.complete();
+    } catch (error) {
+      console.error('Error fetching more documents:', error);
+      event.target.complete();
+    } finally {
+      this.loading = false;
+    }
   }
+
+  handleRefresh(event?) {
+    console.log('handleRefresh called');
+    this.cardData = [];
+    this.lastVisible = null;
+    this.loadInitialDocuments();
+    if (event) {
+      event.target.complete();
+    }
+  }
+ 
 }
