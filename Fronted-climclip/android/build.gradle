@@ -1,7 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
     repositories {
         google()
         mavenCentral()
@@ -12,8 +11,6 @@ buildscript {
     }
 }
 
-apply from: "variables.gradle"
-
 allprojects {
     repositories {
         google()
@@ -21,7 +18,4 @@ allprojects {
     }
 }
 
-// Mueve la declaración del plugin de Google Services aquí
-// Fuera del bloque plugins {}
-// No olvides quitar la versión 4.4.1 ya que está especificada en buildscript {}
-apply plugin: 'com.google.gms.google-services'
+apply from: "variables.gradle"
