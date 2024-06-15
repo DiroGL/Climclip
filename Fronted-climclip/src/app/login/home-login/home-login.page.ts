@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { FirebaseService } from '../servicios/firebase.service';
 import { UtilsService } from '../servicios/utils.service';
-
+import {GoogleAuth, User as GUser} from '@codetrix-studio/capacitor-google-auth';
 @Component({
   selector: 'app-home-login',
   templateUrl: './home-login.page.html',
@@ -24,7 +24,7 @@ export class HomeLoginPage implements OnInit {
     utilsSvc = inject(UtilsService)
   
     ngOnInit() {
-      this.checkRedirectResult();
+      GoogleAuth.initialize();
     }
 
 
@@ -110,6 +110,11 @@ export class HomeLoginPage implements OnInit {
       loading.dismiss();
      
     })
+  }
+  async signIn() {
+    //User Authentication
+    const user: GUser = await GoogleAuth.signIn();
+    console.log(user)
   }
 
 
