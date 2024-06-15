@@ -40,7 +40,6 @@ export class FirebaseService {
 
   // Acceder
 
-
   // Google
 
   signInWithGoogle() {
