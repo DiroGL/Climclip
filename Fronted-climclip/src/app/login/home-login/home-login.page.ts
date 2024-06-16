@@ -23,8 +23,9 @@ export class HomeLoginPage implements OnInit {
     firebaseSvc = inject(FirebaseService)
     utilsSvc = inject(UtilsService)
   
+    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
     ngOnInit() {
-      GoogleAuth.initialize();
+
     }
 
 
@@ -118,67 +119,130 @@ export class HomeLoginPage implements OnInit {
   }
 
 
-  async checkRedirectResult() {
+  // async checkRedirectResult() {
+  //   try {
+  //     const res = await this.firebaseSvc.handleRedirectResult();
+      
+  //     if (res && res.user) {
+  //       const uid = res.user.uid;
+  //       const path = `users/${uid}`;
+        
+  //       // Verificar si el usuario ya existe en Firestore
+  //       const user = await this.firebaseSvc.getDocument(path);
+        
+  //       if (user) {
+  //         // Usuario existente, guardar en localStorage y redirigir
+  //         this.utilsSvc.saveInLocalStorage('user', user);
+  //         this.utilsSvc.routerlink('tabfeed');
+  //         this.utilsSvc.presentToast({
+  //           message: `Bienvenido de nuevo, ${user['username']}`,
+  //           duration: 1500,
+  //           color: 'primary',
+  //           position: 'bottom',
+  //           icon: 'person-circle-outline'
+  //         });
+  //       } else {
+  //         // Nuevo usuario, crear y guardar en Firestore
+  //         const newUser = {
+  //           uid: uid,
+  //           name: res.user.displayName || '',
+  //           email: res.user.email || '',
+  //           username: res.user.displayName ? res.user.displayName.toLowerCase() : '',
+  //           image: res.user.photoURL || ''
+  //         };
+          
+  //         await this.firebaseSvc.setDocument(path, newUser);
+          
+  //         this.utilsSvc.saveInLocalStorage('user', newUser);
+  //         this.utilsSvc.routerlink('tabfeed');
+  //         this.utilsSvc.presentToast({
+  //           message: `Bienvenido, ${newUser.name}`,
+  //           duration: 1500,
+  //           color: 'primary',
+  //           position: 'bottom',
+  //           icon: 'person-circle-outline'
+  //         });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error handling redirect result:', error);
+      
+  //     this.utilsSvc.presentToast({
+  //       message: 'Error al manejar la redirección de Google.',
+  //       duration: 2500,
+  //       color: 'danger',
+  //       position: 'middle',
+  //       icon: 'alert-circle-outline'
+  //     });
+  //   }
+  // }
+
+  async logInWithGoogle() {
     try {
-      const res = await this.firebaseSvc.handleRedirectResult();
-      
-      if (res && res.user) {
-        const uid = res.user.uid;
-        const path = `users/${uid}`;
-        
-        // Verificar si el usuario ya existe en Firestore
-        const user = await this.firebaseSvc.getDocument(path);
-        
-        if (user) {
-          // Usuario existente, guardar en localStorage y redirigir
-          this.utilsSvc.saveInLocalStorage('user', user);
-          this.utilsSvc.routerlink('tabfeed');
-          this.utilsSvc.presentToast({
-            message: `Bienvenido de nuevo, ${user['username']}`,
-            duration: 1500,
-            color: 'primary',
-            position: 'bottom',
-            icon: 'person-circle-outline'
-          });
-        } else {
-          // Nuevo usuario, crear y guardar en Firestore
-          const newUser = {
-            uid: uid,
-            name: res.user.displayName || '',
-            email: res.user.email || '',
-            username: res.user.displayName ? res.user.displayName.toLowerCase() : '',
-            image: res.user.photoURL || ''
-          };
-          
-          await this.firebaseSvc.setDocument(path, newUser);
-          
-          this.utilsSvc.saveInLocalStorage('user', newUser);
-          this.utilsSvc.routerlink('tabfeed');
-          this.utilsSvc.presentToast({
-            message: `Bienvenido, ${newUser.name}`,
-            duration: 1500,
-            color: 'primary',
-            position: 'bottom',
-            icon: 'person-circle-outline'
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error handling redirect result:', error);
-      
+      let GUser = await this.firebaseSvc.signInWithGoogle() 
+      console.log(GUser)
+      if (GUser) {
+             
+              const uid = GUser.uid;
+              const path = `users/${uid}`;
+              
+              // Verificar si el usuario ya existe en Firestore
+              const user = await this.firebaseSvc.getDocument(path);
+              
+              if (user) {
+                // Usuario existente, guardar en localStorage y redirigir
+                this.utilsSvc.saveInLocalStorage('user', user);
+                this.utilsSvc.routerlink('tabfeed');
+                this.utilsSvc.presentToast({
+                  message: `Bienvenido de nuevo, ${user['username']}`,
+                  duration: 1500,
+                  color: 'primary',
+                  position: 'bottom',
+                  icon: 'person-circle-outline'
+                });
+              } else {
+                // Nuevo usuario, crear y guardar en Firestore
+                   const NewUser = {
+                      uid : GUser.uid,
+                      name: GUser.displayName || '',
+                      email: GUser.email || '',
+                      username: GUser.displayName ? GUser.displayName.toLowerCase() : '',
+                      image: GUser.photoURL || ''
+                    }
+                
+                await this.firebaseSvc.setDocument(path, NewUser as User);
+                
+                this.utilsSvc.saveInLocalStorage('user', NewUser as User);
+                this.utilsSvc.routerlink('tabfeed');
+                this.utilsSvc.presentToast({
+                  message: `Bienvenido, ${NewUser.username}`,
+                  duration: 1500,
+                  color: 'primary',
+                  position: 'bottom',
+                  icon: 'person-circle-outline'
+                });
+              }
+            }
+    }catch (error){
       this.utilsSvc.presentToast({
-        message: 'Error al manejar la redirección de Google.',
+        message: error.message,
         duration: 2500,
         color: 'danger',
         position: 'middle',
         icon: 'alert-circle-outline'
       });
+    }finally {
+
     }
+
+   
   }
 
-  logInWithGoogle() {
-    this.firebaseSvc.signInWithGoogle();
-  }
+
+
+
+
+
 
   resetPassword(){
     this.utilsSvc.routerlink('/reset-password')

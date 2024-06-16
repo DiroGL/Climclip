@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
+
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import {  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth'
 import { User } from '../models/user.models';
@@ -44,7 +45,34 @@ export class FirebaseService {
 
   signInWithGoogle() {
     const provider = new GoogleAuthProvider();
-    return this.afAuth.signInWithPopup(provider);
+    const auth = this.getAuth()
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    return signInWithPopup(auth, provider).then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+
+      // The signed-in user info.
+    
+   
+      return result.user
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      this.utilSvc.presentToast({
+              message: errorMessage + errorCode,
+              duration: 2500,
+              color: 'danger',
+              position: 'middle',
+              icon: 'alert-circle-outline'
+            });
+  
+      
+      // ...
+    });
   }
 
   handleRedirectResult() {
