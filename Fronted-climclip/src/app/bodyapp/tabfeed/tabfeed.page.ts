@@ -19,11 +19,14 @@ export class TabfeedPage implements OnInit {
   cardData: Block[] = [];
   lastVisible: any = null;
   @ViewChild(IonContent) content: IonContent;
-  constructor(private firebaseSvc: FirebaseService, private utilSvc: UtilsService) {}
-
-   ngOnInit() {
+  constructor(private firebaseSvc: FirebaseService, private utilSvc: UtilsService) {
     this.userLocal = this.utilSvc.getLocalUser()
-    this.loadInitialDocuments();
+   
+  }
+
+   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+   ngOnInit() {
+    
 
   }
   cambiarParams(valor1: number, valor2: number) {
@@ -32,7 +35,10 @@ export class TabfeedPage implements OnInit {
     this.valorfiltro2 = valor2;
     this.loadInitialDocuments();
   }
-
+  ionViewDidEnter(){
+    this.loading = false
+    this.loadInitialDocuments();
+  }
   async loadInitialDocuments() { 
     if (this.loading) return;
     this.loading = true;

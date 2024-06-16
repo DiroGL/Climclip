@@ -32,21 +32,19 @@ export class UserprofilePage implements OnInit {
     followers: 0
   }
   constructor() {
-   
+    this.userLocal= this.utilSvc.getLocalUser()
 
-    
   }
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
   }
-  ionViewWillLeave(){
-    this.utilSvc.saveInLocalStorage('user', this.userLocal);
-  }
-  async ionViewWillEnter(){
-    this.userLocal= this.utilSvc.getLocalUser()
-  
+
+  ionViewWillEnter(){
     this.handleOwnBlock()
     this.compFollow()
+    this.utilSvc.recogerUser()
+    this.userLocal =this.utilSvc.getLocalUser()
+
   }
 
   async compFollow(){
@@ -95,7 +93,6 @@ export class UserprofilePage implements OnInit {
     this.likesBlocks = false
     this.markedBlocks = true
   }
-
   async changePhoto(){
     const loading = await this.utilSvc.loading()
     await loading.present()
@@ -146,6 +143,8 @@ export class UserprofilePage implements OnInit {
   handleRefresh(event) {
     setTimeout(() => {
       this.handleOwnBlock()
+      this.utilSvc.recogerUser()
+      this.userLocal =this.utilSvc.getLocalUser()
       event.target.complete();
     }, 2000);
   }

@@ -61,12 +61,6 @@ export class HomeLoginPage implements OnInit {
       loading.dismiss();
     })
 
-
-
-
-
-  
-    
   }
 
   registrarse(){
@@ -83,6 +77,7 @@ export class HomeLoginPage implements OnInit {
     this.firebaseSvc.getDocument(path).then( (user :User) => {
      
     this.utilsSvc.saveInLocalStorage('user', user) 
+    this.utilsSvc.init()
     this.utilsSvc.routerlink('tabfeed')
     this.loginForm.reset();
 
@@ -115,7 +110,6 @@ export class HomeLoginPage implements OnInit {
   async signIn() {
     //User Authentication
     const user: GUser = await GoogleAuth.signIn();
-    console.log(user)
   }
 
 
