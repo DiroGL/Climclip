@@ -21,8 +21,8 @@ export class TabfeedPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
   constructor(private firebaseSvc: FirebaseService, private utilSvc: UtilsService) {}
 
-  async ngOnInit() {
-    this.userLocal = await this.utilSvc.getFromLocalStorage('user');
+   ngOnInit() {
+    this.userLocal = this.utilSvc.getLocalUser()
     this.loadInitialDocuments();
 
   }
@@ -33,7 +33,7 @@ export class TabfeedPage implements OnInit {
     this.loadInitialDocuments();
   }
 
-  async loadInitialDocuments() {
+  async loadInitialDocuments() { 
     if (this.loading) return;
     this.loading = true;
     try {

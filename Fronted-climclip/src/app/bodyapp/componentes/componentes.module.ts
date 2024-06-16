@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { BloqueComponent } from './bloque/bloque.component';
 import { CrearActualizarPublicacionesComponent } from './crear-actualizar-publicaciones/crear-actualizar-publicaciones.component';
 import { ItemBusquedaComponent } from './item-busqueda/item-busqueda.component';
+import { ViewBlockComponent } from './view-block/view-block.component';
 
 
 
@@ -18,13 +19,14 @@ import { ItemBusquedaComponent } from './item-busqueda/item-busqueda.component';
     HeaderComponent, 
     FiltrosComponent,
     BloqueComponent,
-    CrearActualizarPublicacionesComponent,ItemBusquedaComponent
+    CrearActualizarPublicacionesComponent,ItemBusquedaComponent,
+    ViewBlockComponent
   ],
   imports: [
     CommonModule,
     IonicModule, FormsModule,ReactiveFormsModule
   ], exports :[
-    FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent ,ItemBusquedaComponent
+    FooterComponent, HeaderComponent, BloqueComponent,CrearActualizarPublicacionesComponent ,ItemBusquedaComponent,ViewBlockComponent
   ]
 })
 export class ComponentesModule { }

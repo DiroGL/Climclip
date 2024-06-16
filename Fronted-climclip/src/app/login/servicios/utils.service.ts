@@ -5,6 +5,7 @@ import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
 import { Plugins } from '@capacitor/core';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Storage } from '@ionic/storage-angular';
+import { User } from '../models/user.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class UtilsService {
   rotuer = inject(Router)
   modalCtrl = inject(ModalController)
   
+
+
   private _storage: Storage | null = null;
+  userLocal ={} as User
 
   constructor(private storage: Storage) {
     this.init();
@@ -25,6 +29,7 @@ export class UtilsService {
   async init() {
     const storage = await this.storage.create();
     this._storage = storage;
+    this.userLocal = await this.getFromLocalStorage('user')
   }
 
  async takePicture (promptLabelHeader:string)  {
@@ -61,10 +66,15 @@ export class UtilsService {
    return this._storage?.set(key, value);
   }
 
+  getLocalUser(){
+    return this.userLocal
+  }
   // Obtener de localStorage
   async getFromLocalStorage(key: string): Promise<any> {
     return await this._storage?.get(key);
   }
+
+
 
 
 
