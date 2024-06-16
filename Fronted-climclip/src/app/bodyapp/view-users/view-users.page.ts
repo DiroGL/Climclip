@@ -10,41 +10,43 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
   templateUrl: './view-users.page.html',
   styleUrls: ['./view-users.page.scss'],
 })
-export class ViewUsersPage implements OnInit  {
+export class ViewUsersPage  {
   userId: string
-  constructor(private route: ActivatedRoute, private router: Router) { 
-    this.userId = this.route.snapshot.paramMap.get('id');
-    this.getDataUser()
-    this.handleOwnBlock()
-  }
-  utilSvc = inject(UtilsService)
-  firebaseSvc = inject(FirebaseService)
-  
-  userLocal
+    
+  userLocal = {} as User
   isFollow
   userData :User
   cardData = []
   pathBlock = "blocks"
+
+  constructor(private route: ActivatedRoute, private router: Router) { 
+    this.userLocal = this.utilSvc.getLocalUser() as User
+    console.log("constructor",this.userLocal )
+    this.userId = this.route.snapshot.paramMap.get('id');
+    this.compFollow()
+    this.getDataUser()
+    this.handleOwnBlock()
+
+  
+  }
+  utilSvc = inject(UtilsService)
+  firebaseSvc = inject(FirebaseService)
+
+ 
   seguidores={
     follow:0,
     followers: 0
   }
-  async ngOnInit() {
-    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
-  }
-  ionViewWillEnter(){
-    this.compFollow()
-  }
+
   async compFollow(){
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
-    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
     if ((await this.firebaseSvc.getDocumentsByTwoParameters('follows','fid',this.userId,'uid', this.userLocal.uid)).length> 0){
       this.isFollow = true
     }else{
       this.isFollow = false
     }
-
-    console.log("follow" ,this.isFollow)
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
+    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
+  
   }
   async getDataUser(){
     let users

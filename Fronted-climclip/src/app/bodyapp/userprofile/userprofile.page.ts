@@ -43,7 +43,7 @@ export class UserprofilePage implements OnInit {
     this.utilSvc.saveInLocalStorage('user', this.userLocal);
   }
   async ionViewWillEnter(){
-    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
+    this.userLocal= this.utilSvc.getLocalUser()
   
     this.handleOwnBlock()
     this.compFollow()
@@ -72,6 +72,7 @@ export class UserprofilePage implements OnInit {
   async handleLikesBlocks(){
     this.cardData = []
     this.likes = []
+    this.userLocal
     this.likes =await this.firebaseSvc.getDocumentsByParameter(this.pathLikes,"uid",this.userLocal.uid)
     for (let i = 0; i < this.likes.length; i++) {
       this.cardData.push(await this.firebaseSvc.getDocument(`blocks/${this.likes[i].pid}`))

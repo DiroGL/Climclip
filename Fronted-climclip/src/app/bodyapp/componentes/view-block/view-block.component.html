@@ -5,10 +5,11 @@
 
 
 
+<ion-content>
 
-<ion-card class="card" *ngIf="cardData?.uid">
+<ion-card class="card" *ngIf="cardData.uid">
   
-  <img [src]="cardData?.imagen" alt="Imagen" class="card-img-top">
+  <img [src]="cardData.imagen" alt="Imagen" class="card-img-top">
   <ion-card-content class="card-body ion-text-left" >
     <ion-grid class="ion-no-padding">
       <ion-row class="ion-align-items-center ion-justify-content-center ion-text-left">
@@ -110,6 +111,7 @@
   </ion-list>
  
 </ion-card>
+</ion-content>
 
 
 

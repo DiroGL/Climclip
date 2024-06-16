@@ -10,11 +10,12 @@ import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 
 @Component({
-  selector: 'app-bloque',
-  templateUrl: './bloque.component.html',
-  styleUrls: ['./bloque.component.scss'],
+  selector: 'app-view-block',
+  templateUrl: './view-block.component.html',
+  styleUrls: ['./view-block.component.scss'],
 })
-export class BloqueComponent  implements OnInit {
+export class ViewBlockComponent  implements OnInit {
+
   @Input() cardData : Block
   @Input() isModal : boolean
   CompletedBlock = false;
@@ -60,7 +61,7 @@ export class BloqueComponent  implements OnInit {
     
   }
   async obtenerUsuario(){
-    this.userLocal= this.utilSvc.getLocalUser()
+    this.userLocal= await this.utilSvc.getFromLocalStorage('user')
     let userFire = await this.firebaseSvc.getDocument(`users/${this.cardData.uid}`)
     this.userBlock = userFire as User
   }
@@ -323,5 +324,5 @@ export class BloqueComponent  implements OnInit {
     await alert.present();
   }
   
-  }
-  
+
+}
