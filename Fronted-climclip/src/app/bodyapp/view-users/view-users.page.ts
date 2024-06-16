@@ -44,8 +44,8 @@ export class ViewUsersPage  {
     }else{
       this.isFollow = false
     }
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
-    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
+    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
   
   }
   async getDataUser(){

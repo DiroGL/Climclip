@@ -1,5 +1,5 @@
 <ion-header>
-  <app-header [userpage]="true" [addProduct]="true" [title]=" userLocal.username"></app-header>
+  <app-header [userpage]="true" [addProduct]="true" [title]=" userLocal?.username"></app-header>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
@@ -8,7 +8,7 @@
       <ion-row>
         <ion-col size="3" class="avatar-col">
           <ion-avatar (click)="changePhoto()">
-            <img [src]="userLocal.image || 'https://via.placeholder.com/150'" />
+            <img [src]="userLocal?.image || 'https://via.placeholder.com/150'" />
           </ion-avatar>
         </ion-col>
         <ion-col size="9" class="profile-info">
@@ -28,12 +28,12 @@
       </ion-row>
       <ion-row *ngIf="userLocal.name">
         <ion-col size="12">
-          <p>{{ userLocal.name}}</p>
+          <p>{{ userLocal?.name}}</p>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="userLocal.bio">
+      <ion-row *ngIf="userLocal?.bio">
         <ion-col size="12" class="profile-bio">
-          <p>{{ userLocal.bio}}</p>
+          <p>{{ userLocal?.bio}}</p>
         </ion-col>
       </ion-row>
     </ion-grid>

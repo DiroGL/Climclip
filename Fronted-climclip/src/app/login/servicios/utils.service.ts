@@ -6,6 +6,7 @@ import { Plugins } from '@capacitor/core';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Storage } from '@ionic/storage-angular';
 import { User } from '../models/user.models';
+import { Preferences } from '@capacitor/preferences';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,11 @@ export class UtilsService {
   async init() {
     const storage = await this.storage.create();
     this._storage = storage;
-    this.userLocal = await this.getFromLocalStorage('user')
+    this.recogerUser()
+  }
+  async recogerUser(){
+    this.userLocal = await this.getFromLocalStorage('user') as User
+
   }
 
  async takePicture (promptLabelHeader:string)  {
@@ -61,19 +66,28 @@ export class UtilsService {
 
   // Local storage
 
-  // Guardar en localStorage
   saveInLocalStorage(key: string, value: any) {
-   return this._storage?.set(key, value);
+    return this._storage?.set(key, value);
   }
-
+  // async saveInLocalStorage(key: string, value: any): Promise<void> {
+  //   await Preferences.set({
+  //     key: key,
+  //     value: JSON.stringify(value)
+  //   });
+  // }
   getLocalUser(){
     return this.userLocal
   }
   // Obtener de localStorage
   async getFromLocalStorage(key: string): Promise<any> {
+  
     return await this._storage?.get(key);
   }
 
+  // async getFromLocalStorage(key: string): Promise<any> {
+  //   const { value } = await Preferences.get({ key: key });
+  //   return value ? JSON.parse(value) : null;
+  // }
 
 
 

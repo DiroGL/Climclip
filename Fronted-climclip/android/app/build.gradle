@@ -9,7 +9,11 @@ android {
         applicationId "io.chalknity.manotas"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+<<<<<<< Updated upstream
         versionCode 2
+=======
+        versionCode 4
+>>>>>>> Stashed changes
         versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

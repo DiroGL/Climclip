@@ -70,8 +70,6 @@ export class EditUserPage implements OnInit {
           position: 'bottom',
           icon: 'alert-circle-outline'
         });
-      
-      
     } finally {
       this.utilSvc.routerlink(this.userProfile)
     
