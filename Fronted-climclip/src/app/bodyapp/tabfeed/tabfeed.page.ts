@@ -43,7 +43,7 @@ export class TabfeedPage implements OnInit {
     if (this.loading) return;
     this.loading = true;
     try {
-      const currentUserUid = this.userLocal.uid;
+      const currentUserUid = this.userLocal.uid ? this.userLocal.uid : "";
       const docs = await this.firebaseSvc.getPaginatedDocuments(this.path, 5, null, currentUserUid).toPromise();
       this.cardData = docs;
       if (docs.length > 0) {
