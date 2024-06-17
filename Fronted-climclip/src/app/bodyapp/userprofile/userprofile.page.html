@@ -2,26 +2,31 @@
   <app-header [userpage]="true" [addProduct]="true" [title]=" userLocal?.username"></app-header>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content class="ion-padding">
   <div class="profile-header">
     <ion-grid>
       <ion-row>
-        <ion-col size="3" class="avatar-col">
+        <ion-col size="2" class="avatar-col">
           <ion-avatar class="custom-avatar" (click)="changePhoto()">
-            <img [src]="userLocal?.image || 'https://via.placeholder.com/150'" />
+            <img [src]="userLocal?.image || 'https://img.freepik.com/vector-premium/persona-escalada-escalador-hombres-montana-rocosa-equipo-deportes-extremos-al-aire-libre-hombre-que-sobresale-roca_87946-3278.jpg '" />
           </ion-avatar>
         </ion-col>
-        <ion-col size="9" class="profile-info">
+        <ion-col size="10" >
           <ion-row>
-            <ion-col size="6" class="profile-stats">
-              <ion-chip mode="ios" outline="true" class="ion-text-center ">
-                <ion-label>Seguidores<br>{{seguidores.followers}}</ion-label>
-              </ion-chip>
+            <ion-col size="4" class="ion-padding ion-text-center">
+              <ion-button (click)="verSeguidos()" expand="flex" fill="clear">
+                <ion-label slot="icon-only" color="dark">S<span class="ion-text-lowercase">eguidos</span><br>{{seguidores.follow.length}}</ion-label>
+              </ion-button>  
             </ion-col>
-            <ion-col size="6" class="profile-stats">
-              <ion-chip mode="ios" outline="true" class="ion-text-center">
-                <ion-label>Seguidos<br>{{seguidores.follow}}</ion-label>
-              </ion-chip>
+            <ion-col size="5" class="ion-padding ion-text-center" >
+              <ion-button (click)="verSeguidores()" expand="flex" fill="clear" >
+                <ion-label slot="icon-only" color="dark">S<span class="ion-text-lowercase">eguidores</span><br>{{seguidores.followers.length}}</ion-label>
+              </ion-button>
+            </ion-col>
+            <ion-col size="3" class="ion-padding ion-text-center" >
+              <ion-button expand="flex" fill="clear" >
+                <ion-label slot="icon-only" color="warning">B<span class="ion-text-lowercase">loques</span><br>{{cardData.length}}</ion-label>
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-col>

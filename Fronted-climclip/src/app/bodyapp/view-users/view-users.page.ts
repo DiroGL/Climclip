@@ -4,6 +4,7 @@ import { timeout } from 'rxjs';
 import { User } from 'src/app/login/models/user.models';
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
+import { ListaUsersPage } from '../lista-users/lista-users.page';
 
 @Component({
   selector: 'app-view-users',
@@ -12,16 +13,19 @@ import { UtilsService } from 'src/app/login/servicios/utils.service';
 })
 export class ViewUsersPage  {
   userId: string
-    
   userLocal = {} as User
   isFollow
   userData :User
   cardData = []
   pathBlock = "blocks"
+  
+ 
+  uidFollow: string
+
+
 
   constructor(private route: ActivatedRoute, private router: Router) { 
     this.userLocal = this.utilSvc.getLocalUser() as User
-    console.log("constructor",this.userLocal )
     this.userId = this.route.snapshot.paramMap.get('id');
     this.compFollow()
     this.getDataUser()
@@ -34,8 +38,8 @@ export class ViewUsersPage  {
 
  
   seguidores={
-    follow:0,
-    followers: 0
+    follow:[],
+    followers: []
   }
 
   async compFollow(){
@@ -44,14 +48,14 @@ export class ViewUsersPage  {
     }else{
       this.isFollow = false
     }
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId)).length
-    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId)).length
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId))
+    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId))
   
   }
   async getDataUser(){
     let users
     users  = await this.firebaseSvc.getDocumentsByParameter('users', "uid", this.userId)
-    console.log(users)
+
     if (users){
       this.userData = users[0]
     }else{
@@ -81,48 +85,37 @@ export class ViewUsersPage  {
       event?.target?.complete();
     }, 2000);
   }
-  async follow(){
-    if (!this.isFollow){
-      try{
-        this.isFollow = !this.isFollow;
-        let dataFollowers ={
-          uid: this.userLocal.uid,
-          fid: this.userId
+  
+
+  async verSeguidos(){
+    await this.compFollow()
+    let followShow  = []
+    this.seguidores.follow.forEach(async element=> {
+      followShow.push(await this.firebaseSvc.getDocument(`users/${element.fid}`)as User)
+    });
+    this.utilSvc.presentModal({
+        component: ListaUsersPage,
+        componentProps: {
+          itemData: followShow,
+  
         }
-       let a = await this.firebaseSvc.addDocument('follows',dataFollowers)
-      }catch(error){
-        this.isFollow = !this.isFollow;
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 1500,
-          color: 'primary',
-          position: 'bottom',
-          icon: 'alert-circle-outline'
-        });
-      }finally{
-        this.compFollow()
-      }
-    }else{
-      try{
-        this.isFollow = !this.isFollow;
-        let dataFollowers ={
-          uid: this.userLocal.uid,
-          fid: this.userId
-        }
-        let a = await this.firebaseSvc.deleteDocumentsByParameters('follows', "uid", this.userLocal.uid,"fid", this.userId)
-      }catch(error){
-        this.isFollow = !this.isFollow;
-        console.log("Entre en el error")
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 1500,
-          color: 'primary',
-          position: 'bottom',
-          icon: 'alert-circle-outline'
-        });
-      }finally{
-        this.compFollow()
-      }
     }
+    )
+  }
+  async verSeguidores(){
+    await this.compFollow()
+    let followerShow = []
+    this.seguidores.followers.forEach(async element=> {
+      followerShow.push(await this.firebaseSvc.getDocument(`users/${element.uid}`)as User)
+    });
+    
+
+    this.utilSvc.presentModal({
+      component: ListaUsersPage,
+      componentProps: {
+        itemData: followerShow,
+      }
+  }
+  )
   }
 }

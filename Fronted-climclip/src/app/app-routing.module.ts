@@ -51,7 +51,11 @@ const routes: Routes = [
   {
     path: 'view-users/:id',
     loadChildren: () => import('./bodyapp/view-users/view-users.module').then( m => m.ViewUsersPageModule),canActivate: [LoginGuard]
+  },  {
+    path: 'lista-users',
+    loadChildren: () => import('./bodyapp/lista-users/lista-users.module').then( m => m.ListaUsersPageModule)
   },
+
 
 
 

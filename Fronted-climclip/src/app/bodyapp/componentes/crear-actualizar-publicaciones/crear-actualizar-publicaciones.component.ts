@@ -44,7 +44,6 @@ export class CrearActualizarPublicacionesComponent  implements OnInit {
   }
   ionViewWillLeave() {
     if (!this.creado){
-      console.log("entreeeee")
       this.firebaseSvc.deleteDocumentByPath(this.path)
     }
   }

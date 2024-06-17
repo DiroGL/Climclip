@@ -20,12 +20,17 @@ export class HeaderComponent  implements OnInit {
   @Input() title !: string
   @Output() filtrosValue: number[]
   @Input() busqueda
+  @Input() follow: boolean
+  @Input() isFlowing : boolean
+  @Input() uidFollow: string
+  @Input() uidUser:string
+  @Input() userProfile:boolean
+  @Input() userImage:string
 
   preferences = false
- 
   firebaseSvc = inject(FirebaseService)
   utilSvc = inject(UtilsService)
-  constructor() { }
+
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {}
@@ -35,7 +40,13 @@ export class HeaderComponent  implements OnInit {
   signOut(){
     this.firebaseSvc.signOut()
   }
-
+ async compFollow(){
+    if ((await this.firebaseSvc.getDocumentsByTwoParameters('follows','fid',this.uidFollow,'uid', this.uidUser)).length> 0){
+      this.isFlowing = true
+    }else{
+      this.isFlowing = false
+    }
+  }
   public alertButtons = [
     {
       text: 'Cancel',
@@ -62,5 +73,56 @@ export class HeaderComponent  implements OnInit {
       }
     )
   }
-  
+  async makeFollow(){
+    console.log("entre")
+    this.compFollow()
+    if (!this.isFlowing){
+      try{
+        this.isFlowing = !this.isFlowing;
+        let dataFollowers ={
+          uid: this.uidUser,
+          fid: this.uidFollow
+        }
+       let a = await this.firebaseSvc.addDocument('follows',dataFollowers)
+      }catch(error){
+        this.isFlowing = !this.isFlowing;
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 1500,
+          color: 'primary',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        });
+      }finally{
+        this.compFollow()
+      }
+    }else{
+      try{
+        this.isFlowing = !this.isFlowing;
+        let dataFollowers ={
+          uid: this.uidUser,
+          fid: this.uidFollow
+        }
+        let a = await this.firebaseSvc.deleteDocumentsByParameters('follows', "uid", this.uidUser,"fid", this.uidFollow)
+      }catch(error){
+        this.isFlowing = !this.isFlowing;
+        console.log("Entre en el error")
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 1500,
+          color: 'primary',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        });
+      }finally{
+        this.compFollow()
+      }
+    }
+  }
+  searchIcon(){
+    this.utilSvc.routerlink("searchpage")
+  }
+  goUserProfile(){
+    this.utilSvc.routerlink("userprofile")
+  }
 }

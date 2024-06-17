@@ -50,7 +50,6 @@ export class EditUserPage implements OnInit {
       this.userLocal.bio != userForm.bio ? this.userLocal.bio = userForm.bio : this.userLocal.bio = userForm.bio
       this.userLocal.name != userForm.name ? this.userLocal.name = userForm.name : this.userLocal.name
       this.userLocal.username != userForm.username ? this.userLocal.username = userForm.username : this.userLocal.username
-        console.log(this.userLocal.image)
         this.firebaseSvc.setDocument(pathUSer, this.userLocal)
         this.utilSvc.saveInLocalStorage("user",this.userLocal)
         

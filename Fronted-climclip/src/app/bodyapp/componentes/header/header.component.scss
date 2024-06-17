@@ -1,0 +1,25 @@
+.custom-avatar {
+    width: 40px; /* Ajusta el tamaño según tus necesidades */
+    height: 40px; /* Ajusta el tamaño según tus necesidades */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde del contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .custom-avatar img {
+    width: 100%;
+    height: auto; /* Mantén la relación de aspecto */
+    object-fit: cover; /* Recorta la imagen para llenar el contenedor */
+  }
+  ion-avatar {
+    border: 2px solid var(--ion-color-primary);
+    border-radius: 50%;
+    padding: 2px;
+    box-sizing: border-box;
+  }
+  
+  ion-avatar img {
+    border-radius: 50%;
+    display: block;
+  }
