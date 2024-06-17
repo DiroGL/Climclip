@@ -76,7 +76,6 @@ export class BloqueComponent  implements OnInit {
 
     for (let i = 0; i < this.getValores.length; i++) {
        PublicValor +=  this.getValores[i].dificulty
-      console.log(PublicValor)
        if( this.getValores[i].uid == this.userLocal.uid){    
         this.dificultadPublico = this.utilSvc.getDificultyOfNumber(this.getValores[i].dificulty)
         this.dataRated = this.getValores[i]

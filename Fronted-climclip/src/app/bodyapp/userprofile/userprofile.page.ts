@@ -5,6 +5,8 @@ import { User } from 'src/app/login/models/user.models';
 
 import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
+import { ItemBusquedaComponent } from '../componentes/item-busqueda/item-busqueda.component';
+import { ListaUsersPage } from '../lista-users/lista-users.page';
 
 @Component({
   selector: 'app-userprofile',
@@ -28,8 +30,8 @@ export class UserprofilePage implements OnInit {
   likes = []
   completed = []
   seguidores={
-    follow:0,
-    followers: 0
+    follow:[],
+    followers: []
   }
   constructor() {
     this.userLocal= this.utilSvc.getLocalUser()
@@ -48,8 +50,8 @@ export class UserprofilePage implements OnInit {
   }
 
   async compFollow(){
-    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userLocal.uid)).length
-    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userLocal.uid)).length
+    this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userLocal.uid))
+    this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userLocal.uid))
   }
   async handleOwnBlock(){
 
@@ -140,6 +142,40 @@ export class UserprofilePage implements OnInit {
 
   editar(){
     this.utilSvc.routerlink("edit-user")
+  
+  }
+
+
+  async verSeguidos(){
+    await this.compFollow()
+    let followShow  = []
+    this.seguidores.follow.forEach(async element=> {
+      followShow.push(await this.firebaseSvc.getDocument(`users/${element.fid}`)as User)
+    });
+    this.utilSvc.presentModal({
+        component: ListaUsersPage,
+        componentProps: {
+          itemData: followShow,
+  
+        }
+    }
+    )
+  }
+  async verSeguidores(){
+    await this.compFollow()
+    let followerShow = []
+    this.seguidores.followers.forEach(async element=> {
+      followerShow.push(await this.firebaseSvc.getDocument(`users/${element.uid}`)as User)
+    });
+    
+
+    this.utilSvc.presentModal({
+      component: ListaUsersPage,
+      componentProps: {
+        itemData: followerShow,
+      }
+  }
+  )
   }
   handleRefresh(event) {
     setTimeout(() => {

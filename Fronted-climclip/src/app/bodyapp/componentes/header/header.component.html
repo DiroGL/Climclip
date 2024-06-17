@@ -1,6 +1,9 @@
 <ion-toolbar>
 
     <ion-buttons slot="start">
+      <ion-button fill="clear" *ngIf="follow" (click)="searchIcon()">
+        <ion-icon color="dark" slot="icon-only"  name="search-outline"></ion-icon>
+      </ion-button>
       <ion-back-button *ngIf="backbutton" [defaultHref]="backbutton"></ion-back-button>
       <ion-button  (click) ="addUpdateProduct()" expand="block" fill="clear" shape="round" color="primary" *ngIf="addProduct">
         <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
@@ -16,11 +19,22 @@
     
   </div>
   <ion-buttons slot="end">
+    <ion-button fill="clear" *ngIf="userProfile" (click)="goUserProfile()">
+      <ion-avatar class="custom-avatar">
+        <img [src]="userImage" />
+      </ion-avatar>
+    </ion-button>
     <ion-button fill="clear" id="log-out" *ngIf="userpage" >
       <ion-icon color="danger" slot="icon-only" name="log-out-outline"></ion-icon>
     </ion-button>
     <ion-button *ngIf="isModal" (click) = "dismissmodal()" >
       <ion-icon name="close-circle-outline" ></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-button fill="clear" id="log-out" *ngIf="follow"  (click)="makeFollow()">
+      <ion-icon color="primary" slot="icon-only" name="person-add-outline" *ngIf="!isFlowing" ></ion-icon>
+      <ion-icon color="danger" slot="icon-only" name="person-remove-outline" *ngIf="isFlowing"></ion-icon>
     </ion-button>
   </ion-buttons>
 </ion-toolbar>

@@ -14,6 +14,7 @@ import { ViewBlockComponent } from '../view-block/view-block.component';
 export class ItemBusquedaComponent implements OnInit   {
   @Input() block : Block
   @Input() user : User
+  @Input() isModal:boolean
   userLocal = {} as User;
   utilSvc = inject(UtilsService)
   constructor(private router: Router) {  
@@ -27,12 +28,15 @@ export class ItemBusquedaComponent implements OnInit   {
   }
 
   clickUser(id: string){
-    console.log(this.userLocal.uid , id)
+    if (this.isModal){
+      this.utilSvc.dismissModal()
+    }
     if (this.userLocal.uid == id){
       this.router.navigate(['userprofile']);
     }else{
       this.router.navigate(['view-users/', id]);
     }
+   
   }
   clickBlock(){
     this.utilSvc.presentModal(

@@ -3,6 +3,7 @@ import { FirebaseService } from 'src/app/login/servicios/firebase.service';
 import { UtilsService } from 'src/app/login/servicios/utils.service';
 import { Block } from 'src/app/login/models/block.models'; // Asegúrate de ajustar la ruta según tu estructura
 import { IonContent } from '@ionic/angular';
+import { User } from 'src/app/login/models/user.models';
 
 @Component({
   selector: 'app-tabfeed',
@@ -14,7 +15,7 @@ export class TabfeedPage implements OnInit {
   valorfiltro1 = 0;
   valorfiltro2 = 15;
   loading = false;
-  userLocal: any;
+  userLocal: User;
   path = "blocks";
   cardData: Block[] = [];
   lastVisible: any = null;
@@ -76,7 +77,6 @@ export class TabfeedPage implements OnInit {
   }
 
   handleRefresh(event?) {
-    console.log('handleRefresh called');
     this.cardData = [];
     this.lastVisible = null;
     this.loadInitialDocuments();

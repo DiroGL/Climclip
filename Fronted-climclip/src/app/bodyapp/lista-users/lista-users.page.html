@@ -1,0 +1,9 @@
+<ion-header [translucent]="true">
+  <app-header [isModal]="true"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <app-item-busqueda *ngFor="let item of itemData" [user]="item"  [isModal]="true"/>
+  </ion-list>
+</ion-content>
