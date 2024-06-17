@@ -7,7 +7,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size="3" class="avatar-col">
-          <ion-avatar (click)="changePhoto()">
+          <ion-avatar class="custom-avatar" (click)="changePhoto()">
             <img [src]="userLocal?.image || 'https://via.placeholder.com/150'" />
           </ion-avatar>
         </ion-col>
