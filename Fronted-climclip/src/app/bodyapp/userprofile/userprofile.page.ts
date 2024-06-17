@@ -99,8 +99,8 @@ export class UserprofilePage implements OnInit {
    
    
     try {
-
-    
+      this.utilSvc.recogerUser()
+      this.userLocal =this.utilSvc.getLocalUser()
       let path = `users/${this.userLocal.uid}`
       let dataUrl = (await this.utilSvc.takePicture("¿Cambiar foto de perfil?")).dataUrl;
       let imagenPath = `${this.userLocal.uid}/userImage`
@@ -110,6 +110,7 @@ export class UserprofilePage implements OnInit {
       await this.firebaseSvc.updateDocument(path, {"image":imageUrl});
       }, 5000)
       this.userLocal.image = imageUrl
+      this.utilSvc.saveInLocalStorage('user',this.userLocal)
       this.utilSvc.presentToast({
         message: "Foto Cambiada correctamente",
         duration: 1500,

@@ -5,11 +5,6 @@
   align-items: center;
 }
 
-ion-avatar {
-  width: 100%;
-  height: auto;
-}
-
 .profile-info {
   display: flex;
   flex-direction: column;
@@ -24,3 +19,18 @@ ion-avatar {
 // .profile-bio {
 //   margin-top: 0.25em;
 // }
+
+.custom-avatar {
+  width: 100px; /* Ajusta el tamaño según tus necesidades */
+  height: 100px; /* Ajusta el tamaño según tus necesidades */
+  overflow: hidden; /* Oculta cualquier contenido que se desborde del contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-avatar img {
+  width: 100%;
+  height: auto; /* Mantén la relación de aspecto */
+  object-fit: cover; /* Recorta la imagen para llenar el contenedor */
+}

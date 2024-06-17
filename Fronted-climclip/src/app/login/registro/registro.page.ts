@@ -140,7 +140,6 @@ export class RegistroPage implements OnInit {
           
           })
         }).finally(() =>{
-          this.utilsSvc.init()
           loading.dismiss();
           this.navcrtl1.navigateForward['/home-login']
         })
@@ -156,12 +155,13 @@ export class RegistroPage implements OnInit {
     delete this.registerForm.value.password;
     delete this.registerForm.value.repassword;
 
-    let formLowerCase =  this.registerForm.value
-
+    let formLowerCase =  this.registerForm.value as User
+    formLowerCase.image = "https://img.freepik.com/vector-premium/persona-escalada-escalador-hombres-montana-rocosa-equipo-deportes-extremos-al-aire-libre-hombre-que-sobresale-roca_87946-3278.jpg"
     formLowerCase.username = formLowerCase.username.toLowerCase()
     this.firebaseSvc.setDocument(path,formLowerCase).then(async res => {
      
     this.utilsSvc.saveInLocalStorage('user', this.registerForm.value) 
+    this.utilsSvc.init()
     this.utilsSvc.routerlink('home-login')
     this.registerForm.reset();
 
