@@ -140,10 +140,10 @@ export class RegistroPage implements OnInit {
           
           })
         }).finally(() =>{
+          this.utilsSvc.init()
           loading.dismiss();
-        
+          this.navcrtl1.navigateForward['/home-login']
         })
-        this.navcrtl1.navigateForward['/home-login']
       
       }
   }
