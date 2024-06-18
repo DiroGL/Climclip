@@ -39,6 +39,7 @@ export class FirebaseService {
     return getAuth()
   }
 
+
   // Acceder
 
   // Google
@@ -118,7 +119,7 @@ export class FirebaseService {
       let query = this.firestore.collection(collection, ref => {
         let q = ref.orderBy('fecha', 'desc').limit(pageSize);
         if (startAfterDoc) {
-          q = q.startAfter(startAfterDoc);
+          q = q.startAfter(startAfterDoc.fecha); // Ajuste en startAfter, usar el campo de orden
         }
         // Excluir documentos subidos por el usuario actual
         if (currentUserUid) {
@@ -131,39 +132,38 @@ export class FirebaseService {
         const documents = actions.map(a => {
           const data = a.payload.doc.data() as Block;
           const id = a.payload.doc.id;
-          console.log('Document data:', data); // Añadir esto
           return { id, ...data }; // Asegúrate de que data es un objeto
         });
-        console.log('Documents fetched:', documents); // Añadir esto
         observer.next(documents);
         observer.complete();
       }, error => {
-        console.error('Error in snapshotChanges subscription:', error); // Añadir esto
+        console.error('Error in snapshotChanges subscription:', error); // Log adicional
         observer.error(error);
       });
     });
   }
-  getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number,id: string): Observable<any[]> {
-    return this.firestore.collection(collectionPath, ref => {
-      let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-      // Aplicar filtro numérico si se proporcionan los parámetros
-      if (minNumber !== null && maxNumber !== null) {
-        query = query.where('valorRange', '>=', minNumber).where('valorRange', '<=', maxNumber)
-      }
-      return query;
-    }).get().pipe(
-      map(snapshot => {
-        const documents = snapshot.docs.map(doc => doc.data()).filter((doc: Block) => doc.uid !== id);;
-        const randomDocuments = [];
-        const totalDocuments = documents.length;
-        const randomIndices = this.generateRandomIndices(totalDocuments, pageSize);
-        randomIndices.forEach(index => {
-          randomDocuments.push(documents[index]);
-        });
-        return randomDocuments;
-      })
-    );
-  }
+
+  // getRandomDocuments(collectionPath: string, pageSize: number, minNumber: number, maxNumber: number,id: string): Observable<any[]> {
+  //   return this.firestore.collection(collectionPath, ref => {
+  //     let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+  //     // Aplicar filtro numérico si se proporcionan los parámetros
+  //     if (minNumber !== null && maxNumber !== null) {
+  //       query = query.where('valorRange', '>=', minNumber).where('valorRange', '<=', maxNumber)
+  //     }
+  //     return query;
+  //   }).get().pipe(
+  //     map(snapshot => {
+  //       const documents = snapshot.docs.map(doc => doc.data()).filter((doc: Block) => doc.uid !== id);;
+  //       const randomDocuments = [];
+  //       const totalDocuments = documents.length;
+  //       const randomIndices = this.generateRandomIndices(totalDocuments, pageSize);
+  //       randomIndices.forEach(index => {
+  //         randomDocuments.push(documents[index]);
+  //       });
+  //       return randomDocuments;
+  //     })
+  //   );
+  // }
 
   private generateRandomIndices(totalDocuments: number, pageSize: number): number[] {
     const randomIndices = [];

@@ -38,7 +38,8 @@ export class HomeLoginPage implements OnInit {
   politicasDeUso(){
     this.utilsSvc.routerlink("politicas-de-uso")
   }
- async enviar(){
+
+  async enviar(){
 
     const loading = await this.utilsSvc.loading()
     await loading.present()
