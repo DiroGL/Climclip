@@ -197,18 +197,18 @@ export class HomeLoginPage implements OnInit {
                 });
               } else {
                 // Nuevo usuario, crear y guardar en Firestore
-                   const NewUser = {
-                      uid : GUser.uid,
-                      name: GUser.displayName || '',
-                      email: GUser.email || '',
-                      username: GUser.displayName ? GUser.displayName.toLowerCase() : '',
-                      image: GUser.photoURL || ''
-                    }
+                  const NewUser = {
+                    uid : GUser.uid,
+                    name: GUser.displayName || '',
+                    email: GUser.email || '',
+                    username: GUser.displayName ? GUser.displayName.toLowerCase() : '',
+                    image: GUser.photoURL || ''
+                  }
                 
                 await this.firebaseSvc.setDocument(path, NewUser as User);
                 
                 this.utilsSvc.saveInLocalStorage('user', NewUser as User);
-                this.utilsSvc.routerlink('tabfeed');
+                this.navctrl.navigateRoot('tabfeed');
                 this.utilsSvc.presentToast({
                   message: `Bienvenido, ${NewUser.username}`,
                   duration: 1500,

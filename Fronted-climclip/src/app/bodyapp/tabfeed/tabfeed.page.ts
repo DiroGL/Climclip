@@ -24,14 +24,9 @@ export class TabfeedPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
   constructor(private firebaseSvc: FirebaseService, private utilSvc: UtilsService) {
     this.userLocal = this.utilSvc.getLocalUser()
-   
   }
-
    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
    ngOnInit() {
-    this.loading = false
-    this.loadInitialDocuments();
-
   }
   cambiarParams(valor1: number, valor2: number) {
     this.cardData = [];
@@ -40,6 +35,10 @@ export class TabfeedPage implements OnInit {
     this.loadInitialDocuments();
   }
 
+  ionViewWillEnter(){
+    this.loading = false
+    this.loadInitialDocuments();
+  }
   async loadInitialDocuments() {
     if (this.loading) return;
     this.loading = true;

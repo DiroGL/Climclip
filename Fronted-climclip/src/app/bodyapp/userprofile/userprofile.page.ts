@@ -46,7 +46,6 @@ export class UserprofilePage implements OnInit {
     this.compFollow()
     this.utilSvc.recogerUser()
     this.userLocal =this.utilSvc.getLocalUser()
-
   }
 
   async compFollow(){
