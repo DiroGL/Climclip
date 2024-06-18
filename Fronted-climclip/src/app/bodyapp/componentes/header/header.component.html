@@ -32,7 +32,7 @@
     </ion-button>
   </ion-buttons>
   <ion-buttons slot="end">
-    <ion-button fill="clear" id="log-out" *ngIf="follow"  (click)="makeFollow()">
+    <ion-button fill="clear" *ngIf="follow"  (click)="makeFollow()">
       <ion-icon color="primary" slot="icon-only" name="person-add-outline" *ngIf="!isFlowing" ></ion-icon>
       <ion-icon color="danger" slot="icon-only" name="person-remove-outline" *ngIf="isFlowing"></ion-icon>
     </ion-button>
