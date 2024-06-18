@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="server_client_id">140981854302-lcsd6ci2ubuo4lvhvtpem3grgei9msa0.apps.googleusercontent.com</string>
-    <string name="app_name">Chalknity</string>
-    <string name="title_activity_main">Chalknity</string>
-    <string name="package_name">io.chalknity.manotas</string>
-    <string name="custom_url_scheme">io.chalknity.manotas</string>
-</resources>
