@@ -18,6 +18,8 @@ import { environment } from 'src/environments/environment';
 //Storage
 import { IonicStorageModule } from '@ionic/storage-angular';
 
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.firebaseConfig),   IonicStorageModule.forRoot()],

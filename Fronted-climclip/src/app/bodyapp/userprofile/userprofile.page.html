@@ -31,13 +31,11 @@
           </ion-row>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="userLocal.name">
+      <ion-row *ngIf="userLocal.name" >
         <ion-col size="12">
-          <p>{{ userLocal?.name}}</p>
+          {{ userLocal?.name}}
         </ion-col>
-      </ion-row>
-      <ion-row *ngIf="userLocal?.bio">
-        <ion-col size="12" class="profile-bio">
+        <ion-col size="12" class="profile-bio" *ngIf="userLocal?.bio"  > 
           <p>{{ userLocal?.bio}}</p>
         </ion-col>
       </ion-row>
