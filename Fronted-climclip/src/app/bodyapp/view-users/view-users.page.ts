@@ -50,7 +50,6 @@ export class ViewUsersPage  {
     }
     this.seguidores.followers= (await this.firebaseSvc.getDocumentsByParameter('follows', "fid", this.userId))
     this.seguidores.follow= (await this.firebaseSvc.getDocumentsByParameter('follows', "uid", this.userId))
-  
   }
   async getDataUser(){
     let users

@@ -74,8 +74,7 @@ export class HeaderComponent  implements OnInit {
     )
   }
   async makeFollow(){
-    console.log("entre")
-    this.compFollow()
+    // this.compFollow()
     if (!this.isFlowing){
       try{
         this.isFlowing = !this.isFlowing;
@@ -83,7 +82,7 @@ export class HeaderComponent  implements OnInit {
           uid: this.uidUser,
           fid: this.uidFollow
         }
-       let a = await this.firebaseSvc.addDocument('follows',dataFollowers)
+        await this.firebaseSvc.addDocument('follows',dataFollowers)
       }catch(error){
         this.isFlowing = !this.isFlowing;
         this.utilSvc.presentToast({
@@ -103,7 +102,7 @@ export class HeaderComponent  implements OnInit {
           uid: this.uidUser,
           fid: this.uidFollow
         }
-        let a = await this.firebaseSvc.deleteDocumentsByParameters('follows', "uid", this.uidUser,"fid", this.uidFollow)
+        await this.firebaseSvc.deleteDocumentsByParameters('follows', "uid", this.uidUser,"fid", this.uidFollow)
       }catch(error){
         this.isFlowing = !this.isFlowing;
         console.log("Entre en el error")
